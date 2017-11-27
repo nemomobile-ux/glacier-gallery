@@ -66,10 +66,7 @@ Gallery::Gallery(QQuickView *v, QObject *parent)
     connect(resources, SIGNAL(resourcesDenied()), SLOT(resourcesDenied()));
     connect(resources, SIGNAL(lostResources()), SLOT(lostResources()));
 
-    if (QFile::exists("main.qml"))
-        view->setSource(QUrl::fromLocalFile("main.qml"));
-    else
-        view->setSource(QUrl("qrc:/qml/main.qml"));
+    view->setSource(QUrl("/usr/share/glacier-gallery/qml/main.qml"));
 
     if (isFullscreen)
         view->showFullScreen();
