@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
+ * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,13 +30,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
-import com.nokia.meego 2.0
+import QtQuick 2.6
+
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Nemo 1.0
+import QtQuick.Controls.Styles.Nemo 1.0
+
 import org.nemomobile.gallery 1.0
 
 Page {
     anchors.fill: parent
-    tools: mainTools
+    headerTools: mainTools
 
     GalleryView {
 
@@ -72,16 +77,22 @@ Page {
         ListElement { name: "Clear sorting"; sortProperty: ""; ascending: false } // dummy
     }
 
-    ToolBarLayout {
+    HeaderToolsLayout {
         id: mainTools
-        ToolIcon {
-            platformIconId: "toolbar-view-menu"
-            anchors.right: (parent === undefined) ? undefined : parent.right
-            onClicked: (pageMenu.status === DialogStatus.Closed) ? pageMenu.open() : pageMenu.close()
-        }
+        title: qsTr("Gallery")
+
+        drawerLevels: [
+            Button {
+                anchors.horizontalCenter: (parent==undefined) ? undefined : parent.horizontalCenter;
+                text: qsTr("Slideshow")
+                onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"), { visibleIndex: 0, galleryModel: gallery })
+                enabled: gallery.count > 0
+            }
+        ]
+
     }
 
-    Menu {
+    /*Menu {
         id: pageMenu
 
         MenuLayout {
@@ -105,7 +116,7 @@ Page {
                 enabled: gallery.count > 0
             }
         }
-    }
+    }*/
 
     states: State {
         name: "active"

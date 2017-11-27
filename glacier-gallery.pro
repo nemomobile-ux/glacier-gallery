@@ -38,3 +38,20 @@ packagesExist(qdeclarative5-boostable) {
 } else {
     warning("qdeclarative5-boostable not available; startup times will be slower")
 }
+
+DISTFILES += \
+    qml/FileTypeChoiceDialog.qml \
+    qml/api/qmldir \
+    qml/api/GalleryView.qml \
+    qml/api/GalleryModel.qml \
+    qml/api/GalleryDelegate.qml \
+    qml/ImageContainer.qml \
+    qml/ImagePage.qml \
+    qml/ImageSlideshowPage.qml \
+    qml/main.qml \
+    qml/VideoPlayer.qml \
+    qml/SortDialog.qml \
+    qml/SingleImagePage.qml \
+    qml/ZoomController.qml \
+    qml/MainPage.qml \
+    rpm/glacier-gallery.spec

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
+ * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,24 +30,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
-import com.nokia.meego 2.0
+import QtQuick 2.6
 
-PageStackWindow {
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Nemo 1.0
+import QtQuick.Controls.Styles.Nemo 1.0
+
+ApplicationWindow {
     id: appWindow
 
-    property bool fullscreen: false
-
     initialPage: mainPage
-    showStatusBar: !fullscreen
-    showToolBar: !fullscreen
 
     MainPage {
         id: mainPage
-    }
-
-    Component.onCompleted: {
-        theme.inverted = true
     }
 
     function displayFile(filename) {

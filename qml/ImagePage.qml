@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
+ * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,15 +30,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
-import com.nokia.meego 2.0
+import QtQuick 2.6
+
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Nemo 1.0
+import QtQuick.Controls.Styles.Nemo 1.0
+
 import QtDocGallery 5.0
 
 Page {
     id: imageController
     anchors.fill: parent
 
-    tools: imgTools
+    headerTools: HeaderToolsLayout { showBackButton: true; title: "Show image" }
     clip: true
 
     property variant galleryModel
@@ -188,13 +193,6 @@ Page {
         onPressedWhileNotZoomed: if (middle.isVideo) videoPlayerRequested = true
     }
 
-    Timer {
-        id: toolbarAutohideTimer
-        interval: 2500
-        running: !appWindow.fullscreen && (pageMenu.status === DialogStatus.Closed)
-        onTriggered: appWindow.fullscreen = true
-    }
-
     MouseArea {
         id: listFlickable
         anchors.fill: parent
@@ -214,13 +212,6 @@ Page {
                     toolbarTimer.start()
                 }
             }
-        }
-
-        //we use this to be able to not call singleclick handlers when the user is actually doubleclicking
-        Timer {
-            id: toolbarTimer
-            interval: 350
-            onTriggered: appWindow.fullscreen = !appWindow.fullscreen
         }
 
         onPressed: {
@@ -317,7 +308,7 @@ Page {
         videoSource: isVideo ? galleryModel.get(index).url : ""
     }
 
-    Menu {
+    /*Menu {
         id: pageMenu
         MenuLayout {
             MenuItem {
@@ -348,7 +339,7 @@ Page {
             onClicked: (pageMenu.status === DialogStatus.Closed) ? pageMenu.open() : pageMenu.close()
         }
     }
-
+   */
     states: State {
         name: "active"
         when: status === PageStatus.Active || status === PageStatus.Activating

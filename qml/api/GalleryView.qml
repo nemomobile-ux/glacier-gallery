@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
+ * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,8 +30,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
-import com.nokia.meego 2.0
+import QtQuick 2.6
+
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Nemo 1.0
+import QtQuick.Controls.Styles.Nemo 1.0
+
 import org.nemomobile.thumbnailer 1.0
 
 GridView {
@@ -62,18 +67,15 @@ GridView {
     cellWidth: thumbnailSize + padding
     cacheBuffer: cellHeight * 3
 
-    ScrollDecorator {
-        flickableItem: grid
-        anchors.right: grid.right; anchors.bottom: grid.bottom
-    }
-
-    Connections {
+//FIXME
+/*    Connections {
         target: screen
         onCurrentOrientationChanged: updateThumbnailSize()
-    }
+    }*/
 
-    ViewPlaceholder {
+    Label {
         text: "No elements found..."
-        enabled: parent.model.count == 0 && parent.model.progress == 1.0
+        anchors.centerIn: parent
+        visible: parent.model.count == 0 && parent.model.progress == 1.0
     }
 }

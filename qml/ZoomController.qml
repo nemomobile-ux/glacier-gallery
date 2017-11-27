@@ -78,7 +78,7 @@ PinchArea {
         var fitsVertically = imgRatio < (targetContainer.width / targetContainer.height)
 
         //the scaling factor needed to make the image fill the screen
-        middleQuickZoomInScale = (fitsVertically ? screen.platformWidth : screen.platformHeight) / (fitsVertically ? pinchTarget.width : pinchTarget.height)
+        middleQuickZoomInScale = (fitsVertically ? appWindow.width : appWindow.height) / (fitsVertically ? pinchTarget.width : pinchTarget.height)
 
         //if we don't need the image to fill the screen
         if (middleQuickZoomInScale > finalScale) middleQuickZoomInScale = finalScale
@@ -86,18 +86,18 @@ PinchArea {
         if (fitsVertically) {
             middleQuickZoomInContentX = 0
             middleQuickZoomInContentY = (centerY * middleQuickZoomInScale) - centerY
-            needsCenteringAnimation = (pinchTarget.width * finalScale) > screen.platformWidth
+            needsCenteringAnimation = (pinchTarget.width * finalScale) > appWindow.width
         }
         else {
             middleQuickZoomInContentX = (centerX * middleQuickZoomInScale) - centerX
             middleQuickZoomInContentY = 0
-            needsCenteringAnimation = (pinchTarget.height * finalScale) > screen.platformHeight
+            needsCenteringAnimation = (pinchTarget.height * finalScale) > appWindow.height
         }
 
         if (needsCenteringAnimation) {
             finalQuickZoomInScale = finalScale
-            var remainingScaleFactorX = finalQuickZoomInScale / (screen.platformWidth / pinchTarget.width)
-            var remainingScaleFactorY = finalQuickZoomInScale / (screen.platformHeight / pinchTarget.height)
+            var remainingScaleFactorX = finalQuickZoomInScale / (appWindow.width / pinchTarget.width)
+            var remainingScaleFactorY = finalQuickZoomInScale / (appWindow.height / pinchTarget.height)
             finalQuickZoomInContentX = (centerX * remainingScaleFactorX) - centerX
             finalQuickZoomInContentY = (centerY * remainingScaleFactorY) - centerY
         }

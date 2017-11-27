@@ -29,33 +29,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
+#ifdef QT_QML_DEBUG
+#include <QtQuick>
+#endif
+
 #include <QGuiApplication>
 #include <QQuickView>
-#include "src/gallery.h"
-#ifdef HAS_BOOSTER
-#include <MDeclarativeCache>
-#endif
+#include <QtQml>
 
-#ifdef HAS_BOOSTER
-Q_DECL_EXPORT
-#endif
 int main(int argc, char **argv)
 {
-    QGuiApplication *application;
-    QQuickView *view;
-#ifdef HAS_BOOSTER
-    application = MDeclarativeCache::qApplication(argc, argv);
-    view = MDeclarativeCache::qQuickView();
-#else
-    qWarning() << Q_FUNC_INFO << "Warning! Running without booster. This may be a bit slower.";
-    QGuiApplication stackApp(argc, argv);
-    QQuickView stackView;
-    application = &stackApp;
-    view = &stackView;
-#endif
+    QGuiApplication app(argc, argv);
+    app.setOrganizationName("NemoMobile");
+    app.setApplicationName("glacier-gallery");
 
-    Gallery gallery(view);
+    QQmlApplicationEngine* engine = new QQmlApplicationEngine(QUrl::fromLocalFile("/usr/share/glacier-gallery/qml/main.qml"));
+    QObject *topLevel = engine->rootObjects().value(0);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 
-    return application->exec();
+    engine->rootContext()->setContextProperty("__window", window);
+
+    window->setTitle(QObject::tr("Gallery"));
+    window->showFullScreen();
+
+    return app.exec();
 }
 
