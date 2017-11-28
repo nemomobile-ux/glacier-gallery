@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 Antti Seppälä <antseppa@gmail.com>
+ * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,8 +30,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
-import com.nokia.meego 2.0
+import QtQuick 2.6
+
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Nemo 1.0
+import QtQuick.Controls.Styles.Nemo 1.0
+
 import QtDocGallery 5.0
 
 Page {
@@ -98,13 +103,11 @@ Page {
             mainLoop.stop()
             image1.source = ""
             image2.source = ""
-            appWindow.fullscreen = false
             appWindow.pageStack.pop()
         }
     }
 
     Component.onCompleted: {
-        appWindow.fullscreen = true
         phase = 0
         image1.source = galleryModel.get(visibleIndex).url
         loadNextImage()

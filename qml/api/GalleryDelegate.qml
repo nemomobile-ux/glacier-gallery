@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
+ * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
+import QtQuick 2.6
 
 Image {
     id: del
@@ -41,6 +42,6 @@ Image {
 
     asynchronous: true
     //index is -1 when filters the model is reinitialized (e.g. filters change) so we have to treat that case too
-    source: (index == -1) ? "" : (GridView.view.model.isVideo(index) ? "qrc:/images/GridVideoThumbnail.jpg" : "image://nemoThumbnail/" + url)
+    source: (index == -1) ? "" : (GridView.view.model.isVideo(index) ? "/usr/share/glacier-gallery/images/GridVideoThumbnail.jpg" : "image://nemoThumbnail/" + url)
 }
 

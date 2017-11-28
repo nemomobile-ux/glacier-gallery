@@ -52,7 +52,5 @@ desktop-file-install --delete-original       \
 %defattr(-,root,root,-)
 %{_bindir}/glacier-gallery
 %{_datadir}/applications/glacier-gallery.desktop
-%{_datadir}/glacier-gallery/qml
+%{_datadir}/glacier-gallery
 %{_libdir}/qt5/qml/org/nemomobile/gallery/*
-# >> files
-# << files

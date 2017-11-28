@@ -17,7 +17,9 @@ desktop.files = $${PROJECT_NAME}.desktop
 desktop.path = $$INSTALL_ROOT/usr/share/applications
 INSTALLS += desktop
 
-
+images.files = images/*
+images.path = /usr/share/glacier-gallery/images
+INSTALLS += images
 
 HEADERS += src/gallery.h
 SOURCES += src/main.cpp \
