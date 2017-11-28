@@ -14,6 +14,8 @@ URL:        https://github.com/nemomobile-ux/glacier-gallery
 Source0:    %{name}-%{version}.tar.bz2
 
 Requires:   qt-components-qt5
+Requires:   qt5-qtquickcontrols
+Requires:   qt5-qtquickcontrols-nemo
 Requires:   qt5-qtdeclarative-import-multimedia
 Requires:   nemo-qml-plugin-thumbnailer-qt5
 Requires:   qt5-qtdocgallery
