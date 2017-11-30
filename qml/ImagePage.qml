@@ -204,14 +204,6 @@ Page {
                 videoPlayerRequested = false
                 imageController.showVideoPlayer(middle.videoSource)
             }
-            else {
-
-                if (toolbarTimer.running) {
-                    toolbarTimer.stop()
-                } else {
-                    toolbarTimer.start()
-                }
-            }
         }
 
         onPressed: {
