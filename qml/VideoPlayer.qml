@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- *
+ * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
  * You may use this file under the terms of the BSD license as follows:
  *
  * "Redistribution and use in source and binary forms, with or without
@@ -29,9 +29,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
-import com.nokia.meego 2.0
-import QtMultimedia 5.0
+import QtQuick 2.6
+
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Nemo 1.0
+import QtQuick.Controls.Styles.Nemo 1.0
 
 Page {
     id: videoContainer
@@ -50,6 +52,11 @@ Page {
 
     Component.onDestruction: gallery.releaseVideoResources()
 
+    headerTools: HeaderToolsLayout {
+        showBackButton: true
+        title: qsTr("Video")
+    }
+
     Video {
         id: videoItem
         anchors.fill: parent
@@ -63,19 +70,4 @@ Page {
             onClicked: !parent.paused ? parent.pause() : parent.play()
         }
     }
-
-   ToolBarLayout {
-        id: videoTools
-
-        ToolIcon {
-            platformIconId: "toolbar-back"
-            anchors.left: (parent === undefined) ? undefined : parent.left
-            onClicked: {
-                //Stopping the video wasn't enough, it would cause flickering
-                videoItem.source = ""
-                appWindow.pageStack.pop()
-            }
-        }
-    }
-
 }

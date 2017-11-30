@@ -42,7 +42,11 @@ Page {
     id: imageController
     anchors.fill: parent
 
-    headerTools: HeaderToolsLayout { showBackButton: true; title: "Show image" }
+    headerTools: HeaderToolsLayout {
+        showBackButton: true
+        title: qsTr("Show image")
+    }
+
     clip: true
 
     property variant galleryModel

@@ -29,8 +29,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.0
-import com.nokia.meego 2.0
+import QtQuick 2.6
+
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Nemo 1.0
+import QtQuick.Controls.Styles.Nemo 1.0
+
 import QtDocGallery 5.0
 
 Page {
@@ -103,16 +107,9 @@ Page {
         pinchingController: pinchImg
     }
 
-    ToolBarLayout {
-        id: imgTools
-        ToolIcon {
-            platformIconId: "toolbar-back"
-            anchors.left: (parent === undefined) ? undefined : parent.left
-            onClicked: {
-                appWindow.fullscreen = false
-                appWindow.pageStack.pop()
-            }
-        }
+    headerTools: HeaderToolsLayout {
+        showBackButton: true
+        title: qsTr("Image")
     }
 
     states: State {
