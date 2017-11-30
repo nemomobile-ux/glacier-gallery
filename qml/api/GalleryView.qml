@@ -40,7 +40,6 @@ import org.nemomobile.thumbnailer 1.0
 
 GridView {
     id: grid
-    anchors.fill: parent
 
     // baseThumbnailSize is used to request images, and display size will be <=
     property int baseThumbnailSize: 160
@@ -51,14 +50,16 @@ GridView {
     // onto each row with a minimal amount of extra space. The goal is
     // to avoid having a large unused area on the right edge.
     function updateThumbnailSize() {
-        var itemsPerRow = Math.floor(width / baseThumbnailSize)
+        var itemsPerRow = Math.floor(Math.min(width,height)/ baseThumbnailSize)
         // Ideally, this would use (padding*(itemsPerRow-1)), but GridView's
         // behavior on cellWidth requires the rightmost item to have padding.
-        thumbnailSize = Math.floor((width - padding * itemsPerRow) / itemsPerRow)
+        thumbnailSize = Math.floor((Math.min(width,height) - padding * itemsPerRow) / itemsPerRow)
     }
 
     Component.onCompleted: updateThumbnailSize()
     onPaddingChanged: updateThumbnailSize()
+    onWidthChanged: updateThumbnailSize()
+    onHeightChanged: updateThumbnailSize()
     onBaseThumbnailSizeChanged: updateThumbnailSize()
 
     flow: GridView.LeftToRight
