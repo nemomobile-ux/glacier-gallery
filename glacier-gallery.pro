@@ -42,7 +42,6 @@ packagesExist(qdeclarative5-boostable) {
 }
 
 DISTFILES += \
-    qml/FileTypeChoiceDialog.qml \
     qml/api/qmldir \
     qml/api/GalleryView.qml \
     qml/api/GalleryModel.qml \

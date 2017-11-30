@@ -36,14 +36,17 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Nemo 1.0
 import QtQuick.Controls.Styles.Nemo 1.0
 
+import QtQuick.Layouts 1.0
+
 import org.nemomobile.gallery 1.0
 
 Page {
+    id: mainPage
     anchors.fill: parent
     headerTools: mainTools
 
     GalleryView {
-
+        anchors.fill: parent
         model: GalleryModel {
             id: gallery
         }
@@ -56,6 +59,7 @@ Page {
         }
     }
 
+
     Loader {
         id: choiceLoader
         anchors.fill: parent
@@ -64,17 +68,17 @@ Page {
     property int currentFilter: 0
     ListModel {
         id: filterModel
-        ListElement { name: "Images & Video" }
-        ListElement { name: "Video only" }
-        ListElement { name: "Images only" }
+        ListElement { name: qsTr("All") }
+        ListElement { name: qsTr("Videos") }
+        ListElement { name: qsTr("Images") }
     }
 
     property int currentSort: -1
     ListModel {
         id: sortModel
-        ListElement { name: "Filename"; sortProperty: "fileName"; ascending: true }
-        ListElement { name: "File type"; sortProperty: "mimeType"; ascending: true }
-        ListElement { name: "Clear sorting"; sortProperty: ""; ascending: false } // dummy
+        ListElement { name: qsTr("Name"); sortProperty: "fileName"; ascending: true }
+        ListElement { name: qsTr("Type"); sortProperty: "mimeType"; ascending: true }
+        ListElement { name: qsTr("Clear"); sortProperty: ""; ascending: false } // dummy
     }
 
     HeaderToolsLayout {
@@ -87,22 +91,86 @@ Page {
                 text: qsTr("Slideshow")
                 onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"), { visibleIndex: 0, galleryModel: gallery })
                 enabled: gallery.count > 0
+            },
+            RowLayout {
+                id: filterRow
+                anchors.left: (parent==undefined) ? undefined : parent.left
+                anchors.right: (parent==undefined) ? undefined : parent.right
+                anchors.margins: 20
+                Layout.preferredHeight: 100
+                Label {
+                    id: filterLabel
+                    anchors.left: parent.left;
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Filter:")
+                }
+                ButtonRow {
+                    id: filterButtons
+                    model: filterModel
+                    anchors{
+                        left:filterLabel.right
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    Component.onCompleted: {
+                        filterButtons.currentIndex = 0
+                    }
+
+                    onCurrentIndexChanged: {
+                        switch (filterButtons.currentIndex) {
+                        case 0:
+                            var videoFilter = gallery.createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
+                            var imageFilter = gallery.createFilter(gallery, "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
+                            var bothFilter = gallery.createFiltersArray(gallery, "arraysFilter", "GalleryFilterUnion", [videoFilter, imageFilter])
+                            gallery.assignNewDestroyCurrent(bothFilter)
+                            break
+                        case 1:
+                            var vidFilter = gallery.createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
+                            gallery.assignNewDestroyCurrent(vidFilter)
+                            break
+                        case 2:
+                            var imgFilter = gallery.createFilter(gallery,  "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
+                            gallery.assignNewDestroyCurrent(imgFilter)
+                            break
+                        }
+                    }
+                }
+            },
+            RowLayout {
+                id: sortRow
+                anchors.left: (parent==undefined) ? undefined : parent.left
+                anchors.right: (parent==undefined) ? undefined : parent.right
+                anchors.margins: 20
+                Layout.preferredHeight: 100
+                Label {
+                    id: sortLabel
+                    anchors.left: parent.left;
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Sort:")
+                }
+                ButtonRow {
+                    id: sortButtons
+                    model: sortModel
+                    anchors{
+                        left:sortLabel.right
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    Component.onCompleted: {
+                        gallery.sortProperties = ["-"]
+                    }
+
+                    onCurrentIndexChanged: {
+                    }
+                }
             }
         ]
-
     }
 
     /*Menu {
         id: pageMenu
 
         MenuLayout {
-            MenuItem {
-                text: "Filter: " + filterModel.get(currentFilter).name
-                onClicked: {
-                    choiceLoader.source = Qt.resolvedUrl("FileTypeChoiceDialog.qml")
-                    choiceLoader.item.open()
-                }
-            }
             MenuItem {
                 text: (currentSort >= 0) ? ("Sort: " + sortModel.get(currentSort).name) : "Sort"
                 onClicked: {
