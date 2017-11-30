@@ -35,22 +35,14 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Nemo 1.0
 import QtQuick.Controls.Styles.Nemo 1.0
 
+import QtMultimedia 5.0
+
 Page {
     id: videoContainer
 
-    tools: videoTools
-    orientationLock: PageOrientation.LockLandscape
-
     property alias videoSource: videoItem.source
 
-    //force fullscreen = false, until we find a way to make the controls appear
-    //on top of the video without flickering and slowdown
-    Component.onCompleted: {
-        appWindow.fullscreen = false
-        gallery.acquireVideoResources()
-    }
-
-    Component.onDestruction: gallery.releaseVideoResources()
+    allowedOrientations: Qt.LandscapeOrientation
 
     headerTools: HeaderToolsLayout {
         showBackButton: true
