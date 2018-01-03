@@ -37,21 +37,18 @@
 #include <QQuickView>
 #include <QtQml>
 
+#include <glacierapp.h>
+
 int main(int argc, char **argv)
 {
-    QGuiApplication app(argc, argv);
-    app.setOrganizationName("NemoMobile");
-    app.setApplicationName("glacier-gallery");
+    QGuiApplication *app = GlacierApp::app(argc, argv);
+    app->setOrganizationName("NemoMobile");
 
-    QQmlApplicationEngine* engine = new QQmlApplicationEngine(QUrl::fromLocalFile("/usr/share/glacier-gallery/qml/main.qml"));
-    QObject *topLevel = engine->rootObjects().value(0);
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
-
-    engine->rootContext()->setContextProperty("__window", window);
+    QQuickWindow *window = GlacierApp::showWindow();
 
     window->setTitle(QObject::tr("Gallery"));
     window->showFullScreen();
 
-    return app.exec();
+    return app->exec();
 }
 

@@ -31,7 +31,9 @@ CONFIG -= app_bundle
 TARGET = $$PROJECT_NAME
 
 CONFIG += link_pkgconfig
-PKGCONFIG += libresourceqt5
+PKGCONFIG += libresourceqt5 glacierapp
+
+LIBS += -lglacierapp
 
 packagesExist(qdeclarative5-boostable) {
     message("Building with qdeclarative5-boostable support")
@@ -49,10 +51,10 @@ DISTFILES += \
     qml/ImageContainer.qml \
     qml/ImagePage.qml \
     qml/ImageSlideshowPage.qml \
-    qml/main.qml \
     qml/VideoPlayer.qml \
     qml/SortDialog.qml \
     qml/SingleImagePage.qml \
     qml/ZoomController.qml \
     qml/MainPage.qml \
-    rpm/glacier-gallery.spec
+    rpm/glacier-gallery.spec \
+    qml/glacier-gallery.qml
