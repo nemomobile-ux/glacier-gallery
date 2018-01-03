@@ -25,13 +25,21 @@ HEADERS += src/gallery.h
 SOURCES += src/main.cpp \
     src/gallery.cpp
 
+TRANSLATIONS += translations/$${PROJECT_NAME}_en.ts\
+                translations/$${PROJECT_NAME}_ru.ts
+i18n_files.files = translations
+i18n_files.path = /usr/share/$$TARGET
+INSTALLS += i18n_files
+
 # do not edit below here
 TEMPLATE = app
 CONFIG -= app_bundle
 TARGET = $$PROJECT_NAME
 
 CONFIG += link_pkgconfig
-PKGCONFIG += libresourceqt5
+PKGCONFIG += libresourceqt5 glacierapp
+
+LIBS += -lglacierapp
 
 packagesExist(qdeclarative5-boostable) {
     message("Building with qdeclarative5-boostable support")
@@ -49,10 +57,12 @@ DISTFILES += \
     qml/ImageContainer.qml \
     qml/ImagePage.qml \
     qml/ImageSlideshowPage.qml \
-    qml/main.qml \
     qml/VideoPlayer.qml \
     qml/SortDialog.qml \
     qml/SingleImagePage.qml \
     qml/ZoomController.qml \
     qml/MainPage.qml \
-    rpm/glacier-gallery.spec
+    rpm/glacier-gallery.spec \
+    qml/glacier-gallery.qml \
+    translations/glacier-gallery_en.ts \
+    translations/glacier-gallery_ru.ts

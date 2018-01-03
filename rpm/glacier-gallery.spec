@@ -20,12 +20,18 @@ Requires:   qt5-qtdeclarative-import-multimedia
 Requires:   nemo-qml-plugin-thumbnailer-qt5
 Requires:   qt5-qtdocgallery
 Requires:   mapplauncherd-booster-qtcomponents-qt5
+Requires:   libglacierapp >= 0.1.1
+
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(qdeclarative5-boostable)
 BuildRequires:  pkgconfig(libresourceqt5)
 BuildRequires:  desktop-file-utils
+BuildRequires:  pkgconfig(glacierapp)
+BuildRequires:  desktop-file-utils
+BuildRequires:  qt5-qttools-linguist
+
 Provides:   meego-handset-video > 0.2.5
 Obsoletes:   meego-handset-video <= 0.2.5
 
@@ -43,6 +49,8 @@ Photo Gallery application using Qt Quick for Nemo Mobile.
 %install
 rm -rf %{buildroot}
 %qmake5_install
+
+lrelease %{buildroot}%{_datadir}/%{name}/translations/*.ts
 
 desktop-file-install --delete-original       \
   --dir %{buildroot}%{_datadir}/applications             \
