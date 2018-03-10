@@ -7,18 +7,13 @@ Name:       glacier-gallery
 
 Summary:    Photo Gallery for Nemo
 Version:    0.2.0
-Release:    1
+Release:    2
 Group:      Applications/System
 License:    BSD
 URL:        https://github.com/nemomobile-ux/glacier-gallery
 Source0:    %{name}-%{version}.tar.bz2
 
-Requires:   qt-components-qt5
-Requires:   qt5-qtquickcontrols
-Requires:   qt5-qtquickcontrols-nemo
-Requires:   qt5-qtdeclarative-import-multimedia
-Requires:   nemo-qml-plugin-thumbnailer-qt5
-Requires:   qt5-qtdocgallery
+Requires:   glacier-gallery-qmlplugin
 Requires:   mapplauncherd-booster-qtcomponents-qt5
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Quick)
@@ -29,8 +24,21 @@ BuildRequires:  desktop-file-utils
 Provides:   meego-handset-video > 0.2.5
 Obsoletes:   meego-handset-video <= 0.2.5
 
+
+%package qmlplugin
+Summary: QML Plugin for gallery view
+Requires:   qt-components-qt5
+Requires:   qt5-qtquickcontrols
+Requires:   qt5-qtquickcontrols-nemo
+Requires:   qt5-qtdeclarative-import-multimedia
+Requires:   nemo-qml-plugin-thumbnailer-qt5
+Requires:   qt5-qtdocgallery
+
 %description
 Photo Gallery application using Qt Quick for Nemo Mobile.
+
+%description qmlplugin
+This pligin contants qml api for glacier gallery
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -53,4 +61,6 @@ desktop-file-install --delete-original       \
 %{_bindir}/glacier-gallery
 %{_datadir}/applications/glacier-gallery.desktop
 %{_datadir}/glacier-gallery
+
+%files qmlplugin
 %{_libdir}/qt5/qml/org/nemomobile/gallery/*
