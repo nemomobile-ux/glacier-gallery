@@ -26,7 +26,8 @@ SOURCES += src/main.cpp \
     src/gallery.cpp
 
 TRANSLATIONS += translations/$${PROJECT_NAME}_en.ts\
-                translations/$${PROJECT_NAME}_ru.ts
+                translations/$${PROJECT_NAME}_ru.ts\
+                translations/$${PROJECT_NAME}_es.ts
 i18n_files.files = translations
 i18n_files.path = /usr/share/$$TARGET
 INSTALLS += i18n_files
