@@ -27,7 +27,8 @@ SOURCES += src/main.cpp \
 
 TRANSLATIONS += translations/$${PROJECT_NAME}_en.ts\
                 translations/$${PROJECT_NAME}_ru.ts\
-                translations/$${PROJECT_NAME}_es.ts
+                translations/$${PROJECT_NAME}_es.ts\
+                translations/$${PROJECT_NAME}_nl.ts
 i18n_files.files = translations
 i18n_files.path = /usr/share/$$TARGET
 INSTALLS += i18n_files
@@ -66,4 +67,7 @@ DISTFILES += \
     rpm/glacier-gallery.spec \
     qml/glacier-gallery.qml \
     translations/glacier-gallery_en.ts \
-    translations/glacier-gallery_ru.ts
+    translations/glacier-gallery_ru.ts \
+    translations/glacier-gallery_es.ts \
+    translations/glacier-gallery_nl.ts
+
