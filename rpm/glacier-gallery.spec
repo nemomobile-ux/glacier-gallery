@@ -6,7 +6,7 @@ Name:       glacier-gallery
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 
 Summary:    Photo Gallery for Nemo
-Version:    0.2.0
+Version:    0.2.2
 Release:    2
 Group:      Applications/System
 License:    BSD
