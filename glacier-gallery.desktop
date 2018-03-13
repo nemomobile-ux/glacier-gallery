@@ -3,9 +3,10 @@ Version=1.0
 Type=Application
 Terminal=false
 Name=Gallery
-Exec=/usr/bin/invoker --single-instance -r 5 --type=qtcomponents-qt5 /usr/bin/glacier-gallery -fullscreen %u
+Exec=/usr/bin/glacier-gallery
 Icon=/usr/share/glacier-gallery/images/icon-app-gallery.png
 X-Window-Icon=
 X-HildonDesk-ShowInToolbar=true
 X-Osso-Type=application/x-executable
 MimeType=image/*;video/*;
+Name[ru]=Галерея

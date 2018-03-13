@@ -15,12 +15,18 @@ Source0:    %{name}-%{version}.tar.bz2
 
 Requires:   glacier-gallery-qmlplugin
 Requires:   mapplauncherd-booster-qtcomponents-qt5
+Requires:   libglacierapp >= 0.1.1
+
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(qdeclarative5-boostable)
 BuildRequires:  pkgconfig(libresourceqt5)
 BuildRequires:  desktop-file-utils
+BuildRequires:  pkgconfig(glacierapp)
+BuildRequires:  desktop-file-utils
+BuildRequires:  qt5-qttools-linguist
+
 Provides:   meego-handset-video > 0.2.5
 Obsoletes:   meego-handset-video <= 0.2.5
 
@@ -51,6 +57,8 @@ This pligin contants qml api for glacier gallery
 %install
 rm -rf %{buildroot}
 %qmake5_install
+
+lrelease %{buildroot}%{_datadir}/%{name}/translations/*.ts
 
 desktop-file-install --delete-original       \
   --dir %{buildroot}%{_datadir}/applications             \
