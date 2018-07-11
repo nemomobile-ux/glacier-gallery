@@ -16,6 +16,7 @@ Source0:    %{name}-%{version}.tar.bz2
 Requires:   glacier-gallery-qmlplugin
 Requires:   mapplauncherd-booster-qtcomponents-qt5
 Requires:   libglacierapp >= 0.1.1
+Requires:   mapplauncherd-booster-nemomobile
 
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Quick)

@@ -3,7 +3,7 @@ Version=1.0
 Type=Application
 Terminal=false
 Name=Gallery
-Exec=/usr/bin/glacier-gallery
+Exec=invoker --type=nemomobile -s  /usr/bin/glacier-gallery
 Icon=/usr/share/glacier-gallery/images/icon-app-gallery.png
 X-Window-Icon=
 X-HildonDesk-ShowInToolbar=true
