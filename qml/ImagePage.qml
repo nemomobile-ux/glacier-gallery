@@ -45,6 +45,20 @@ Page {
     headerTools: HeaderToolsLayout {
         showBackButton: true
         title: qsTr("Show image")
+
+        tools: [
+            ToolButton{
+                iconSource: "image://theme/clone"
+                onClicked: {
+                   pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"),
+                                                        { visibleIndex: imageController.visibleIndex,
+                                                            controller: imageController,
+                                                            galleryModel: imageController.galleryModel },
+                                                        true)
+                }
+                enabled: galleryModel.count > 0
+            }
+        ]
     }
 
     clip: true
@@ -316,23 +330,6 @@ Page {
                                                     true)
                 enabled: galleryModel.count > 0
             }
-        }
-    }
-
-    ToolBarLayout {
-        id: imgTools
-        ToolIcon {
-            platformIconId: "toolbar-back"
-            anchors.left: (parent === undefined) ? undefined : parent.left
-            onClicked: {
-                appWindow.fullscreen = false
-                appWindow.pageStack.pop()
-            }
-        }
-        ToolIcon {
-            platformIconId: "toolbar-view-menu"
-            anchors.right: (parent === undefined) ? undefined : parent.right
-            onClicked: (pageMenu.status === DialogStatus.Closed) ? pageMenu.open() : pageMenu.close()
         }
     }
    */

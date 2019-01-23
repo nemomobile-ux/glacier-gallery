@@ -75,8 +75,8 @@ GridView {
     }*/
 
     Label {
-        text: "No elements found..."
+        text: qsTr("No elements found")
         anchors.centerIn: parent
-        visible: parent.model.count == 0 && parent.model.progress == 1.0
+        visible: parent.model.count == 0
     }
 }

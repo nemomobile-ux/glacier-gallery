@@ -46,7 +46,6 @@ DocumentGalleryModel {
     function assignNewDestroyCurrent(newFilter) {
         var old = gallery.filter
         gallery.filter = newFilter
-        old.destroy()
     }
 
     //this is to create single filters dynamically

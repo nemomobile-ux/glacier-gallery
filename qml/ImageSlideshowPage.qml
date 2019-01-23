@@ -42,6 +42,11 @@ Page {
     id: imageSlideshow
     anchors.fill: parent
 
+    headerTools: HeaderToolsLayout {
+        showBackButton: true
+        title: qsTr("Slideshow")
+    }
+
     property int slideVisibleTime: 4000
 
     //this is to make so that when the slideshow page is popped, the list view will be showing the
@@ -103,7 +108,7 @@ Page {
             mainLoop.stop()
             image1.source = ""
             image2.source = ""
-            appWindow.pageStack.pop()
+            pageStack.pop()
         }
     }
 
