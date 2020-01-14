@@ -70,6 +70,7 @@ desktop-file-install --delete-original       \
 %{_bindir}/glacier-gallery
 %{_datadir}/applications/glacier-gallery.desktop
 %{_datadir}/glacier-gallery
+%{_datadir}/dbus-1/services/org.nemomobile.gallery.service
 
 %files qmlplugin
 %{_libdir}/qt5/qml/org/nemomobile/gallery/*

@@ -21,6 +21,10 @@ images.files = images/*
 images.path = /usr/share/glacier-gallery/images
 INSTALLS += images
 
+systemd_dbus_service.path = $${INSTALL_ROOT}/usr/share/dbus-1/services
+systemd_dbus_service.files = org.nemomobile.gallery.service
+INSTALLS += systemd_dbus_service
+
 HEADERS += src/gallery.h
 SOURCES += src/main.cpp \
     src/gallery.cpp

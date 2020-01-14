@@ -48,6 +48,12 @@ Page {
 
         tools: [
             ToolButton{
+                iconSource: "image://theme/pencil-alt"
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("ImageEditor.qml"));
+                }
+            },
+            ToolButton{
                 iconSource: "image://theme/clone"
                 onClicked: {
                    pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"),
