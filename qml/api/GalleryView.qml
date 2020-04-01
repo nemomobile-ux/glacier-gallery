@@ -36,7 +36,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Nemo 1.0
 import QtQuick.Controls.Styles.Nemo 1.0
 
-import org.nemomobile.thumbnailer 1.0
+import Nemo.Thumbnailer 1.0
 
 GridView {
     id: grid
