@@ -1,13 +1,7 @@
 Name:       glacier-gallery
-
-%{!?qtc_qmake:%define qtc_qmake %qmake}
-%{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
-%{!?qtc_make:%define qtc_make make}
-%{?qtc_builddir:%define _builddir %qtc_builddir}
-
 Summary:    Photo Gallery for Nemo
 Version:    0.2.2
-Release:    2
+Release:    3
 Group:      Applications/System
 License:    BSD
 URL:        https://github.com/nemomobile-ux/glacier-gallery
@@ -19,6 +13,7 @@ Requires:   libglacierapp >= 0.1.1
 Requires:   mapplauncherd-booster-nemomobile
 Requires:   nemo-qml-plugin-dbus-qt5
 
+BuildRequires:  cmake
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5Gui)
@@ -26,7 +21,6 @@ BuildRequires:  pkgconfig(qdeclarative5-boostable)
 BuildRequires:  pkgconfig(libresourceqt5)
 BuildRequires:  desktop-file-utils
 BuildRequires:  pkgconfig(glacierapp)
-BuildRequires:  desktop-file-utils
 BuildRequires:  qt5-qttools-linguist
 
 Provides:   meego-handset-video > 0.2.5
@@ -56,19 +50,20 @@ This pligin contants qml api for glacier gallery
 %setup -q -n %{name}-%{version}
 
 %build
-
-%qtc_qmake5
-%qtc_make %{?_smp_mflags}
+mkdir build
+cd build
+cmake \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+	-DCMAKE_INSTALL_LIBDIR=%{_lib} \
+	-DCMAKE_VERBOSE_MAKEFILE=ON \
+	..
+cmake --build .
 
 %install
+cd build
 rm -rf %{buildroot}
-%qmake5_install
-
-lrelease %{buildroot}%{_datadir}/%{name}/translations/*.ts
-
-desktop-file-install --delete-original       \
-  --dir %{buildroot}%{_datadir}/applications             \
-   %{buildroot}%{_datadir}/applications/*.desktop
+DESTDIR=%{buildroot} cmake --build . --target install
 
 %files
 %defattr(-,root,root,-)
