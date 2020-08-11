@@ -42,7 +42,7 @@ class Gallery : public QObject
     Q_OBJECT
 
 public:
-    Gallery(QQuickView *v, QObject *parent = 0);
+    explicit Gallery(QObject *parent = 0);
 
 public slots:
     void acquireVideoResources();

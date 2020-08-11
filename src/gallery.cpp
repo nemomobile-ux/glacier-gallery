@@ -40,51 +40,9 @@
 #include <QQuickItem>
 #include <QImageReader>
 
-Gallery::Gallery(QQuickView *v, QObject *parent)
-    : QObject(parent), view(v)
+Gallery::Gallery(QObject *parent)
+    : QObject(parent)
 {
-    QFile fileToOpen;
-    bool isFullscreen = false;
-    foreach (QString parameter, qApp->arguments()) {
-        if (parameter == "-fullscreen") {
-            isFullscreen = true;
-        } else if (parameter == "-help") {
-            qDebug() << "Gallery application";
-            qDebug() << "-fullscreen   - show QML fullscreen";
-            exit(0);
-        } else if (parameter != qApp->arguments().first() && !fileToOpen.exists()) {
-            fileToOpen.setFileName(parameter);
-        }
-    }
-    QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
-    view->rootContext()->setContextProperty("gallery", this);
-
-    resources = new ResourcePolicy::ResourceSet("player", this);
-    resources->setAlwaysReply();
-    connect(resources, SIGNAL(resourcesGranted(QList<ResourcePolicy::ResourceType>)),
-            SLOT(resourcesGranted()));
-    connect(resources, SIGNAL(resourcesDenied()), SLOT(resourcesDenied()));
-    connect(resources, SIGNAL(lostResources()), SLOT(lostResources()));
-
-    view->setSource(QUrl("/usr/share/glacier-gallery/qml/main.qml"));
-
-    if (isFullscreen)
-        view->showFullScreen();
-    else
-        view->show();
-
-    if(!fileToOpen.fileName().isNull()) {
-        if (fileToOpen.exists()) {
-            QFileInfo fileInfo(fileToOpen);
-            QUrl fileUrl = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
-            if (view->rootObject()) {
-                QObject *rootobj = view->rootObject();
-                QMetaObject::invokeMethod(rootobj, "displayFile", Q_ARG(QVariant, QVariant(fileUrl.toString())));
-            }
-        } else {
-            qDebug() << "File " << fileToOpen.fileName() << " does not exist.";
-        }
-    }
 }
 
 void Gallery::acquireVideoResources()
@@ -128,17 +86,21 @@ int Gallery::isVideo(QString fileUrl)
 {
     //RETURN VALUES
     //-1: ERROR, 0: IMAGE, 1: VIDEO
-    const QString fileName = QUrl(fileUrl).toLocalFile();
-    QFileInfo testFile(fileName);
+    QFileInfo testFile(fileUrl);
     if (testFile.exists())
     {
-        QImageReader reader(fileName);
+        QImageReader reader(fileUrl);
         QByteArray format = reader.format();
-        if (format.isNull() && reader.error() == QImageReader::UnsupportedFormatError) {
+        if (format.isNull() && reader.error() == QImageReader::UnsupportedFormatError)
+        {
             //we assume it's a video
             return 1;
         }
-        else return 0;
+        else
+        {
+            return 0;
+        }
     }
+    qDebug() << fileUrl << " existis" << testFile.exists();
     return -1;
 }

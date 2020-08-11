@@ -38,11 +38,18 @@
 #include <QtQml>
 
 #include <glacierapp.h>
+#include "gallery.h"
 
 Q_DECL_EXPORT int main(int argc, char **argv)
 {
     QGuiApplication *app = GlacierApp::app(argc, argv);
     app->setOrganizationName("NemoMobile");
+
+    QQmlApplicationEngine *engine = GlacierApp::engine(app);
+    QQmlContext *context = engine->rootContext();
+
+    Gallery *gallery = new Gallery();
+    context->setContextProperty("gallery", gallery);
 
     QQuickWindow *window = GlacierApp::showWindow();
 
