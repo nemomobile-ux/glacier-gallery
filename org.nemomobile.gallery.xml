@@ -1,0 +1,10 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+ "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node name="/org/nemomobile/gallery">
+    <interface name="org.nemomobile.gallery">
+        <method name="displayFile">
+            <arg direction="in" type="as" name="filename"/>
+        </method>
+   </interface>
+</node>

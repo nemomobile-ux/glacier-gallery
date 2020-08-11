@@ -13,7 +13,9 @@ INSTALLS += qml_api
 target.path = $$INSTALL_ROOT/usr/bin
 INSTALLS += target
 
-desktop.files = $${PROJECT_NAME}.desktop
+desktop.files = glacier-gallery.desktop \
+                glacier-gallery-openfile.desktop
+
 desktop.path = $$INSTALL_ROOT/usr/share/applications
 INSTALLS += desktop
 
@@ -24,6 +26,10 @@ INSTALLS += images
 systemd_dbus_service.path = $${INSTALL_ROOT}/usr/share/dbus-1/services
 systemd_dbus_service.files = org.nemomobile.gallery.service
 INSTALLS += systemd_dbus_service
+
+systemd_dbus_interfaces.files = org.nemomobile.gallery.xml
+systemd_dbus_interfaces.path = $${INSTALL_ROOT}/usr/share/dbus-1/interfaces
+INSTALLS += systemd_dbus_interfaces
 
 HEADERS += src/gallery.h
 SOURCES += src/main.cpp \
@@ -56,6 +62,8 @@ packagesExist(qdeclarative5-boostable) {
 }
 
 DISTFILES += \
+    glacier-gallery-openfile.desktop \
+    org.nemomobile.gallery.xml \
     qml/api/qmldir \
     qml/api/GalleryView.qml \
     qml/api/GalleryModel.qml \

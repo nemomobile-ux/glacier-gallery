@@ -41,8 +41,6 @@ Page {
     id: singleImagePage
     anchors.fill: parent
 
-    tools: imgTools
-
     //filename of the element we're showing
     property alias imageSource: singleImage.imageSource
 
@@ -73,13 +71,6 @@ Page {
         onClickedWhileZoomed: fullScreenModeArea.handleClick()
     }
 
-    Timer {
-        id: toolbarAutohideTimer
-        interval: 2500
-        running: !appWindow.fullscreen
-        onTriggered: appWindow.fullscreen = true
-    }
-    
     MouseArea {
         id: fullScreenModeArea
         anchors.fill: parent

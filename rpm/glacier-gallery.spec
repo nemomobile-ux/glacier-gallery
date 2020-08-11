@@ -17,6 +17,7 @@ Requires:   glacier-gallery-qmlplugin
 Requires:   mapplauncherd-booster-qtcomponents-qt5
 Requires:   libglacierapp >= 0.1.1
 Requires:   mapplauncherd-booster-nemomobile
+Requires:   nemo-qml-plugin-dbus-qt5
 
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Quick)
@@ -69,8 +70,10 @@ desktop-file-install --delete-original       \
 %defattr(-,root,root,-)
 %{_bindir}/glacier-gallery
 %{_datadir}/applications/glacier-gallery.desktop
+%{_datadir}/applications/glacier-gallery-openfile.desktop
 %{_datadir}/glacier-gallery
 %{_datadir}/dbus-1/services/org.nemomobile.gallery.service
+%{_datadir}/dbus-1/interfaces/org.nemomobile.gallery.xml
 
 %files qmlplugin
 %{_libdir}/qt5/qml/org/nemomobile/gallery/*

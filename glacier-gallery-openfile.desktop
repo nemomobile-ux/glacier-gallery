@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Name=Gallery
+NoDisplay=true
+X-Window-Icon=
+X-Osso-Type=application/x-executable
+MimeType=image/*;video/*;
+
+X-MeeGo-Logical-Id=gallery-ap-name
+X-MeeGo-Translation-Catalog=gallery
+
+X-Maemo-Service=org.nemo.gallery
+X-Maemo-Object-Path=/org/nemomobile/gallery
+X-Maemo-Method=org.nemo.gallery.displayFile

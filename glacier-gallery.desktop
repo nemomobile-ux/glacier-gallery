@@ -5,8 +5,4 @@ Terminal=false
 Name=Gallery
 Exec=invoker --type=nemomobile -s  /usr/bin/glacier-gallery
 Icon=/usr/share/glacier-gallery/images/icon-app-gallery.png
-X-Window-Icon=
-X-HildonDesk-ShowInToolbar=true
-X-Osso-Type=application/x-executable
-MimeType=image/*;video/*;
 Name[ru]=Галерея

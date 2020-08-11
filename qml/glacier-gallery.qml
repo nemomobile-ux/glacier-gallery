@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2020 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -36,6 +36,8 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Nemo 1.0
 import QtQuick.Controls.Styles.Nemo 1.0
 
+import org.nemomobile.dbus 2.0
+
 ApplicationWindow {
     id: appWindow
 
@@ -43,6 +45,23 @@ ApplicationWindow {
 
     MainPage {
         id: mainPage
+    }
+
+    DBusAdaptor {
+        id: openFileAdaptor
+        service: "org.nemomobile.gallery"
+        path: "/"
+        iface: "org.nemomobile.gallery"
+
+        xml: '  <interface name="org.nemomobile.gallery">\n' +
+             '    <method name="displayFile" />\n' +
+             '        <arg name="filename" type="as" direction="in"/>\n' +
+             '    </method>\n' +
+             '  </interface>\n'
+
+        function displayFile(filename) {
+            appWindow.displayFile(filename)
+        }
     }
 
     function displayFile(filename) {
