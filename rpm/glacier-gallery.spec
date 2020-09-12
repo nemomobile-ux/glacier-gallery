@@ -38,7 +38,11 @@ Summary: QML Plugin for gallery view
 Requires:   qt-components-qt5
 Requires:   qt5-qtquickcontrols
 Requires:   qt5-qtquickcontrols-nemo
+%if 0%{?fedora}
+Requires:   qt5-qtmultimedia
+%else
 Requires:   qt5-qtdeclarative-import-multimedia
+%endif
 Requires:   nemo-qml-plugin-thumbnailer-qt5
 Requires:   qt5-qtdocgallery
 
