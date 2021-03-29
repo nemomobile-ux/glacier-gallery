@@ -36,7 +36,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Nemo 1.0
 import QtQuick.Controls.Styles.Nemo 1.0
 
-import org.nemomobile.dbus 2.0
+import Nemo.DBus 2.0
 
 ApplicationWindow {
     id: appWindow
