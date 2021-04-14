@@ -12,8 +12,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include(FeatureSummary)
 include(GNUInstallDirs)
 
+set(INSTALL_QML_IMPORT_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/qt/qml"
+	CACHE PATH "Custom QML import installation directory")
+
 set(QT_MIN_VERSION "5.6.0")
-find_package(Qt5 COMPONENTS Gui Qml Quick LinguistTools REQUIRED)
+find_package(Qt5 COMPONENTS ${QT_MIN_VERSION} Gui Qml Quick LinguistTools REQUIRED)
 find_package(Glacier COMPONENTS App REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBRESOURCEQT libresourceqt5 REQUIRED IMPORTED_TARGET)

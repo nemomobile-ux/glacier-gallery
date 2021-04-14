@@ -19,4 +19,4 @@ install(DIRECTORY qml
 	PATTERN "api" EXCLUDE)
 install(DIRECTORY qml/api/
 	DESTINATION
-	${CMAKE_INSTALL_LIBDIR}/qt/qml/org/nemomobile/gallery)
+	${INSTALL_QML_IMPORT_DIR}/org/nemomobile/gallery)
