@@ -39,10 +39,13 @@ import QtQuick.Controls.Styles.Nemo 1.0
 import QtQuick.Layouts 1.0
 
 import org.nemomobile.gallery 1.0
+import QtDocGallery 5.0
+
 
 Page {
     id: mainPage
-    anchors.fill: parent
+    width: parent.width;
+    height: parent.height;
     headerTools: mainTools
 
     GalleryView {
@@ -76,9 +79,10 @@ Page {
     property int currentSort: -1
     ListModel {
         id: sortModel
+        ListElement { name: qsTr("None"); sortProperty: ""; ascending: false } // dummy
         ListElement { name: qsTr("Name"); sortProperty: "fileName"; ascending: true }
-        ListElement { name: qsTr("Type"); sortProperty: "mimeType"; ascending: true }
-        ListElement { name: qsTr("Clear"); sortProperty: ""; ascending: false } // dummy
+        ListElement { name: qsTr("Modified"); sortProperty: "lastModified"; ascending: true }
+//        ListElement { name: qsTr("Type"); sortProperty: "mimeType"; ascending: true }
     }
 
     HeaderToolsLayout {
@@ -87,15 +91,15 @@ Page {
 
         drawerLevels: [
             Button {
-                anchors.horizontalCenter: (parent==undefined) ? undefined : parent.horizontalCenter;
+                Layout.alignment: Qt.AlignHCenter
+//                anchors.horizontalCenter: (parent==undefined) ? undefined : parent.horizontalCenter;
                 text: qsTr("Slideshow")
                 onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"), { visibleIndex: 0, galleryModel: gallery })
-                enabled: gallery.count > 0
+                enabled: (gallery.count > 0) && (filterButtons.currentIndex != 1)
             },
             RowLayout {
                 id: filterRow
-                anchors.left: (parent==undefined) ? undefined : parent.left
-                anchors.right: (parent==undefined) ? undefined : parent.right
+                Layout.fillWidth: true
                 anchors.margins: 20
                 Layout.preferredHeight: 100
                 Label {
@@ -138,8 +142,7 @@ Page {
             },
             RowLayout {
                 id: sortRow
-                anchors.left: (parent==undefined) ? undefined : parent.left
-                anchors.right: (parent==undefined) ? undefined : parent.right
+                Layout.fillWidth: true
                 anchors.margins: 20
                 Layout.preferredHeight: 100
                 Label {
@@ -157,53 +160,17 @@ Page {
                     }
 
                     Component.onCompleted: {
-                        gallery.sortProperties = ["-"]
+                        sortButtons.currentIndex = 0
                     }
 
                     onCurrentIndexChanged: {
+                        gallery.sortProperties = [ sortModel.get(sortButtons.currentIndex).sortProperty ];
                     }
                 }
             }
         ]
     }
 
-    /*Menu {
-        id: pageMenu
 
-        MenuLayout {
-            MenuItem {
-                text: (currentSort >= 0) ? ("Sort: " + sortModel.get(currentSort).name) : "Sort"
-                onClicked: {
-                    choiceLoader.source = Qt.resolvedUrl("SortDialog.qml")
-                    choiceLoader.item.open()
-                }
-            }
-            MenuItem {
-                text: "Slideshow"
-                onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"), { visibleIndex: 0, galleryModel: gallery })
-                enabled: gallery.count > 0
-            }
-        }
-    }*/
 
-    states: State {
-        name: "active"
-        when: status === PageStatus.Active || status === PageStatus.Activating
-
-        PropertyChanges {
-            target: appWindow.pageStack.toolBar
-            opacity: 0.8
-        }
-    }
-
-    transitions: Transition {
-        from: "active"
-        reversible: true
-
-        NumberAnimation {
-            target: appWindow.pageStack.toolBar
-            property: "opacity"
-            duration: 250
-        }
-    }
 }

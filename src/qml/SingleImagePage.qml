@@ -39,7 +39,9 @@ import QtDocGallery 5.0
 
 Page {
     id: singleImagePage
-    anchors.fill: parent
+
+    width: parent.width;
+    height: parent.height;
 
     //filename of the element we're showing
     property alias imageSource: singleImage.imageSource
@@ -101,27 +103,6 @@ Page {
     headerTools: HeaderToolsLayout {
         showBackButton: true
         title: qsTr("Image")
-    }
-
-    states: State {
-        name: "active"
-        when: status === PageStatus.Active || status === PageStatus.Activating
-
-        PropertyChanges {
-            target: appWindow.pageStack.toolBar
-            opacity: 0.8
-        }
-    }
-
-    transitions: Transition {
-        from: "active"
-        reversible: true
-
-        NumberAnimation {
-            target: appWindow.pageStack.toolBar
-            property: "opacity"
-            duration: 250
-        }
     }
 
 }
