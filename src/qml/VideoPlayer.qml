@@ -52,14 +52,14 @@ Page {
     }
 
 
-    Image {
+    NemoIcon {
         anchors.centerIn: parent;
         source: "image://theme/play"
         visible: (videoItem.playbackState === MediaPlayer.StoppedState)
         z: videoItem.z + 1
     }
 
-    Image {
+    NemoIcon {
         anchors.centerIn: parent;
         source: "image://theme/pause"
         visible: (videoItem.playbackState === MediaPlayer.PausedState)
