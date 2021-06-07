@@ -40,17 +40,18 @@ import QtDocGallery 5.0
 
 Page {
     id: imageController
-    anchors.fill: parent
+    width: parent.width;
+    height: parent.height;
 
     headerTools: HeaderToolsLayout {
         showBackButton: true
-        title: qsTr("Show image")
+        title: middle.isVideo ? qsTr("Show video") : qsTr("Show image")
 
         tools: [
             ToolButton{
                 iconSource: "image://theme/pencil-alt"
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("ImageEditor.qml"));
+                    pageStack.push(Qt.resolvedUrl("ImageEditor.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
                 }
             },
             ToolButton{
@@ -213,8 +214,8 @@ Page {
 
     Connections {
         target: middle
-        onClickedWhileZoomed: listFlickable.handleClick()
-        onPressedWhileNotZoomed: if (middle.isVideo) videoPlayerRequested = true
+        function onClickedWhileZoomed() { listFlickable.handleClick(); }
+        function onPressedWhileNotZoomed() { if (middle.isVideo) { videoPlayerRequested = true; } }
     }
 
     MouseArea {
@@ -339,25 +340,5 @@ Page {
         }
     }
    */
-    states: State {
-        name: "active"
-        when: status === PageStatus.Active || status === PageStatus.Activating
-
-        PropertyChanges {
-            target: appWindow.pageStack.toolBar
-            opacity: 0.8
-        }
-    }
-
-    transitions: Transition {
-        from: "active"
-        reversible: true
-
-        NumberAnimation {
-            target: appWindow.pageStack.toolBar
-            property: "opacity"
-            duration: 250
-        }
-    }
 
 }

@@ -43,23 +43,46 @@ Page {
     property alias videoSource: videoItem.source
 
     allowedOrientations: Qt.LandscapeOrientation
+    height: parent.height;
+    width: parent.width;
 
     headerTools: HeaderToolsLayout {
         showBackButton: true
         title: qsTr("Video")
     }
 
+
+    NemoIcon {
+        anchors.centerIn: parent;
+        source: "image://theme/play"
+        visible: (videoItem.playbackState === MediaPlayer.StoppedState)
+        z: videoItem.z + 1
+    }
+
+    NemoIcon {
+        anchors.centerIn: parent;
+        source: "image://theme/pause"
+        visible: (videoItem.playbackState === MediaPlayer.PausedState)
+        z: videoItem.z + 1
+    }
+
     Video {
         id: videoItem
         anchors.fill: parent
-        fillMode: Video.PreserveAspectFit
+        fillMode: VideoOutput.PreserveAspectFit
 
         //autoLoad: true doesn't seem to be working
         Component.onCompleted: play()
 
         MouseArea {
             anchors.fill: parent
-            onClicked: !parent.paused ? parent.pause() : parent.play()
+            onClicked: {
+                if (parent.playbackState !== MediaPlayer.PlayingState) {
+                    parent.play();
+                } else {
+                    parent.pause()
+                }
+            }
         }
     }
 }

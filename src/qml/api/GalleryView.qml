@@ -74,9 +74,15 @@ GridView {
         onCurrentOrientationChanged: updateThumbnailSize()
     }*/
 
+    Spinner {
+        anchors.centerIn: parent;
+        visible: parent.model.loading
+        enabled: parent.model.loading
+    }
+
     Label {
-        text: qsTr("No elements found")
+        text: qsTr("No photo has been taken yet")
         anchors.centerIn: parent
-        visible: parent.model.count == 0
+        visible: (parent.model.count === 0) && !parent.model.loading
     }
 }

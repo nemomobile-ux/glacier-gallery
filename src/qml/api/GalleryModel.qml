@@ -28,18 +28,42 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
-import QtQuick 2.0
+import QtQuick 2.6
+import QtQml.Models 2.15
 import QtDocGallery 5.0
 
-DocumentGalleryModel {
-    id: gallery
+ListModel {
+    id: mainModel;
 
     Component.onCompleted: {
+        gallery.properties = [ "mimeType", "url" ]
+
         //set default filter: show both videos and images
         var videoFilter = createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
         var imageFilter = createFilter(gallery, "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
         var array = [videoFilter, imageFilter]
         gallery.filter = createFiltersArray(gallery, "arraysFilter", "GalleryFilterUnion", array)
+    }
+
+    function sourceModelsChanged() {
+        console.log("sourceModel changed: " + pictureGallery.count + " images + " + videoGallery.count + " videos")
+        copyReady = false;
+        var i, item;
+        mainModel.clear()
+        for (i = 0; i < pictureGallery.count; i++) {
+            item = pictureGallery.get(i)
+            item.url = (String)(item.url);
+//            console.log("mainModel.append(pictureGallery.get(" + i + "): " + JSON.stringify(item))
+            mainModel.append(item);
+        }
+
+        for (i = 0; i < videoGallery.count; i++) {
+            item = videoGallery.get(i)
+            item.url = (String)(item.url);
+//            console.log("mainModel.append(videoGallery.get(" + i + "): "+ JSON.stringify(item))
+            mainModel.append(item);
+        }
+        copyReady = true;
     }
 
     //destroying the old filter before the new one is assigned makes the gallery model misbehave!
@@ -76,8 +100,62 @@ DocumentGalleryModel {
         }
     }
 
-    autoUpdate: true
-    rootType: DocumentGallery.File
 
-    properties: [ "url", "mimeType"]
+    property variant sortProperties: []
+    property variant filter;
+    property bool copyReady: true;
+    property bool loading: pictureGallery.status != DocumentGalleryModel.Finished || videoGallery.status != DocumentGalleryModel.Finished || !copyReady;
+
+    property variant pictures:
+        DocumentGalleryModel {
+            id: pictureGallery;
+            properties: [
+                "fileName", "fileSize", "lastModified",
+                "mimeType" , "url", "orientation",
+                "latitude", "longitude", "altitude",
+                "dateTaken",
+                "created",
+
+//                "isoSpeed",
+                "exposureTime", "fNumber", "flashEnabled", "focalLength", "meteringMode", "whiteBalance", "cameraManufacturer", "cameraModel",
+            ]
+
+            autoUpdate: true
+            rootType: DocumentGallery.Image
+            onCountChanged: {
+                sourceModelsChanged();
+            }
+
+        }
+
+    property variant videos: DocumentGalleryModel {
+        id: videoGallery;
+        properties: [
+            "fileName", "fileSize", "lastModified",
+            "mimeType" , "url",
+            "duration", "frameRate",
+            "created",
+//            "codec", "bitrate",
+//            "resumePosition",
+//            "producer", "director",
+        ]
+        autoUpdate: true
+        rootType: DocumentGallery.Video
+        onCountChanged: {
+            sourceModelsChanged();
+        }
+    }
+
+
+    onSortPropertiesChanged: {
+        console.log(JSON.stringify(sortProperties))
+        pictureGallery.sortProperties = sortProperties;
+        videoGallery.sortProperties = sortProperties;
+    }
+
+    onFilterChanged: {
+        pictureGallery.filter = filter;
+        videoGallery.filter = filter;
+    }
+
 }
