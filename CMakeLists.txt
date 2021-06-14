@@ -41,7 +41,7 @@ install(FILES ${QM_FILES}
 install(FILES glacier-gallery.desktop glacier-gallery-openfile.desktop
 	DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 install(FILES org.nemomobile.gallery.service
-	DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/dbus-1/interfaces)
+	DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/dbus-1/services)
 install(DIRECTORY images
 	DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/glacier-gallery)
 
