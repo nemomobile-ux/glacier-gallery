@@ -11,6 +11,6 @@ MimeType=image/*;video/*;
 X-MeeGo-Logical-Id=gallery-ap-name
 X-MeeGo-Translation-Catalog=gallery
 
-X-Maemo-Service=org.nemo.gallery
+X-Maemo-Service=org.nemomobile.gallery
 X-Maemo-Object-Path=/org/nemomobile/gallery
-X-Maemo-Method=org.nemo.gallery.displayFile
+X-Maemo-Method=org.nemomobile.gallery.displayFile
