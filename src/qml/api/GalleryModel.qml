@@ -35,16 +35,6 @@ import QtDocGallery 5.0
 ListModel {
     id: mainModel;
 
-    Component.onCompleted: {
-        gallery.properties = [ "mimeType", "url" ]
-
-        //set default filter: show both videos and images
-        var videoFilter = createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
-        var imageFilter = createFilter(gallery, "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
-        var array = [videoFilter, imageFilter]
-        gallery.filter = createFiltersArray(gallery, "arraysFilter", "GalleryFilterUnion", array)
-    }
-
     function sourceModelsChanged() {
         console.log("sourceModel changed: " + pictureGallery.count + " images + " + videoGallery.count + " videos")
         copyReady = false;
