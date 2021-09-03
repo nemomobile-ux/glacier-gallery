@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>GalleryView</name>
     <message>
         <location filename="../src/qml/api/GalleryView.qml" line="84"/>
         <source>No photo has been taken yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Фото еще не сделано</translation>
     </message>
 </context>
 <context>
@@ -14,108 +12,108 @@
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="17"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Подробности</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="26"/>
         <location filename="../src/qml/ImageEditor.qml" line="41"/>
         <source>Filename: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="27"/>
         <location filename="../src/qml/ImageEditor.qml" line="42"/>
         <source>Full path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Полный путь: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="28"/>
         <location filename="../src/qml/ImageEditor.qml" line="43"/>
         <source>Last modified: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Модифицирован: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="30"/>
         <source>Duration: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="36"/>
         <source>Frame rate: %1 fps</source>
-        <translation type="unfinished"></translation>
+        <translation>Фреймрейт: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="46"/>
         <source>Orientation: %1˚</source>
-        <translation type="unfinished"></translation>
+        <translation>Ориентация: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="47"/>
         <source>Exposure time: %1/1000</source>
-        <translation type="unfinished"></translation>
+        <translation>Время выдержки: %1/1000</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="48"/>
         <source>fNumber: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>fNumber: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="49"/>
         <source>Flash Enabled: %1 </source>
-        <translation type="unfinished"></translation>
+        <translation>Вспышка: %1 </translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="50"/>
         <source>Focal Lenght: %1 mm</source>
-        <translation type="unfinished"></translation>
+        <translation>Фокусное расстояние: %1 мм</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="51"/>
         <source>Metering mode: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим измерения:% 1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="52"/>
         <source>White balance: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Баланс белого: %1 </translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="53"/>
         <source>Camera Manufacturer: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Производитель камеры: %1 </translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="54"/>
         <source>Camera Model: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Модель камеры: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="55"/>
         <source>Latitude: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Широта: %1 </translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="56"/>
         <source>Longitude: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Долгота: %1</translation>
     </message>
     <message>
         <location filename="../src/qml/ImageEditor.qml" line="57"/>
         <source>Altitude: %1 m</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота: %1 м</translation>
     </message>
 </context>
 <context>
     <name>ImagePage</name>
     <message>
         <location filename="../src/qml/ImagePage.qml" line="48"/>
-        <source>Show image</source>
-        <translation>Показать изображение</translation>
+        <source>Show video</source>
+        <translation>Показать видео</translation>
     </message>
     <message>
         <location filename="../src/qml/ImagePage.qml" line="48"/>
-        <source>Show video</source>
-        <translation type="unfinished"></translation>
+        <source>Show image</source>
+        <translation>Показать изображение</translation>
     </message>
 </context>
 <context>
@@ -123,7 +121,7 @@
     <message>
         <location filename="../src/qml/ImageSlideshowPage.qml" line="47"/>
         <source>Slideshow</source>
-        <translation type="unfinished">Слайдшоу</translation>
+        <translation>Слайдшоу</translation>
     </message>
 </context>
 <context>
@@ -146,7 +144,7 @@
     <message>
         <location filename="../src/qml/MainPage.qml" line="82"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="83"/>
@@ -156,7 +154,7 @@
     <message>
         <location filename="../src/qml/MainPage.qml" line="84"/>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Модифицирован</translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="90"/>
