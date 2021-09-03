@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>GalleryView</name>
     <message>
@@ -109,13 +107,13 @@
     <name>ImagePage</name>
     <message>
         <location filename="../src/qml/ImagePage.qml" line="48"/>
-        <source>Show image</source>
-        <translation>Zobrazit obrázek</translation>
+        <source>Show video</source>
+        <translation>Zobrazit video</translation>
     </message>
     <message>
         <location filename="../src/qml/ImagePage.qml" line="48"/>
-        <source>Show video</source>
-        <translation>Zobrazit video</translation>
+        <source>Show image</source>
+        <translation>Zobrazit obrázek</translation>
     </message>
 </context>
 <context>
