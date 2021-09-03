@@ -159,14 +159,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Type</source>
-        <translation type="vanished">Type</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation type="vanished">Wissen</translation>
-    </message>
-    <message>
         <location filename="../src/qml/MainPage.qml" line="90"/>
         <source>Gallery</source>
         <translation>Galerij</translation>

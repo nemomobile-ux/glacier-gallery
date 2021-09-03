@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ">
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>GalleryView</name>
     <message>
@@ -157,10 +157,6 @@
         <location filename="../src/qml/MainPage.qml" line="84"/>
         <source>Modified</source>
         <translation>Změněno</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="90"/>
