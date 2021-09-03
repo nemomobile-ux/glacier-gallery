@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_GT">
+<TS version="2.1">
 <context>
     <name>GalleryView</name>
     <message>
@@ -109,12 +109,12 @@
     <name>ImagePage</name>
     <message>
         <location filename="../src/qml/ImagePage.qml" line="48"/>
-        <source>Show image</source>
-        <translation>Ver imagen</translation>
+        <source>Show video</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/ImagePage.qml" line="48"/>
-        <source>Show video</source>
+        <source>Show image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -123,7 +123,7 @@
     <message>
         <location filename="../src/qml/ImageSlideshowPage.qml" line="47"/>
         <source>Slideshow</source>
-        <translation type="unfinished">Diapositivas</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -131,17 +131,17 @@
     <message>
         <location filename="../src/qml/MainPage.qml" line="74"/>
         <source>All</source>
-        <translation>Todo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="75"/>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="76"/>
         <source>Images</source>
-        <translation>Imágenes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="82"/>
@@ -151,7 +151,7 @@
     <message>
         <location filename="../src/qml/MainPage.qml" line="83"/>
         <source>Name</source>
-        <translation>Nombre</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="84"/>
@@ -161,22 +161,22 @@
     <message>
         <location filename="../src/qml/MainPage.qml" line="90"/>
         <source>Gallery</source>
-        <translation>Galería</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="96"/>
         <source>Slideshow</source>
-        <translation>Diapositivas</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="109"/>
         <source>Filter:</source>
-        <translation>Filtro:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/MainPage.qml" line="152"/>
         <source>Sort:</source>
-        <translation>Ordenar:</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -184,7 +184,7 @@
     <message>
         <location filename="../src/main.cpp" line="56"/>
         <source>Gallery</source>
-        <translation>Galería</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -192,7 +192,7 @@
     <message>
         <location filename="../src/qml/SingleImagePage.qml" line="105"/>
         <source>Image</source>
-        <translation>Imagen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -200,7 +200,7 @@
     <message>
         <location filename="../src/qml/VideoPlayer.qml" line="51"/>
         <source>Video</source>
-        <translation>Video</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
