@@ -6,3 +6,4 @@ Name=Gallery
 Exec=/usr/bin/glacier-gallery
 Icon=/usr/share/glacier-gallery/images/icon-app-gallery.png
 Name[ru]=Галерея
+Name[cs]=Fotky
