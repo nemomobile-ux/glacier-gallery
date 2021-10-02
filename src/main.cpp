@@ -36,6 +36,7 @@
 #include <QGuiApplication>
 #include <QQuickView>
 #include <QtQml>
+#include <QScreen>
 
 #include <glacierapp.h>
 #include "gallery.h"
