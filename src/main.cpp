@@ -45,6 +45,14 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     QGuiApplication *app = GlacierApp::app(argc, argv);
     app->setOrganizationName("NemoMobile");
 
+    QScreen* sc = app->primaryScreen();
+    if(sc){
+        sc->setOrientationUpdateMask(Qt::LandscapeOrientation
+                             | Qt::PortraitOrientation
+                             | Qt::InvertedLandscapeOrientation
+                             | Qt::InvertedPortraitOrientation);
+    }
+
     QQmlApplicationEngine *engine = GlacierApp::engine(app);
     QQmlContext *context = engine->rootContext();
 
