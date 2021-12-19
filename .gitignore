@@ -1,0 +1,12 @@
+.directory
+*.o
+*.so
+*.qmlc
+moc_*
+qrc_*
+.qmake.stash
+*.spec.*
+Makefile
+debug*.list
+CMakeLists.txt.user
+build/

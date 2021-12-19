@@ -182,7 +182,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="56"/>
+        <location filename="../src/main.cpp" line="65"/>
         <source>Gallery</source>
         <translation type="unfinished"></translation>
     </message>
