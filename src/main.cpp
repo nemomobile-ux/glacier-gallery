@@ -61,7 +61,7 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     context->setContextProperty("gallery", gallery);
 
     QQuickWindow *window = GlacierApp::showWindow();
-
+    window->setIcon(QIcon("/usr/share/glacier-gallery/images/icon-app-gallery.png"));
     window->setTitle(QObject::tr("Gallery"));
 
     return app->exec();
