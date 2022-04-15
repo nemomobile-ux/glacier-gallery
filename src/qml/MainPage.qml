@@ -60,6 +60,13 @@ Page {
                 onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImagePage.qml"), {parameterIndex: index, galleryModel: gallery} )
             }
         }
+
+        Label {
+            text: qsTr("No photo has been taken yet")
+            anchors.centerIn: parent
+            visible: (gallery.count === 0) && !gallery.loading
+        }
+
     }
 
 
