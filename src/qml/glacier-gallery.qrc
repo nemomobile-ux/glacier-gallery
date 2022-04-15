@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ZoomController.qml</file>
+        <file>VideoPlayer.qml</file>
+        <file>ImageContainer.qml</file>
+        <file>MainPage.qml</file>
+        <file>SingleImagePage.qml</file>
+        <file>glacier-gallery.qml</file>
+        <file>ImageEditor.qml</file>
+        <file>ImageSlideshowPage.qml</file>
+        <file>ImagePage.qml</file>
+   </qresource>
+</RCC>
