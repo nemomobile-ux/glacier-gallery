@@ -8,5 +8,5 @@ qrc_*
 *.spec.*
 Makefile
 debug*.list
-CMakeLists.txt.user
+CMakeLists.txt.user*
 build/
