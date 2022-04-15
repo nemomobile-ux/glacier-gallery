@@ -80,9 +80,4 @@ GridView {
         enabled: parent.model.loading
     }
 
-    Label {
-        text: qsTr("No photo has been taken yet")
-        anchors.centerIn: parent
-        visible: (parent.model.count === 0) && !parent.model.loading
-    }
 }
