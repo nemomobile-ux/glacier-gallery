@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>GalleryView</name>
     <message>
@@ -180,9 +180,9 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="56"/>
+        <location filename="../src/main.cpp" line="65"/>
         <source>Gallery</source>
-        <translation>Galerie</translation>
+        <translation>Fotky</translation>
     </message>
 </context>
 <context>
