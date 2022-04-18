@@ -97,6 +97,21 @@ Page {
         return ((m > 9) ? m : "0"+m)+":"+((s > 9) ? s : "0"+s)
     }
 
+    Slider {
+        minimumValue: 0
+        maximumValue: videoItem.duration
+        value: videoItem.position
+        anchors.left: parent.left;
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
+        visible: (videoItem.playbackState === MediaPlayer.PausedState)
+        z: videoItem.z + 1
+        onValueChanged: {
+            videoItem.seek(value)
+        }
+
+    }
+
     Video {
         id: videoItem
         anchors.fill: parent
@@ -117,7 +132,6 @@ Page {
                     } else {
                         videoItem.seek(videoItem.position + 10000);
                     }
-
                 } else {
                     parent.pause()
                 }
