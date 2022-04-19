@@ -111,17 +111,11 @@ Page {
                 Layout.preferredHeight: 100
                 Label {
                     id: filterLabel
-                    anchors.left: parent.left;
-                    anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("Filter:")
                 }
                 ButtonRow {
                     id: filterButtons
                     model: filterModel
-                    anchors{
-                        left:filterLabel.right
-                        verticalCenter: parent.verticalCenter
-                    }
 
                     Component.onCompleted: {
                         filterButtons.currentIndex = 0
@@ -154,17 +148,11 @@ Page {
                 Layout.preferredHeight: 100
                 Label {
                     id: sortLabel
-                    anchors.left: parent.left;
-                    anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("Sort:")
                 }
                 ButtonRow {
                     id: sortButtons
                     model: sortModel
-                    anchors{
-                        left:sortLabel.right
-                        verticalCenter: parent.verticalCenter
-                    }
 
                     Component.onCompleted: {
                         sortButtons.currentIndex = 0

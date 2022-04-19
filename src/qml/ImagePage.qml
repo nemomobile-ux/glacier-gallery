@@ -31,6 +31,7 @@
  */
 
 import QtQuick 2.6
+import QtQml 2.15
 
 import QtQuick.Controls 1.0
 import QtQuick.Controls.Nemo 1.0
@@ -199,6 +200,7 @@ Page {
         value: leftMostOptimalX
         property: "x"
         when: keepMiddleItemAligned
+        restoreMode: Binding.RestoreBinding
     }
 
     ZoomController {
