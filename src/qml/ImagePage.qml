@@ -52,7 +52,13 @@ Page {
             ToolButton{
                 iconSource: "image://theme/pencil-alt"
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("ImageEditor.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
+                    pageStack.push(Qt.resolvedUrl("ImageEditorPage.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
+                }
+            },
+            ToolButton{
+                iconSource: "image://theme/info"
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("ImageInfoPage.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
                 }
             },
             ToolButton{

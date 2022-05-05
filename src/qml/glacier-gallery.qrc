@@ -6,8 +6,9 @@
         <file>MainPage.qml</file>
         <file>SingleImagePage.qml</file>
         <file>glacier-gallery.qml</file>
-        <file>ImageEditor.qml</file>
         <file>ImageSlideshowPage.qml</file>
         <file>ImagePage.qml</file>
-   </qresource>
+        <file>ImageInfoPage.qml</file>
+        <file>ImageEditorPage.qml</file>
+    </qresource>
 </RCC>
