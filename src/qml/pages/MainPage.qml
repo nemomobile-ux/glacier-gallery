@@ -89,7 +89,6 @@ Page {
         ListElement { name: qsTr("None"); sortProperty: ""; ascending: false } // dummy
         ListElement { name: qsTr("Name"); sortProperty: "fileName"; ascending: true }
         ListElement { name: qsTr("Modified"); sortProperty: "lastModified"; ascending: true }
-//        ListElement { name: qsTr("Type"); sortProperty: "mimeType"; ascending: true }
     }
 
     HeaderToolsLayout {
@@ -99,7 +98,6 @@ Page {
         drawerLevels: [
             Button {
                 Layout.alignment: Qt.AlignHCenter
-//                anchors.horizontalCenter: (parent==undefined) ? undefined : parent.horizontalCenter;
                 text: qsTr("Slideshow")
                 onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"), { visibleIndex: 0, galleryModel: gallery })
                 enabled: (gallery.count > 0) && (filterButtons.currentIndex != 1)

@@ -39,6 +39,8 @@ import QtQuick.Controls.Styles.Nemo 1.0
 
 import QtDocGallery 5.0
 
+import "../components"
+
 Page {
     id: imageController
     width: parent.width;
@@ -332,21 +334,4 @@ Page {
         imageSource: galleryModel.get(index).url
         videoSource: isVideo ? galleryModel.get(index).url : ""
     }
-
-    /*Menu {
-        id: pageMenu
-        MenuLayout {
-            MenuItem {
-                text: "Slideshow"
-                onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"),
-                                                    { visibleIndex: imageController.visibleIndex,
-                                                        controller: imageController,
-                                                        galleryModel: imageController.galleryModel },
-                                                    true)
-                enabled: galleryModel.count > 0
-            }
-        }
-    }
-   */
-
 }

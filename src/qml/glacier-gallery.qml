@@ -74,10 +74,10 @@ ApplicationWindow {
 
         switch (gallery.isVideo(filename)) {
         case 0:
-            appWindow.pageStack.push(Qt.resolvedUrl("SingleImagePage.qml"), { imageSource: filename })
+            appWindow.pageStack.push(Qt.resolvedUrl("pages/SingleImagePage.qml"), { imageSource: filename })
             break
         case 1:
-            appWindow.pageStack.push(Qt.resolvedUrl("VideoPlayer.qml"), { videoSource: filename })
+            appWindow.pageStack.push(Qt.resolvedUrl("pages/VideoPlayer.qml"), { videoSource: filename })
             break
         case -1:
             console.log("displayFile: ERROR WHILE LOADING THE FILE, FILE NOT FOUND")
