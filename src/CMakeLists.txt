@@ -5,6 +5,8 @@ set(SRC
 
 qtquick_compiler_add_resources(RESOURCES qml/glacier-gallery.qrc)
 
+add_subdirectory(editorplugin)
+
 add_executable(glacier-gallery ${SRC} ${RESOURCES})
 
 target_link_libraries(glacier-gallery

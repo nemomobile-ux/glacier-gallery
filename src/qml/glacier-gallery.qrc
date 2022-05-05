@@ -1,14 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>ZoomController.qml</file>
-        <file>VideoPlayer.qml</file>
-        <file>ImageContainer.qml</file>
-        <file>MainPage.qml</file>
-        <file>SingleImagePage.qml</file>
         <file>glacier-gallery.qml</file>
-        <file>ImageSlideshowPage.qml</file>
-        <file>ImagePage.qml</file>
-        <file>ImageInfoPage.qml</file>
-        <file>ImageEditorPage.qml</file>
+        <file>pages/ImageEditorPage.qml</file>
+        <file>pages/ImageInfoPage.qml</file>
+        <file>pages/ImagePage.qml</file>
+        <file>pages/ImageSlideshowPage.qml</file>
+        <file>pages/MainPage.qml</file>
+        <file>pages/SingleImagePage.qml</file>
+        <file>components/ImageContainer.qml</file>
+        <file>components/VideoPlayer.qml</file>
+        <file>components/ZoomController.qml</file>
     </qresource>
 </RCC>
