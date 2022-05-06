@@ -38,6 +38,8 @@ import QtQuick.Controls.Nemo 1.0
 import QtQuick.Controls.Styles.Nemo 1.0
 
 import Nemo.DBus 2.0
+import "./components"
+import "./pages"
 
 ApplicationWindow {
     id: appWindow
@@ -77,7 +79,7 @@ ApplicationWindow {
             appWindow.pageStack.push(Qt.resolvedUrl("pages/SingleImagePage.qml"), { imageSource: filename })
             break
         case 1:
-            appWindow.pageStack.push(Qt.resolvedUrl("pages/VideoPlayer.qml"), { videoSource: filename })
+            appWindow.pageStack.push(Qt.resolvedUrl("components/VideoPlayer.qml"), { videoSource: filename })
             break
         case -1:
             console.log("displayFile: ERROR WHILE LOADING THE FILE, FILE NOT FOUND")

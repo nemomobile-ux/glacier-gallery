@@ -141,7 +141,7 @@ Page {
     }
 
     function showVideoPlayer(fileName) {
-        pageStack.push(Qt.resolvedUrl("VideoPlayer.qml"),
+        pageStack.push(Qt.resolvedUrl("../components/VideoPlayer.qml"),
                        {videoSource: fileName},
                        true)
     }
