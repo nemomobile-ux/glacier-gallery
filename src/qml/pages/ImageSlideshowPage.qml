@@ -40,7 +40,8 @@ import QtDocGallery 5.0
 
 Page {
     id: imageSlideshow
-    anchors.fill: parent
+    width: parent.width;
+    height: parent.height;
 
     headerTools: HeaderToolsLayout {
         showBackButton: true
