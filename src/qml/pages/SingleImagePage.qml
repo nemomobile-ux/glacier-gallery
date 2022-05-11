@@ -72,7 +72,7 @@ Page {
 
     Connections {
         target: singleImage
-        onClickedWhileZoomed: fullScreenModeArea.handleClick()
+        function onClickedWhileZoomed() { fullScreenModeArea.handleClick() }
     }
 
     MouseArea {
