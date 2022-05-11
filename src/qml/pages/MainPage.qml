@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -67,12 +67,12 @@ Page {
             visible: (gallery.count === 0) && !gallery.loading
         }
 
-    }
+        Label {
+            text: qsTr("Error loading images")
+            anchors.centerIn: parent
+            visible: gallery.error
+        }
 
-
-    Loader {
-        id: choiceLoader
-        anchors.fill: parent
     }
 
     property int currentFilter: 0
@@ -163,7 +163,4 @@ Page {
             }
         ]
     }
-
-
-
 }

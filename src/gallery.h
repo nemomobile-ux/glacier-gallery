@@ -48,9 +48,11 @@ public:
 public slots:
     void acquireVideoResources();
     int isVideo(QString fileName);
+    QString fileToOpen(){return m_fileToOpen;}
 
 private:
     ResourcePolicy::ResourceSet *m_resources;
+    QString m_fileToOpen;
 };
 
 #endif

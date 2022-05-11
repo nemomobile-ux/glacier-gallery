@@ -42,7 +42,16 @@
 
 Gallery::Gallery(QObject *parent)
     : QObject(parent)
+    , m_fileToOpen("")
 {
+    if(QCoreApplication::arguments().length() > 1) {
+        QString cmd = QCoreApplication::arguments().at(1);
+        if(!cmd.isEmpty()) {
+            if(isVideo(cmd) != -1) {
+                m_fileToOpen = cmd;
+            }
+        }
+    }
 }
 
 void Gallery::acquireVideoResources()

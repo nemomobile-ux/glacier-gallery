@@ -93,6 +93,7 @@ ListModel {
     property variant filter;
     property bool copyReady: true;
     property bool loading: pictureGallery.status != DocumentGalleryModel.Finished || videoGallery.status != DocumentGalleryModel.Finished || !copyReady;
+    property bool error: DocumentGalleryModel.Error
 
     property variant pictures:
         DocumentGalleryModel {

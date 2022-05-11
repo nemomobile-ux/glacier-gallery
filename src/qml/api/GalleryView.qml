@@ -76,7 +76,7 @@ GridView {
 
     Spinner {
         anchors.centerIn: parent;
-        visible: parent.model.loading
+        visible: parent.model.loading && !parent.model.error
         enabled: parent.model.loading
     }
 
