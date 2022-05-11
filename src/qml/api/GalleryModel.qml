@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
+ * Copyright (C) 2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -36,21 +37,18 @@ ListModel {
     id: mainModel;
 
     function sourceModelsChanged() {
-        console.log("sourceModel changed: " + pictureGallery.count + " images + " + videoGallery.count + " videos")
         copyReady = false;
         var i, item;
         mainModel.clear()
         for (i = 0; i < pictureGallery.count; i++) {
             item = pictureGallery.get(i)
             item.url = (String)(item.url);
-//            console.log("mainModel.append(pictureGallery.get(" + i + "): " + JSON.stringify(item))
             mainModel.append(item);
         }
 
         for (i = 0; i < videoGallery.count; i++) {
             item = videoGallery.get(i)
             item.url = (String)(item.url);
-//            console.log("mainModel.append(videoGallery.get(" + i + "): "+ JSON.stringify(item))
             mainModel.append(item);
         }
         copyReady = true;
@@ -65,14 +63,14 @@ ListModel {
     //this is to create single filters dynamically
     function createFilter(parentItem, name, filterType, keyToFilter, value){
         var myFilter = Qt.createQmlObject('import QtDocGallery 5.0;' + filterType + '{property: "' +keyToFilter + '"; value: "' + value + '" }',
-                                      parentItem, name);
+                                          parentItem, name);
         return myFilter
     }
 
     //this is to create group filters, such as union and intersection ones
     function createFiltersArray(parentItem, name, filterType, filtersArray){
         var myFilter = Qt.createQmlObject('import QtDocGallery 5.0;' + filterType + '{ }',
-                                      parentItem, name);
+                                          parentItem, name);
         myFilter.filters = filtersArray
         return myFilter
     }
@@ -98,36 +96,48 @@ ListModel {
 
     property variant pictures:
         DocumentGalleryModel {
-            id: pictureGallery;
-            properties: [
-                "fileName", "fileSize", "lastModified",
-                "mimeType" , "url", "orientation",
-                "latitude", "longitude", "altitude",
-                "dateTaken",
-                "created",
+        id: pictureGallery;
+        properties: [
+            "fileName",
+            "fileSize",
+            "lastModified",
+            "mimeType",
+            "url",
+            "orientation",
+            "latitude",
+            "longitude",
+            "altitude",
+            "dateTaken",
+            "created",
+            "exposureTime",
+            "fNumber",
+            "flashEnabled",
+            "focalLength",
+            "meteringMode",
+            "whiteBalance",
+            "cameraManufacturer",
+            "cameraModel",
+        ]
 
-//                "isoSpeed",
-                "exposureTime", "fNumber", "flashEnabled", "focalLength", "meteringMode", "whiteBalance", "cameraManufacturer", "cameraModel",
-            ]
-
-            autoUpdate: true
-            rootType: DocumentGallery.Image
-            onCountChanged: {
-                sourceModelsChanged();
-            }
-
+        autoUpdate: true
+        rootType: DocumentGallery.Image
+        onCountChanged: {
+            sourceModelsChanged();
         }
+
+    }
 
     property variant videos: DocumentGalleryModel {
         id: videoGallery;
         properties: [
-            "fileName", "fileSize", "lastModified",
-            "mimeType" , "url",
-            "duration", "frameRate",
+            "fileName",
+            "fileSize",
+            "lastModified",
+            "mimeType",
+            "url",
+            "duration",
+            "frameRate",
             "created",
-//            "codec", "bitrate",
-//            "resumePosition",
-//            "producer", "director",
         ]
         autoUpdate: true
         rootType: DocumentGallery.Video
@@ -138,7 +148,6 @@ ListModel {
 
 
     onSortPropertiesChanged: {
-        console.log(JSON.stringify(sortProperties))
         pictureGallery.sortProperties = sortProperties;
         videoGallery.sortProperties = sortProperties;
     }
@@ -147,5 +156,4 @@ ListModel {
         pictureGallery.filter = filter;
         videoGallery.filter = filter;
     }
-
 }
