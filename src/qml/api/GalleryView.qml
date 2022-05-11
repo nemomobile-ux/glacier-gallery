@@ -68,12 +68,6 @@ GridView {
     cellWidth: thumbnailSize + padding
     cacheBuffer: cellHeight * 3
 
-//FIXME
-/*    Connections {
-        target: screen
-        onCurrentOrientationChanged: updateThumbnailSize()
-    }*/
-
     Spinner {
         anchors.centerIn: parent;
         visible: parent.model.loading && !parent.model.error

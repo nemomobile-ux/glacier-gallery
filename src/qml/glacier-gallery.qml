@@ -69,11 +69,18 @@ ApplicationWindow {
     function displayFile(filename) {
         switch (gallery.isVideo(filename)) {
         case 0:
-            pageStack.push(Qt.resolvedUrl("pages/SingleImagePage.qml"), { imageSource: filename })
+            pageStack.push(Qt.resolvedUrl("pages/SingleImagePage.qml"), { imageSource: "file:"+filename })
             break
         case 1:
-            pageStack.push(Qt.resolvedUrl("components/VideoPlayer.qml"), { videoSource: filename })
+            pageStack.push(Qt.resolvedUrl("components/VideoPlayer.qml"), { videoSource: "file:"+filename })
             break
+        }
+    }
+
+    Component.onCompleted: {
+        var toOpen = gallery.fileToOpen();
+        if(toOpen !== "") {
+            displayFile(toOpen)
         }
     }
 }

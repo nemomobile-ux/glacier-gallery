@@ -102,7 +102,7 @@ Item {
 
             transformOrigin: Item.TopLeft
             asynchronous: true
-            source: isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : "file:/"+imageSource
+            source: isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : imageSource
             sourceSize.width: 1200
 
             MouseArea {
