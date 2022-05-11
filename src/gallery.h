@@ -2,6 +2,7 @@
 #define GALLERY_H
 
 /* Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
+ * Copyright (C) 2022 Chupligin Sergey (NeoChapay) <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -46,17 +47,10 @@ public:
 
 public slots:
     void acquireVideoResources();
-    void releaseVideoResources();
     int isVideo(QString fileName);
 
-private slots:
-    void resourcesGranted();
-    void resourcesDenied();
-    void lostResources();
-
 private:
-    QQuickView *view;
-    ResourcePolicy::ResourceSet *resources;
+    ResourcePolicy::ResourceSet *m_resources;
 };
 
 #endif

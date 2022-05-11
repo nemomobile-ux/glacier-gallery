@@ -1,5 +1,5 @@
 /* Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
- *
+ * Copyright (C) 2022 Chupligin Sergey (NeoChapay) <neochapay@gmail.com>
  * You may use this file under the terms of the BSD license as follows:
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,39 +47,16 @@ Gallery::Gallery(QObject *parent)
 
 void Gallery::acquireVideoResources()
 {
-    qDebug() << Q_FUNC_INFO;
+    m_resources->addResource(ResourcePolicy::VideoPlaybackType);
 
-    resources->addResource(ResourcePolicy::VideoPlaybackType);
-
-    resources->deleteResource(ResourcePolicy::AudioPlaybackType);
+    m_resources->deleteResource(ResourcePolicy::AudioPlaybackType);
     ResourcePolicy::AudioResource *audio = new ResourcePolicy::AudioResource("player");
     audio->setProcessID(QGuiApplication::applicationPid());
     audio->setStreamTag("media.name", "*");
-    resources->addResourceObject(audio);
+    m_resources->addResourceObject(audio);
 
-    resources->update();
-    resources->acquire();
-}
-
-void Gallery::releaseVideoResources()
-{
-    qDebug() << Q_FUNC_INFO;
-    resources->release();
-}
-
-void Gallery::resourcesGranted()
-{
-    qDebug() << Q_FUNC_INFO;
-}
-
-void Gallery::resourcesDenied()
-{
-    qDebug() << Q_FUNC_INFO;
-}
-
-void Gallery::lostResources()
-{
-    qDebug() << Q_FUNC_INFO;
+    m_resources->update();
+    m_resources->acquire();
 }
 
 int Gallery::isVideo(QString fileUrl)
