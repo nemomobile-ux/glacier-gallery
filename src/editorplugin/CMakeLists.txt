@@ -13,28 +13,17 @@ function(FindQtInstallQml)
 endfunction()
 
 set(SRC
-	main.cpp
-	gallery.cpp
-	gallery.h)
+    plugin.cpp)
 
-qtquick_compiler_add_resources(RESOURCES qml/glacier-gallery.qrc)
+add_library(glacierimageeditor SHARED ${SRC})
 
-add_subdirectory(editorplugin)
-
-add_executable(glacier-gallery ${SRC} ${RESOURCES})
-
-target_link_libraries(glacier-gallery
-	Qt5::Gui
-	Qt5::Qml
-	Qt5::Quick
-	Glacier::App
-	PkgConfig::LIBRESOURCEQT)
-
-install(TARGETS glacier-gallery RUNTIME
-	DESTINATION ${CMAKE_INSTALL_BINDIR})
+target_link_libraries(glacierimageeditor
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Qml
+    Qt5::Quick)
 
 FindQtInstallQml()
 
-install(DIRECTORY qml/api/
-	DESTINATION
-        ${QT_INSTALL_QML}/org/nemomobile/gallery)
+install(FILES qmldir DESTINATION ${QT_INSTALL_QML}/org/glacier/imageeditor/)
+install(TARGETS glacierimageeditor DESTINATION ${QT_INSTALL_QML}/org/glacier/imageeditor/)

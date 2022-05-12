@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2017-2020 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -38,18 +38,16 @@ import QtQuick.Controls.Nemo 1.0
 import QtQuick.Controls.Styles.Nemo 1.0
 
 import Nemo.DBus 2.0
+import "./components"
+import "./pages"
 
 ApplicationWindow {
     id: appWindow
 
-    initialPage: mainPage
+    initialPage: MainPage {}
 
     contentOrientation: Screen.orientation
     allowedOrientations:  Qt.PortraitOrientation | Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation | Qt.InvertedPortraitOrientation
-
-    MainPage {
-        id: mainPage
-    }
 
     DBusAdaptor {
         id: openFileAdaptor
@@ -69,20 +67,20 @@ ApplicationWindow {
     }
 
     function displayFile(filename) {
-        console.log("displayFile:" + filename)
-        appWindow.pageStack.pop(null) // Unwind to top of the stack, wherever we are
-
         switch (gallery.isVideo(filename)) {
         case 0:
-            appWindow.pageStack.push(Qt.resolvedUrl("SingleImagePage.qml"), { imageSource: filename })
+            pageStack.push(Qt.resolvedUrl("pages/SingleImagePage.qml"), { imageSource: "file:"+filename })
             break
         case 1:
-            appWindow.pageStack.push(Qt.resolvedUrl("VideoPlayer.qml"), { videoSource: filename })
+            pageStack.push(Qt.resolvedUrl("components/VideoPlayer.qml"), { videoSource: "file:"+filename })
             break
-        case -1:
-            console.log("displayFile: ERROR WHILE LOADING THE FILE, FILE NOT FOUND")
-
         }
     }
 
+    Component.onCompleted: {
+        var toOpen = gallery.fileToOpen();
+        if(toOpen !== "") {
+            displayFile(toOpen)
+        }
+    }
 }

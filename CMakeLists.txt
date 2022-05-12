@@ -8,12 +8,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
 
 include(FeatureSummary)
 include(GNUInstallDirs)
-
-set(INSTALL_QML_IMPORT_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/qt/qml"
-	CACHE PATH "Custom QML import installation directory")
 
 set(QT_MIN_VERSION "5.11.0")
 find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS Gui Qml Quick LinguistTools REQUIRED)

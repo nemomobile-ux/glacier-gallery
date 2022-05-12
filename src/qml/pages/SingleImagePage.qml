@@ -37,6 +37,8 @@ import QtQuick.Controls.Styles.Nemo 1.0
 
 import QtDocGallery 5.0
 
+import "../components"
+
 Page {
     id: singleImagePage
 
@@ -70,7 +72,7 @@ Page {
 
     Connections {
         target: singleImage
-        onClickedWhileZoomed: fullScreenModeArea.handleClick()
+        function onClickedWhileZoomed() { fullScreenModeArea.handleClick() }
     }
 
     MouseArea {

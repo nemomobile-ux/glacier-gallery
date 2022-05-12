@@ -69,6 +69,7 @@ Page {
     NemoIcon {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
+        anchors.margins: Theme.itemSpacingMedium
         source: "image://theme/backward"
         visible: (videoItem.playbackState === MediaPlayer.PausedState)
         z: videoItem.z + 1
@@ -77,6 +78,7 @@ Page {
     NemoIcon {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
+        anchors.margins: Theme.itemSpacingMedium
         source: "image://theme/forward"
         visible: (videoItem.playbackState === MediaPlayer.PausedState)
         z: videoItem.z + 1
@@ -85,6 +87,7 @@ Page {
     Label {
         anchors.right: parent.right;
         anchors.top: parent.top
+        anchors.margins: Theme.itemSpacingMedium
         color: Theme.textColor
         text: formatVideoPosition(videoItem.position)
         visible: (videoItem.playbackState === MediaPlayer.PausedState)

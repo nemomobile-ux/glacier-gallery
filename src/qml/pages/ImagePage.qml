@@ -39,6 +39,8 @@ import QtQuick.Controls.Styles.Nemo 1.0
 
 import QtDocGallery 5.0
 
+import "../components"
+
 Page {
     id: imageController
     width: parent.width;
@@ -52,7 +54,13 @@ Page {
             ToolButton{
                 iconSource: "image://theme/pencil-alt"
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("ImageEditor.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
+                    pageStack.push(Qt.resolvedUrl("ImageEditorPage.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
+                }
+            },
+            ToolButton{
+                iconSource: "image://theme/info"
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("ImageInfoPage.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
                 }
             },
             ToolButton{
@@ -133,7 +141,7 @@ Page {
     }
 
     function showVideoPlayer(fileName) {
-        pageStack.push(Qt.resolvedUrl("VideoPlayer.qml"),
+        pageStack.push(Qt.resolvedUrl("../components/VideoPlayer.qml"),
                        {videoSource: fileName},
                        true)
     }
@@ -326,21 +334,4 @@ Page {
         imageSource: galleryModel.get(index).url
         videoSource: isVideo ? galleryModel.get(index).url : ""
     }
-
-    /*Menu {
-        id: pageMenu
-        MenuLayout {
-            MenuItem {
-                text: "Slideshow"
-                onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"),
-                                                    { visibleIndex: imageController.visibleIndex,
-                                                        controller: imageController,
-                                                        galleryModel: imageController.galleryModel },
-                                                    true)
-                enabled: galleryModel.count > 0
-            }
-        }
-    }
-   */
-
 }

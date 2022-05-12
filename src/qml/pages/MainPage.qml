@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -67,12 +67,12 @@ Page {
             visible: (gallery.count === 0) && !gallery.loading
         }
 
-    }
+        Label {
+            text: qsTr("Error loading images")
+            anchors.centerIn: parent
+            visible: gallery.error
+        }
 
-
-    Loader {
-        id: choiceLoader
-        anchors.fill: parent
     }
 
     property int currentFilter: 0
@@ -89,7 +89,6 @@ Page {
         ListElement { name: qsTr("None"); sortProperty: ""; ascending: false } // dummy
         ListElement { name: qsTr("Name"); sortProperty: "fileName"; ascending: true }
         ListElement { name: qsTr("Modified"); sortProperty: "lastModified"; ascending: true }
-//        ListElement { name: qsTr("Type"); sortProperty: "mimeType"; ascending: true }
     }
 
     HeaderToolsLayout {
@@ -99,7 +98,6 @@ Page {
         drawerLevels: [
             Button {
                 Layout.alignment: Qt.AlignHCenter
-//                anchors.horizontalCenter: (parent==undefined) ? undefined : parent.horizontalCenter;
                 text: qsTr("Slideshow")
                 onClicked: appWindow.pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"), { visibleIndex: 0, galleryModel: gallery })
                 enabled: (gallery.count > 0) && (filterButtons.currentIndex != 1)
@@ -165,7 +163,4 @@ Page {
             }
         ]
     }
-
-
-
 }
