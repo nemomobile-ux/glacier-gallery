@@ -40,10 +40,8 @@ Item {
     id: imgContainer
     property int index: -1
     property variant pinchingController
-    property variant pageStack
-    property string imageSource: ""
-    property string videoSource: ""
-    property bool isVideo: false
+    property string source: ""
+    readonly property bool isVideo: gallery.isVideo(source) === 1
     property alias flickableArea: flickImg
     property int doubleClickInterval: 350
     property alias image: img
@@ -93,17 +91,11 @@ Item {
 
         Image {
             id: img
-            width: (fitsVertically) ? (imgContainer.height * imgRatio) : imgContainer.width
-            height: (fitsVertically) ? (imgContainer.height) : (imgContainer.width / imgRatio)
+            width: imgContainer.width
+            height: imgContainer.height
+            fillMode: Image.PreserveAspectFit
 
-            //(isVideo --> imgRatio = 1.0) because we're using a square dummy thumbnail
-            property real imgRatio: isVideo ? 1.0 : implicitWidth / implicitHeight
-            property bool fitsVertically: imgRatio < (imgContainer.width / imgContainer.height)
-
-            transformOrigin: Item.TopLeft
-            asynchronous: true
-            source: isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : imageSource
-            sourceSize.width: 1200
+            source: isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : imgContainer.source
 
             MouseArea {
                 anchors.fill: parent

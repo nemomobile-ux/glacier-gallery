@@ -70,6 +70,10 @@ void Gallery::acquireVideoResources()
 
 int Gallery::isVideo(QString fileUrl)
 {
+    if(fileUrl.isEmpty()) {
+        return -1;
+    }
+
     //RETURN VALUES
     //-1: ERROR, 0: IMAGE, 1: VIDEO
     QFileInfo testFile(fileUrl);

@@ -46,9 +46,12 @@ Page {
     width: parent.width;
     height: parent.height;
 
+    property variant galleryModel
+    property int parameterIndex: -1
+
     headerTools: HeaderToolsLayout {
         showBackButton: true
-        title: middle.isVideo ? qsTr("Show video") : qsTr("Show image")
+        title: currentImage.isVideo ? qsTr("Show video") : qsTr("Show image")
 
         tools: [
             ToolButton{
@@ -62,276 +65,135 @@ Page {
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("ImageInfoPage.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
                 }
-            },
-            ToolButton{
-                iconSource: "image://theme/clone"
-                onClicked: {
-                   pageStack.push(Qt.resolvedUrl("ImageSlideshowPage.qml"),
-                                                        { visibleIndex: imageController.visibleIndex,
-                                                            controller: imageController,
-                                                            galleryModel: imageController.galleryModel },
-                                                        true)
-                }
-                enabled: galleryModel.count > 0
             }
         ]
     }
 
     clip: true
 
-    property variant galleryModel
-    property real firstPressX
-    property real pressX
-    property int flickToX: 0
-    property int flickFromX: 0
-    property bool moving: false
-    property variant leftMost: one
-    property variant leftMiddle: two
-    property variant middle: three
-    property variant rightMiddle: four
-    property variant rightMost: five
-    property bool videoPlayerRequested: false
-
-    //this is the index which has to be passed as a parameter when creating this page
-    //it will only be used for initialization
-    property int parameterIndex
-
-    property int visibleIndex
-
-    Component.onCompleted: {
-        //this is to make so that when visibleIndex is changed the image containers have already been
-        //initialized
-        visibleIndex = parameterIndex
-        updateImagesIndexes()
+    ImageContainer {
+        id: previosImage;
+        anchors.right: currentImage.left
+        visible: source != ""
     }
 
-    //this will make so that every time visibleIndex is changed, the image containers will all load
-    //the correct images.
-    //visibleIndex is the reliable source to know what index is currently being displayed on screen
-    onVisibleIndexChanged: {
-        updateImagesIndexes()
+    ImageContainer {
+        id: currentImage;
+        source: galleryModel.get(parameterIndex).url
     }
 
-    property real swipeThreshold: 40
-    property real leftMostOptimalX: -width*2
-    //number of pixel you have to move before the Pinch Area is disabled
-    property real pinchThreshold: 3
-    //This property forces the middle item to be visible on screen by keeping the leftMost item at x = leftMostOptimalX
-    //You have to set it to FALSE when you want to want to modify leftMost's x property, and set it back to true
-    //to be sure that the middle item will be the one centered on screen.
-    //(e.g. this is what flickTo NumberAnimation does)
-    property bool keepMiddleItemAligned: true
-
-    onWidthChanged: {
-        if (!middle.isVideo)
-            pinchImg.resetZoom()
-    }
-
-    function updateImagesIndexes() {
-        leftMost.index = modulus(visibleIndex - 2, galleryModel.count);
-        leftMiddle.index = modulus(visibleIndex - 1, galleryModel.count);
-        middle.index = modulus(visibleIndex, galleryModel.count);
-        rightMiddle.index = modulus(visibleIndex + 1, galleryModel.count);
-        rightMost.index = modulus(visibleIndex + 2, galleryModel.count);
-    }
-
-    function modulus(a, b) {
-        if (a < 0) return (a+b) % b
-        else return a % b
-    }
-
-    function showVideoPlayer(fileName) {
-        pageStack.push(Qt.resolvedUrl("../components/VideoPlayer.qml"),
-                       {videoSource: fileName},
-                       true)
-    }
-
-    function swapLeftMost() {
-        leftMiddle.anchors.left = undefined
-        leftMost.anchors.left = rightMost.right
-
-        //TODO: we could use a generic function instead of fixed assignments when shifting the positiong of the containers
-        //shift all elements left by one position, and make leftMost become rightMost
-        var oldLeftMost = leftMost
-        leftMost = leftMiddle
-        leftMiddle = middle
-        middle = rightMiddle
-        rightMiddle = rightMost
-        rightMost = oldLeftMost
-
-        visibleIndex = middle.index;
-    }
-
-    function swapRightMost() {
-        rightMost.anchors.left = undefined
-        leftMost.anchors.left = rightMost.right
-
-        //shift all elements right by one position, and make rightMost become leftMost
-        var oldRightMost = rightMost
-        rightMost = rightMiddle
-        rightMiddle = middle
-        middle = leftMiddle
-        leftMiddle = leftMost
-        leftMost = oldRightMost
-
-        visibleIndex = middle.index;
-
-    }
-
-    NumberAnimation {
-        id: flickTo;
-        target: leftMost;
-        property: "x";
-        from: flickFromX;
-        to: flickToX;
-        duration: 300;
-        easing.type: Easing.OutQuad
-        onStarted: keepMiddleItemAligned = false
-        onStopped: {
-            if (Math.abs(to - from) > swipeThreshold) {
-                if (from > to )
-                    swapLeftMost()
-                else
-                    swapRightMost()
-            }
-
-            keepMiddleItemAligned = true
-            //This should be the only way the view can stop moving, so we set moving to false
-            moving = false
-        }
-    }
-
-    //This is to keep the middle item visible on screen.
-    //Read the comment above the definition of keepMiddleItemAligned to know more
-    Binding {
-        target: leftMost
-        value: leftMostOptimalX
-        property: "x"
-        when: keepMiddleItemAligned
-        restoreMode: Binding.RestoreBinding
+    ImageContainer {
+        id: nextImage;
+        anchors.left: currentImage.right
+        visible: source != ""
     }
 
     ZoomController {
         id: pinchImg
 
         //Disable the pincharea if the listview is scrolling, to avoid problems
-        enabled: (!imageController.moving && !middle.isVideo)
+        enabled: (currentImage.x === 0 && !currentImage.isVideo)
 
-        pinchTarget: middle.image
-        connectedFlickable: middle.flickableArea
-        targetContainer: middle
-    }
-
-    Connections {
-        target: middle
-        function onClickedWhileZoomed() { listFlickable.handleClick(); }
-        function onPressedWhileNotZoomed() { if (middle.isVideo) { videoPlayerRequested = true; } }
+        pinchTarget: currentImage.image
+        connectedFlickable: currentImage.flickableArea
+        targetContainer: currentImage
     }
 
     MouseArea {
         id: listFlickable
         anchors.fill: parent
 
-        property bool pressedForClick: false
-
-        function handleClick() {
-            if (videoPlayerRequested) {
-                videoPlayerRequested = false
-                imageController.showVideoPlayer(middle.videoSource)
-            }
-        }
+        property int firstPressX: 0
+        property int pinchThreshold: 3
+        property bool moving: false
 
         onPressed: {
-            firstPressX = mouseX
-            pressX = mouseX
-            pressedForClick = true
-
-            //if the animation is running, make it stop and immediately slide to the image that you were going to
-            //this allows very fast scrolling
-            if (flickTo.running) flickTo.stop()
+            listFlickable.firstPressX = mouseX
         }
 
         onPositionChanged: {
             if (Math.abs(firstPressX - mouseX) > pinchThreshold && moving == false) {
                 moving = true
-                pressedForClick = false
             }
 
-            //moving == true means the user isn't trying to pinch
             if (moving) {
-                leftMost.x = leftMost.x - (pressX - mouseX)
-                pressX = mouseX
+                currentImage.x = -(firstPressX - mouseX)
             }
         }
 
         onReleased: {
-            if (pressedForClick) {
-                handleClick()
-                pressedForClick = false
+            firstPressX = 0
+            moving = false
+
+            if(Math.abs(currentImage.x) > imageController.width/4) {
+                /*Swipe to next/prev*/
+                if(currentImage.x < 0 && parameterIndex < galleryModel.count) {
+                    //parameterIndex++
+                    flickTo.to = -currentImage.width
+                } else if(parameterIndex > 0 && currentImage.x > 0) {
+                    //parameterIndex--
+                    flickTo.to = currentImage.width
+                }
+            } else {
+                /*swipe to current*/
+                flickTo.to = 0
             }
 
-            if (middle.x >= swipeThreshold) {
-                //move it left
-                flickToX = leftMostOptimalX + parent.width
-            }
-            else if (middle.x <= -swipeThreshold) {
-                //move it right
-                flickToX = leftMostOptimalX -parent.width
-            }
-            else {
-                //bring it back
-                flickToX = leftMostOptimalX
-            }
-
-            flickFromX = leftMost.x
             flickTo.start()
         }
     }
 
-    ImageContainer {
-        id: one; x: leftMostOptimalX
-        pinchingController: pinchImg
-        pageStack: appWindow.pageStack
-        isVideo: galleryModel.isVideo(index)
-        imageSource: galleryModel.get(index).url
-        videoSource: isVideo ? galleryModel.get(index).url : ""
-        visible: (middle == one || moving)
+    NumberAnimation {
+        id: flickTo;
+        target: currentImage;
+        property: "x";
+        from: currentImage.x;
+        duration: 300;
+        easing.type: Easing.OutQuad
+        onStarted: listFlickable.enabled = false
+        onStopped: {
+            listFlickable.enabled = true
+            if(flickTo.to < 0 ) {
+                parameterIndex++
+            }
+
+            if(flickTo.to > 0) {
+                parameterIndex--
+            }
+        }
     }
 
-    ImageContainer {
-        id: two; anchors.left: one.right
-        pinchingController: pinchImg
-        pageStack: appWindow.pageStack
-        isVideo: galleryModel.isVideo(index)
-        imageSource: galleryModel.get(index).url
-        videoSource: isVideo ? galleryModel.get(index).url : ""
+    Component.onCompleted: {
+        loadImages();
     }
 
-    //this is the item which is in the middle by default
-    ImageContainer {
-        id: three; anchors.left: two.right
-        pinchingController: pinchImg
-        pageStack: appWindow.pageStack
-        isVideo: galleryModel.isVideo(index)
-        imageSource: galleryModel.get(index).url
-        videoSource: isVideo ? galleryModel.get(index).url : ""
+    onParameterIndexChanged: {
+        loadImages();
     }
 
-    ImageContainer {
-        id: four; anchors.left: three.right
-        pinchingController: pinchImg
-        pageStack: appWindow.pageStack
-        isVideo: galleryModel.isVideo(index)
-        imageSource: galleryModel.get(index).url
-        videoSource: isVideo ? galleryModel.get(index).url : ""
+    function loadImages() {
+        if(galleryModel === undefined) {
+            return
+        }
+
+        if(parameterIndex > 1) {
+            previosImage.source = galleryModel.get(parameterIndex-1).url;
+        } else {
+            previosImage.source = "";
+        }
+
+        if(parameterIndex < galleryModel.count) {
+            nextImage.source = galleryModel.get(parameterIndex+1).url;
+        } else {
+            nextImage.source = "";
+        }
+
+        currentImage.x = 0
     }
 
-    ImageContainer {
-        id: five; anchors.left: four.right
-        pinchingController: pinchImg
-        pageStack: appWindow.pageStack
-        isVideo: galleryModel.isVideo(index)
-        imageSource: galleryModel.get(index).url
-        videoSource: isVideo ? galleryModel.get(index).url : ""
+    function showVideoPlayer(fileName) {
+        pageStack.push(Qt.resolvedUrl("../components/VideoPlayer.qml"),
+                       {videoSource: fileName},
+                       true)
     }
 }
