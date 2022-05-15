@@ -47,7 +47,7 @@ public:
 
 public slots:
     void acquireVideoResources();
-    int isVideo(QString fileName);
+    int isVideo(QUrl fileName);
     QString fileToOpen(){return m_fileToOpen;}
 
 private:
