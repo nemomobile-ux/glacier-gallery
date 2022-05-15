@@ -110,6 +110,10 @@ Item {
                 }
 
                 onPressed: {
+                    if (isVideo) {
+                        showVideoPlayer(source)
+                    }
+
                     //setting mouse.accepted to false means we'll only receive the onPressed of this event,
                     //the rest will be propagated to the area underneath
                     //if img.scale == 1 send events underneath, otherwise emit the signal (to make it
