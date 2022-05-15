@@ -118,6 +118,18 @@ Page {
 
             if (moving) {
                 currentImage.x = -(firstPressX - mouseX)
+
+                if(parameterIndex == 0) {
+                    if(currentImage.x > listFlickable.width/5) {
+                        currentImage.x = listFlickable.width/5
+                    }
+                }
+
+                if(parameterIndex == galleryModel.count-1) {
+                    if(currentImage.x < -listFlickable.width/5) {
+                        currentImage.x = -listFlickable.width/5
+                    }
+                }
             }
         }
 
