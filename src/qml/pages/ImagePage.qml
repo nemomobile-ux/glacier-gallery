@@ -155,6 +155,46 @@ Page {
         }
     }
 
+    ListView{
+        id: littleImagesListView
+        width: parent.width
+        height: Theme.itemHeightLarge
+        model: galleryModel
+        orientation: ListView.Horizontal
+        currentIndex: imageController.parameterIndex
+
+        anchors{
+            bottom: parent.bottom
+            bottomMargin: Theme.itemSpasingSmall
+        }
+
+        delegate: Item{
+            height: Theme.itemHeightLarge
+            width: height
+
+            Image{
+                anchors.centerIn: parent
+                source: url
+                fillMode: Image.PreserveAspectFit
+                height: index === imageController.parameterIndex ? parent.width : parent.width*0.8
+                width: parent.height
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: imageController.parameterIndex = index
+                }
+
+                Behavior on width{
+                    NumberAnimation { duration: 100 }
+                }
+
+                Behavior on height{
+                    NumberAnimation { duration: 100 }
+                }
+            }
+        }
+    }
+
     NumberAnimation {
         id: flickTo;
         target: currentImage;
