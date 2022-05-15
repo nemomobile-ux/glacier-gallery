@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2022 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -31,7 +31,6 @@
  */
 
 import QtQuick 2.6
-import QtQml 2.15
 
 import QtQuick.Controls 1.0
 import QtQuick.Controls.Nemo 1.0
@@ -155,43 +154,21 @@ Page {
         }
     }
 
-    ListView{
-        id: littleImagesListView
+    DownListView{
+        id: downListView
+        model: galleryModel
+        currentIndex: imageController.parameterIndex
+
         width: parent.width
         height: Theme.itemHeightLarge
-        model: galleryModel
-        orientation: ListView.Horizontal
-        currentIndex: imageController.parameterIndex
 
         anchors{
             bottom: parent.bottom
             bottomMargin: Theme.itemSpasingSmall
         }
 
-        delegate: Item{
-            height: Theme.itemHeightLarge
-            width: height
-
-            Image{
-                anchors.centerIn: parent
-                source: url
-                fillMode: Image.PreserveAspectFit
-                height: index === imageController.parameterIndex ? parent.width : parent.width*0.8
-                width: parent.height
-
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: imageController.parameterIndex = index
-                }
-
-                Behavior on width{
-                    NumberAnimation { duration: 100 }
-                }
-
-                Behavior on height{
-                    NumberAnimation { duration: 100 }
-                }
-            }
+        onCurrentIndexChanged: {
+            imageController.parameterIndex = currentIndex
         }
     }
 

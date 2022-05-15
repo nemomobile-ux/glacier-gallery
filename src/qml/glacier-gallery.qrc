@@ -10,5 +10,6 @@
         <file>components/ImageContainer.qml</file>
         <file>components/VideoPlayer.qml</file>
         <file>components/ZoomController.qml</file>
+        <file>components/DownListView.qml</file>
     </qresource>
 </RCC>
