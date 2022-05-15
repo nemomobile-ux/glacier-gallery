@@ -91,6 +91,6 @@ int Gallery::isVideo(QString fileUrl)
             return 0;
         }
     }
-    qDebug() << fileUrl << " existis" << testFile.exists();
+    qDebug() << fileUrl << " exists" << testFile.exists();
     return -1;
 }
