@@ -62,7 +62,7 @@ Item{
 
             Image{
                 anchors.centerIn: parent
-                source: url
+                source: gallery.isVideo(url) ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" :  url
                 fillMode: Image.PreserveAspectFit
                 height: index === currentIndex ? parent.width : parent.width*0.8
                 width: parent.height

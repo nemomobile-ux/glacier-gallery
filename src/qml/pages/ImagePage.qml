@@ -211,7 +211,7 @@ Page {
             previosImage.source = "";
         }
 
-        if(parameterIndex < galleryModel.count) {
+        if (parameterIndex+1 < galleryModel.count) {
             nextImage.source = galleryModel.get(parameterIndex+1).url;
         } else {
             nextImage.source = "";

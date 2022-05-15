@@ -68,7 +68,7 @@ void Gallery::acquireVideoResources()
     m_resources->acquire();
 }
 
-int Gallery::isVideo(QString fileUrl)
+int Gallery::isVideo(QUrl fileUrl)
 {
     if(fileUrl.isEmpty()) {
         return -1;
@@ -76,10 +76,12 @@ int Gallery::isVideo(QString fileUrl)
 
     //RETURN VALUES
     //-1: ERROR, 0: IMAGE, 1: VIDEO
-    QFileInfo testFile(fileUrl);
+    QString filePath = fileUrl.toLocalFile();
+
+    QFileInfo testFile(filePath);
     if (testFile.exists())
     {
-        QImageReader reader(fileUrl);
+        QImageReader reader(filePath);
         QByteArray format = reader.format();
         if (format.isNull() && reader.error() == QImageReader::UnsupportedFormatError)
         {
@@ -91,6 +93,6 @@ int Gallery::isVideo(QString fileUrl)
             return 0;
         }
     }
-    qDebug() << fileUrl << " existis" << testFile.exists();
+    qDebug() << filePath << " exists" << testFile.exists();
     return -1;
 }
