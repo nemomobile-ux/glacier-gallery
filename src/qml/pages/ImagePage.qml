@@ -56,7 +56,7 @@ Page {
             ToolButton{
                 iconSource: "image://theme/pencil-alt"
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("ImageEditorPage.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
+                    pageStack.push(Qt.resolvedUrl("ImageEditorPage.qml"), {source: galleryModel.get(parameterIndex).url});
                 }
             },
             ToolButton{

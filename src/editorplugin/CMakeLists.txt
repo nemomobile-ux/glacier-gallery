@@ -13,7 +13,9 @@ function(FindQtInstallQml)
 endfunction()
 
 set(SRC
-    plugin.cpp)
+    plugin.cpp
+    editableimage.cpp
+    editableimage.h)
 
 add_library(glacierimageeditor SHARED ${SRC})
 

@@ -17,31 +17,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <QtQml>
-#include <QtGlobal>
-#include <QQmlEngine>
-#include <QQmlExtensionPlugin>
+#ifndef EDITABLEIMAGE_H
+#define EDITABLEIMAGE_H
 
-#include "editableimage.h"
+#include <QImage>
+#include <QObject>
+#include <QQuickPaintedItem>
 
-class Q_DECL_EXPORT GlacierPackageManagerPlugin : public QQmlExtensionPlugin
+class EditableImage : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.glacier.imageeditor")
+    Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
+
 public:
-    virtual ~GlacierPackageManagerPlugin() { }
+    explicit EditableImage(QQuickItem *parent = nullptr);
+    void paint(QPainter *painter);
 
-    void initializeEngine(QQmlEngine *, const char *uri)
-    {
-        Q_ASSERT(uri == QLatin1String("org.glacier.imageeditor"));
-        qmlRegisterModule(uri, 1, 0);
-    }
 
-    void registerTypes(const char *uri)
-    {
-        Q_ASSERT(uri == QLatin1String("org.glacier.imageeditor"));
-        qmlRegisterType<EditableImage>(uri, 1, 0, "EditableImage");
-    }
+    QString source() {return m_source;}
+    void setSource(QString source);
+
+    Q_INVOKABLE void rotateLeft();
+    Q_INVOKABLE void rotateRight();
+    Q_INVOKABLE void flipHorizontaly();
+    Q_INVOKABLE void flipVetricaly();
+
+    Q_INVOKABLE void save(bool replace = false);
+
+signals:
+    void sourceChanged();
+
+private:
+    QString m_source;
+    QImage m_image;
 };
 
-#include "plugin.moc"
+#endif // EDITABLEIMAGE_H
