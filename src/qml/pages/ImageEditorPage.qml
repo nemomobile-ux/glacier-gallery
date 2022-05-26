@@ -52,8 +52,6 @@ Page {
                 width: childrenRect.width
                 height: Theme.itemHeightMedium
 
-                anchors.horizontalCenter: parent.horizontalCenter
-
                 ToolButton {
                     id: rotateLeftButton
                     iconSource: "image://theme/rotate-left"
