@@ -62,7 +62,7 @@ Page {
             ToolButton{
                 iconSource: "image://theme/info"
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("ImageInfoPage.qml"), {visibleIndex: imageController.visibleIndex, galleryModel: imageController.galleryModel});
+                    pageStack.push(Qt.resolvedUrl("ImageInfoPage.qml"), {visibleIndex: parameterIndex, galleryModel: imageController.galleryModel});
                 }
             }
         ]
