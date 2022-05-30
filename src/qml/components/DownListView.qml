@@ -45,7 +45,7 @@ Item{
     Rectangle{
         id: background
         anchors.fill: parent
-        color: "black"
+        color: Theme.backgroundColor
         opacity: 0.5
     }
 
@@ -61,7 +61,10 @@ Item{
             width: height
 
             Image{
+                asynchronous: true
                 anchors.centerIn: parent
+                sourceSize.width: Theme.itemHeightLarge
+                sourceSize.height: Theme.itemHeightLarge
                 source: gallery.isVideo(url) ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" :  url
                 fillMode: Image.PreserveAspectFit
                 height: index === currentIndex ? parent.width : parent.width*0.8
