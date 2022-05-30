@@ -61,6 +61,7 @@ Item{
             width: height
 
             Image{
+                asynchronous: true
                 anchors.centerIn: parent
                 source: gallery.isVideo(url) ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" :  url
                 fillMode: Image.PreserveAspectFit
