@@ -94,7 +94,6 @@ Item {
             width: imgContainer.width
             height: imgContainer.height
             fillMode: Image.PreserveAspectFit
-            asynchronous: true
 
             source: isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : imgContainer.source
 
