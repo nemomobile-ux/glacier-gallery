@@ -74,17 +74,20 @@ Page {
         id: previosImage;
         anchors.right: currentImage.left
         visible: source != ""
+        asynchronous: true
     }
 
     ImageContainer {
         id: currentImage;
         source: galleryModel.get(parameterIndex).url
+        asynchronous: false
     }
 
     ImageContainer {
         id: nextImage;
         anchors.left: currentImage.right
         visible: source != ""
+        asynchronous: true
     }
 
     ZoomController {

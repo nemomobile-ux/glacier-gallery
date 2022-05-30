@@ -46,6 +46,7 @@ Item {
     property int doubleClickInterval: 350
     property alias image: img
     property int videoThumbnailSize: 480
+    property alias asynchronous: img.asynchronous
 
     //this long ternary conditional expression is to make so that the size is not changed before the screen rotates.
     //i.e. if you just use screen.platformHeight/Width the container will resize BEFORE the orientation change
