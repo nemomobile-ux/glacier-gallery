@@ -31,7 +31,7 @@ class EditableImage : public QQuickPaintedItem
 
 public:
     explicit EditableImage(QQuickItem *parent = nullptr);
-    void paint(QPainter *painter);
+    void paint(QPainter *painter) override;
 
 
     QString source() {return m_source;}
@@ -42,14 +42,44 @@ public:
     Q_INVOKABLE void flipHorizontaly();
     Q_INVOKABLE void flipVetricaly();
 
+    Q_INVOKABLE void showCropper();
+    Q_INVOKABLE void hideCropper();
+
     Q_INVOKABLE void save(bool replace = false);
 
 signals:
     void sourceChanged();
 
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void touchEvent(QTouchEvent *event) override;
+
 private:
     QString m_source;
     QImage m_image;
+
+    bool m_mouseButtonPressed;
+
+    bool m_cropperVisible;
+    QRectF m_cropperRect;
+
+    QRectF m_topSelectionDot;
+    QRectF m_leftSelectionDot;
+    QRectF m_rightSelectionDot;
+    QRectF m_bottomSelectionDot;
+
+    bool m_topSelectionDotPressed;
+    bool m_leftSelectionDotPressed;
+    bool m_rightSelectionDotPressed;
+    bool m_bottomSelectionDotPressed;
+    bool m_cropperRectSelected;
+
+    float m_cropperRectSelectedOffsetX;
+    float m_cropperRectSelectedOffsetY;
+
+    bool moveCropperRect(QMouseEvent *event);
 };
 
 #endif // EDITABLEIMAGE_H

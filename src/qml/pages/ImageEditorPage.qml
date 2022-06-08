@@ -92,6 +92,16 @@ Page {
                         edited = true
                     }
                 }
+                ToolButton {
+                    id: cropButton
+                    iconSource: "image://theme/crop"
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    onClicked: {
+                        editableImage.showCropper();
+                        appWindow.header.closeDrawer();
+                    }
+                }
             }
         ]
     }
