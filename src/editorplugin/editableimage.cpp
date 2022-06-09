@@ -186,6 +186,12 @@ void EditableImage::flipVetricaly()
     update();
 }
 
+void EditableImage::makeCrop()
+{
+    m_image = m_image.copy(m_cropperRect.toRect());
+    update();
+}
+
 void EditableImage::save(bool replace)
 {
     QString fileName = m_source;

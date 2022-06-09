@@ -46,6 +46,8 @@ public:
     Q_INVOKABLE void flipHorizontaly();
     Q_INVOKABLE void flipVetricaly();
 
+    Q_INVOKABLE void makeCrop();
+
     Q_INVOKABLE void save(bool replace = false);
 
 signals:

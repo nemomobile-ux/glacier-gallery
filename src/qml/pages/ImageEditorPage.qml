@@ -109,5 +109,16 @@ Page {
     EditableImage{
         id: editableImage
         anchors.fill: parent
+
+        Button{
+            text: qsTr("Make crop")
+            onClicked: editableImage.makeCrop();
+            visible: editableImage.cropping
+
+            anchors{
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
     }
 }
