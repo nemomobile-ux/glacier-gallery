@@ -75,9 +75,10 @@ private:
     bool m_rightSelectionDotPressed;
     bool m_bottomSelectionDotPressed;
     bool m_cropperRectSelected;
+    bool m_newCroppSeleced;
 
-    float m_cropperRectSelectedOffsetX;
-    float m_cropperRectSelectedOffsetY;
+    float m_firstTouchX;
+    float m_firstTouchY;
 
     bool moveCropperRect(QMouseEvent *event);
 };

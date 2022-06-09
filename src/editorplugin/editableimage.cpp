@@ -223,6 +223,7 @@ void EditableImage::mouseReleaseEvent(QMouseEvent *event)
     m_rightSelectionDotPressed = false;
     m_bottomSelectionDotPressed = false;
     m_cropperRectSelected = false;
+    m_newCroppSeleced = false;
 }
 
 void EditableImage::mouseMoveEvent(QMouseEvent *event)
@@ -251,7 +252,8 @@ check points
             !m_leftSelectionDotPressed &&
             !m_rightSelectionDotPressed &&
             !m_bottomSelectionDotPressed &&
-            !m_cropperRectSelected) {
+            !m_cropperRectSelected &&
+            !m_newCroppSeleced) {
         if(m_topSelectionDot.contains(event->pos())) {
             m_topSelectionDotPressed = true;
         } else if(m_leftSelectionDot.contains(event->pos())) {
@@ -262,8 +264,12 @@ check points
             m_bottomSelectionDotPressed = true;
         } else if(m_cropperRect.contains(event->pos())) {
             m_cropperRectSelected = true;
-            m_cropperRectSelectedOffsetX = -m_cropperRect.x()+event->pos().x();
-            m_cropperRectSelectedOffsetY = -m_cropperRect.y()+event->pos().y();
+            m_firstTouchX = -m_cropperRect.x()+event->pos().x();
+            m_firstTouchY = -m_cropperRect.y()+event->pos().y();
+        } else {
+            m_newCroppSeleced = true;
+            m_firstTouchX = event->pos().x();
+            m_firstTouchY = event->pos().y();
         }
     }
 
@@ -288,10 +294,18 @@ check points
     }
 
     if(m_cropperRectSelected) {
-        m_cropperRect.setRect(event->pos().x()-m_cropperRectSelectedOffsetX
-                              ,event->pos().y()-m_cropperRectSelectedOffsetY
-                              ,m_cropperRect.width()
-                              ,m_cropperRect.height());
+        m_cropperRect.setRect(event->pos().x()-m_firstTouchX
+                              , event->pos().y()-m_firstTouchY
+                              , m_cropperRect.width()
+                              , m_cropperRect.height());
+        return true;
+    }
+
+    if(m_newCroppSeleced) {
+        m_cropperRect.setRect(m_firstTouchX
+                              , m_firstTouchY
+                              , event->pos().x() - m_firstTouchX
+                              , event->pos().y() - m_firstTouchY);
         return true;
     }
 
