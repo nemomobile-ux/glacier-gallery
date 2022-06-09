@@ -27,6 +27,7 @@ EditableImage::EditableImage(QQuickItem *parent)
     , m_source("")
     , m_mouseButtonPressed(false)
     , m_cropping(false)
+    , m_imageRect(QRectF())
     , m_cropperRect(QRectF())
     , m_topSelectionDot(QRectF())
     , m_leftSelectionDot(QRectF())
@@ -52,19 +53,20 @@ Draw background
 Calculate image size and offset for fit image
 */
     QImage drawImage = m_image.scaled(itemSize.toSize(), Qt::AspectRatioMode::KeepAspectRatio);
-    int offsetX, offsetY;
-    offsetX = (itemSize.width() - drawImage.width())/2;
-    offsetY = (itemSize.height() - drawImage.height())/2;
+    m_imageRect.setX((itemSize.width() - drawImage.width())/2);
+    m_imageRect.setY((itemSize.height() - drawImage.height())/2);
+    m_imageRect.setWidth(drawImage.width());
+    m_imageRect.setHeight(drawImage.height());
 
-    if(offsetX < 0) {
-        offsetX = 0;
+    if(m_imageRect.x() < 0) {
+         m_imageRect.setX(0);
     }
 
-    if(offsetY < 0) {
-        offsetY = 0;
+    if(m_imageRect.y() < 0) {
+        m_imageRect.setY(0);
     }
 
-    painter->drawImage(offsetX, offsetY,drawImage);
+    painter->drawImage(m_imageRect.x(), m_imageRect.y(),drawImage);
 
     /*
 Cropper
@@ -72,10 +74,7 @@ Cropper
     if(m_cropping) {
         /*If cropper not run before set center and width*/
         if(m_cropperRect == QRectF()) {
-            m_cropperRect.setX(offsetX);
-            m_cropperRect.setY(offsetY);
-            m_cropperRect.setWidth(drawImage.width());
-            m_cropperRect.setHeight(drawImage.height());
+            m_cropperRect = m_imageRect;
         }
         // Need create api for get currrent theme color
         //                        accentColor
@@ -270,28 +269,65 @@ check points
     }
 
     if(m_topSelectionDotPressed) {
-        m_cropperRect.setY(event->pos().y());
+        float newY = event->pos().y();
+        if(newY < m_imageRect.y()) {
+            newY = m_imageRect.y();
+        }
+        m_cropperRect.setY(newY);
         return true;
     }
 
     if(m_leftSelectionDotPressed) {
-        m_cropperRect.setX(event->pos().x());
+        float newX = event->pos().x();
+        if(newX < m_imageRect.x()) {
+            newX = m_imageRect.x();
+        }
+        m_cropperRect.setX(newX);
         return true;
     }
 
     if(m_rightSelectionDotPressed) {
-        m_cropperRect.setWidth(event->pos().x()-m_cropperRect.x());
+        float newWidth = event->pos().x()-m_cropperRect.x();
+        if(newWidth+m_cropperRect.x() > m_imageRect.width()+m_imageRect.x()) {
+            newWidth = m_imageRect.width()-m_cropperRect.x();
+        }
+        m_cropperRect.setWidth(newWidth);
         return true;
     }
 
     if(m_bottomSelectionDotPressed) {
-        m_cropperRect.setHeight(event->pos().y()-m_cropperRect.y());
+        float newHeight = event->pos().y()-m_cropperRect.y();
+        if(newHeight+m_cropperRect.y() > m_imageRect.height()+m_imageRect.y()) {
+            newHeight = m_imageRect.height()-m_cropperRect.x();
+        }
+
+        m_cropperRect.setHeight(newHeight);
         return true;
     }
 
     if(m_cropperRectSelected) {
-        m_cropperRect.setRect(event->pos().x()-m_firstTouchX
-                              , event->pos().y()-m_firstTouchY
+        float newX = event->pos().x()-m_firstTouchX;
+        float newY = event->pos().y()-m_firstTouchY;
+
+        if(newX < m_imageRect.x()) {
+            newX = m_imageRect.x();
+        }
+
+        if(newX+m_cropperRect.width() > m_imageRect.x()+m_imageRect.width()){
+            newX = m_imageRect.x()+m_imageRect.width()-m_cropperRect.width();
+        }
+
+        if(newY < m_imageRect.y()) {
+            newY = m_imageRect.y();
+        }
+
+        if(newY+m_cropperRect.height() > m_imageRect.y()+m_imageRect.height()){
+            newY = m_imageRect.y()+m_imageRect.height()-m_cropperRect.height();
+        }
+
+
+        m_cropperRect.setRect( newX
+                              , newY
                               , m_cropperRect.width()
                               , m_cropperRect.height());
         return true;

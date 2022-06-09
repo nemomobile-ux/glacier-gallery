@@ -65,6 +65,7 @@ private:
     bool m_mouseButtonPressed;
 
     bool m_cropping;
+    QRectF m_imageRect;
     QRectF m_cropperRect;
 
     QRectF m_topSelectionDot;
