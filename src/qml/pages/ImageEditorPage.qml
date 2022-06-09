@@ -98,7 +98,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
 
                     onClicked: {
-                        editableImage.showCropper();
+                        editableImage.cropping = !editableImage.cropping;
                         appWindow.header.closeDrawer();
                     }
                 }

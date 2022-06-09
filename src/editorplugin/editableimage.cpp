@@ -26,7 +26,7 @@ EditableImage::EditableImage(QQuickItem *parent)
     : QQuickPaintedItem(parent)
     , m_source("")
     , m_mouseButtonPressed(false)
-    , m_cropperVisible(false)
+    , m_cropping(false)
     , m_cropperRect(QRectF())
     , m_topSelectionDot(QRectF())
     , m_leftSelectionDot(QRectF())
@@ -69,7 +69,7 @@ Calculate image size and offset for fit image
     /*
 Cropper
 */
-    if(m_cropperVisible) {
+    if(m_cropping) {
         /*If cropper not run before set center and width*/
         if(m_cropperRect == QRectF()) {
             m_cropperRect.setX(offsetX);
@@ -127,7 +127,10 @@ void EditableImage::setSource(QString source)
             emit sourceChanged();
 
             m_cropperRect = QRect(0,0,0,0);
-            m_cropperVisible = false;
+            if(m_cropping) {
+                emit croppingChanged();
+                m_cropping = false;
+            }
 
             update();
         } else {
@@ -135,6 +138,15 @@ void EditableImage::setSource(QString source)
         }
     } else {
         qWarning() << "Wrong image path" << source;
+    }
+}
+
+void EditableImage::setCropping(bool cropping)
+{
+    if(m_cropping != cropping) {
+        m_cropping = cropping;
+        emit croppingChanged();
+        update();
     }
 }
 
@@ -173,22 +185,6 @@ void EditableImage::flipVetricaly()
     }
     m_image = m_image.mirrored(true, false);
     update();
-}
-
-void EditableImage::showCropper()
-{
-    if(!m_cropperVisible) {
-        m_cropperVisible = true;
-        update();
-    }
-}
-
-void EditableImage::hideCropper()
-{
-    if(m_cropperVisible) {
-        m_cropperVisible = false;
-        update();
-    }
 }
 
 void EditableImage::save(bool replace)
@@ -230,7 +226,7 @@ void EditableImage::mouseMoveEvent(QMouseEvent *event)
 {
     if(m_mouseButtonPressed) {
         /* if cropper wisible*/
-        if(m_cropperVisible) {
+        if(m_cropping) {
             if(moveCropperRect(event)) {
                 update();
             }

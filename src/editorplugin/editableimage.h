@@ -28,6 +28,7 @@ class EditableImage : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
+    Q_PROPERTY(bool cropping READ cropping WRITE setCropping NOTIFY croppingChanged)
 
 public:
     explicit EditableImage(QQuickItem *parent = nullptr);
@@ -37,18 +38,19 @@ public:
     QString source() {return m_source;}
     void setSource(QString source);
 
+    bool cropping() {return m_cropping;}
+    void setCropping(bool cropping);
+
     Q_INVOKABLE void rotateLeft();
     Q_INVOKABLE void rotateRight();
     Q_INVOKABLE void flipHorizontaly();
     Q_INVOKABLE void flipVetricaly();
 
-    Q_INVOKABLE void showCropper();
-    Q_INVOKABLE void hideCropper();
-
     Q_INVOKABLE void save(bool replace = false);
 
 signals:
     void sourceChanged();
+    void croppingChanged();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -62,7 +64,7 @@ private:
 
     bool m_mouseButtonPressed;
 
-    bool m_cropperVisible;
+    bool m_cropping;
     QRectF m_cropperRect;
 
     QRectF m_topSelectionDot;
