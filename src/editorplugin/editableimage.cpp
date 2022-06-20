@@ -52,7 +52,7 @@ Draw background
     /*
 Calculate image size and offset for fit image
 */
-    QImage drawImage = m_image.scaled(itemSize.toSize(), Qt::AspectRatioMode::KeepAspectRatio);
+    QImage drawImage = m_imageCache.last().scaled(itemSize.toSize(), Qt::AspectRatioMode::KeepAspectRatio);
     m_imageRect.setX((itemSize.width() - drawImage.width())/2);
     m_imageRect.setY((itemSize.height() - drawImage.height())/2);
     m_imageRect.setWidth(drawImage.width());
@@ -121,7 +121,10 @@ void EditableImage::setSource(QString source)
     source = source.remove("file://");
 
     if(source != m_source && !source.isEmpty() && QFile::exists(source)) {
-        if(m_image.load(source)) {
+        QImage image;
+        if(image.load(source)) {
+            m_imageCache.clear();
+            m_imageCache.append(image);
             m_source = source;
             emit sourceChanged();
 
@@ -151,44 +154,48 @@ void EditableImage::setCropping(bool cropping)
 
 void EditableImage::rotateLeft()
 {
-    if(m_image.isNull()) {
+    if(m_imageCache.length() == 0) {
         return;
     }
-    m_image = m_image.transformed(QTransform().rotate(-90.0));
+    m_imageCache.append(m_imageCache.last().transformed(QTransform().rotate(-90.0)));
     update();
 }
 
 void EditableImage::rotateRight()
 {
-    if(m_image.isNull()) {
+    if(m_imageCache.length() == 0) {
         return;
     }
 
-    m_image = m_image.transformed(QTransform().rotate(90.0));
+    m_imageCache.append(m_imageCache.last().transformed(QTransform().rotate(90.0)));
     update();
 }
 
 void EditableImage::flipHorizontaly()
 {
-    if(m_image.isNull()) {
+    if(m_imageCache.length() == 0) {
         return;
     }
-    m_image = m_image.mirrored(false, true);
+    m_imageCache.append(m_imageCache.last().mirrored(false, true));
     update();
 }
 
 void EditableImage::flipVetricaly()
 {
-    if(m_image.isNull()) {
+    if(m_imageCache.length() == 0) {
         return;
     }
-    m_image = m_image.mirrored(true, false);
+    m_imageCache.append(m_imageCache.last().mirrored(true, false));
     update();
 }
 
 void EditableImage::makeCrop()
 {
-    m_image = m_image.copy(m_cropperRect.toRect());
+    if(m_imageCache.length() == 0) {
+        return;
+    }
+
+    m_imageCache.append(m_imageCache.last().copy(m_cropperRect.toRect()));
     update();
 }
 
@@ -205,7 +212,7 @@ void EditableImage::save(bool replace)
         }
     }
 
-    m_image.save(fileName);
+    m_imageCache.last().save(fileName);
     m_source = fileName;
     emit sourceChanged();
 }

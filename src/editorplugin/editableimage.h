@@ -62,7 +62,7 @@ protected:
 
 private:
     QString m_source;
-    QImage m_image;
+    QList<QImage> m_imageCache;
 
     bool m_mouseButtonPressed;
 
