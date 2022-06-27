@@ -2,10 +2,16 @@
 <context>
     <name>ImageEditorPage</name>
     <message>
-        <location filename="../src/qml/pages/ImageEditorPage.qml" line="16"/>
-        <location filename="../src/qml/pages/ImageEditorPage.qml" line="16"/>
+        <location filename="../src/qml/pages/ImageEditorPage.qml" line="39"/>
+        <location filename="../src/qml/pages/ImageEditorPage.qml" line="39"/>
         <source>Edit</source>
         <translation>Upravit</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/pages/ImageEditorPage.qml" line="114"/>
+        <location filename="../src/qml/pages/ImageEditorPage.qml" line="114"/>
+        <source>Make crop</source>
+        <translation>Vyříznout</translation>
     </message>
 </context>
 <context>
