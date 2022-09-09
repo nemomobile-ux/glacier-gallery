@@ -11,7 +11,7 @@
         <location filename="../src/qml/pages/ImageEditorPage.qml" line="114"/>
         <location filename="../src/qml/pages/ImageEditorPage.qml" line="114"/>
         <source>Make crop</source>
-        <translation>Beschneiden</translation>
+        <translation>Zuschneiden</translation>
     </message>
 </context>
 <context>
