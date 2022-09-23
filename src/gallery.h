@@ -38,20 +38,19 @@
 class QQuickView;
 class QString;
 
-class Gallery : public QObject
-{
+class Gallery : public QObject {
     Q_OBJECT
 
 public:
-    explicit Gallery(QObject *parent = 0);
+    explicit Gallery(QObject* parent = 0);
 
 public slots:
     void acquireVideoResources();
     int isVideo(QUrl fileName);
-    QString fileToOpen(){return m_fileToOpen;}
+    QString fileToOpen() { return m_fileToOpen; }
 
 private:
-    ResourcePolicy::ResourceSet *m_resources;
+    ResourcePolicy::ResourceSet* m_resources;
     QString m_fileToOpen;
 };
 

@@ -29,25 +29,25 @@
  */
 
 #include "gallery.h"
-#include <QQuickView>
-#include <QtQml>
-#include <QGuiApplication>
-#include <QDir>
 #include <QDebug>
+#include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QUrl>
-#include <QQuickItem>
+#include <QGuiApplication>
 #include <QImageReader>
+#include <QQuickItem>
+#include <QQuickView>
+#include <QUrl>
+#include <QtQml>
 
-Gallery::Gallery(QObject *parent)
+Gallery::Gallery(QObject* parent)
     : QObject(parent)
     , m_fileToOpen("")
 {
-    if(QCoreApplication::arguments().length() > 1) {
+    if (QCoreApplication::arguments().length() > 1) {
         QString cmd = QCoreApplication::arguments().at(1);
-        if(!cmd.isEmpty()) {
-            if(isVideo(cmd) != -1) {
+        if (!cmd.isEmpty()) {
+            if (isVideo(cmd) != -1) {
                 m_fileToOpen = cmd;
             }
         }
@@ -59,7 +59,7 @@ void Gallery::acquireVideoResources()
     m_resources->addResource(ResourcePolicy::VideoPlaybackType);
 
     m_resources->deleteResource(ResourcePolicy::AudioPlaybackType);
-    ResourcePolicy::AudioResource *audio = new ResourcePolicy::AudioResource("player");
+    ResourcePolicy::AudioResource* audio = new ResourcePolicy::AudioResource("player");
     audio->setProcessID(QGuiApplication::applicationPid());
     audio->setStreamTag("media.name", "*");
     m_resources->addResourceObject(audio);
@@ -70,26 +70,22 @@ void Gallery::acquireVideoResources()
 
 int Gallery::isVideo(QUrl fileUrl)
 {
-    if(fileUrl.isEmpty()) {
+    if (fileUrl.isEmpty()) {
         return -1;
     }
 
-    //RETURN VALUES
+    // RETURN VALUES
     //-1: ERROR, 0: IMAGE, 1: VIDEO
     QString filePath = fileUrl.toLocalFile();
 
     QFileInfo testFile(filePath);
-    if (testFile.exists())
-    {
+    if (testFile.exists()) {
         QImageReader reader(filePath);
         QByteArray format = reader.format();
-        if (format.isNull() && reader.error() == QImageReader::UnsupportedFormatError)
-        {
-            //we assume it's a video
+        if (format.isNull() && reader.error() == QImageReader::UnsupportedFormatError) {
+            // we assume it's a video
             return 1;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
