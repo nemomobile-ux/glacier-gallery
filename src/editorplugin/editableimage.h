@@ -24,21 +24,19 @@
 #include <QObject>
 #include <QQuickPaintedItem>
 
-class EditableImage : public QQuickPaintedItem
-{
+class EditableImage : public QQuickPaintedItem {
     Q_OBJECT
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(bool cropping READ cropping WRITE setCropping NOTIFY croppingChanged)
 
 public:
-    explicit EditableImage(QQuickItem *parent = nullptr);
-    void paint(QPainter *painter) override;
+    explicit EditableImage(QQuickItem* parent = nullptr);
+    void paint(QPainter* painter) override;
 
-
-    QString source() {return m_source;}
+    QString source() { return m_source; }
     void setSource(QString source);
 
-    bool cropping() {return m_cropping;}
+    bool cropping() { return m_cropping; }
     void setCropping(bool cropping);
 
     Q_INVOKABLE void rotateLeft();
@@ -55,10 +53,10 @@ signals:
     void croppingChanged();
 
 protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void touchEvent(QTouchEvent *event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void touchEvent(QTouchEvent* event) override;
 
 private:
     QString m_source;
@@ -85,7 +83,7 @@ private:
     float m_firstTouchX;
     float m_firstTouchY;
 
-    bool moveCropperRect(QMouseEvent *event);
+    bool moveCropperRect(QMouseEvent* event);
 };
 
 #endif // EDITABLEIMAGE_H

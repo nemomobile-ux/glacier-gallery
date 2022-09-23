@@ -35,35 +35,34 @@
 
 #include <QGuiApplication>
 #include <QQuickView>
-#include <QtQml>
 #include <QScreen>
+#include <QtQml>
 
-#include <glacierapp.h>
 #include "gallery.h"
+#include <glacierapp.h>
 
-Q_DECL_EXPORT int main(int argc, char **argv)
+Q_DECL_EXPORT int main(int argc, char** argv)
 {
-    QGuiApplication *app = GlacierApp::app(argc, argv);
+    QGuiApplication* app = GlacierApp::app(argc, argv);
     app->setOrganizationName("NemoMobile");
 
     QScreen* sc = app->primaryScreen();
-    if(sc){
+    if (sc) {
         sc->setOrientationUpdateMask(Qt::LandscapeOrientation
-                             | Qt::PortraitOrientation
-                             | Qt::InvertedLandscapeOrientation
-                             | Qt::InvertedPortraitOrientation);
+            | Qt::PortraitOrientation
+            | Qt::InvertedLandscapeOrientation
+            | Qt::InvertedPortraitOrientation);
     }
 
-    QQmlApplicationEngine *engine = GlacierApp::engine(app);
-    QQmlContext *context = engine->rootContext();
+    QQmlApplicationEngine* engine = GlacierApp::engine(app);
+    QQmlContext* context = engine->rootContext();
 
-    Gallery *gallery = new Gallery();
+    Gallery* gallery = new Gallery();
     context->setContextProperty("gallery", gallery);
 
-    QQuickWindow *window = GlacierApp::showWindow();
+    QQuickWindow* window = GlacierApp::showWindow();
     window->setIcon(QIcon("/usr/share/glacier-gallery/images/icon-app-gallery.png"));
     window->setTitle(QObject::tr("Gallery"));
 
     return app->exec();
 }
-
