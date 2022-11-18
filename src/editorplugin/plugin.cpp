@@ -22,6 +22,8 @@
 #include <QQmlEngine>
 #include <QQmlExtensionPlugin>
 
+#include "roratewidget.h"
+
 class Q_DECL_EXPORT GlacierPackageManagerPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
@@ -38,6 +40,7 @@ public:
     void registerTypes(const char *uri)
     {
         Q_ASSERT(uri == QLatin1String("org.glacier.imageeditor"));
+        qmlRegisterType<RorateWidget>(uri,1,0,"Rorate");
     }
 };
 
