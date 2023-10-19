@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
- * Copyright (C) 2017 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2023 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.6
+import QtQuick
 
 Image {
     id: del

@@ -13,24 +13,23 @@ set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "..." FORCE)
 include(FeatureSummary)
 include(GNUInstallDirs)
 
-set(QT_MIN_VERSION "5.11.0")
-find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS Gui Qml Quick LinguistTools REQUIRED)
-find_package(Glacier 0.8 COMPONENTS App REQUIRED)
-find_package(Qt5QuickCompiler)
+set(QT_MIN_VERSION "6.0.0")
+find_package(Qt6 ${QT_MIN_VERSION} COMPONENTS Gui Qml Quick LinguistTools REQUIRED)
+find_package(Glacier 1.0 COMPONENTS App REQUIRED)
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBRESOURCEQT libresourceqt5 REQUIRED IMPORTED_TARGET)
+pkg_check_modules(LIBRESOURCEQT libresourceqt6 REQUIRED IMPORTED_TARGET)
 
 if(LIBRESOURCEQT_FOUND)
-	set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND libresourceqt5)
+	set_property(GLOBAL APPEND PROPERTY PACKAGES_FOUND libresourceqt6)
 else()
-	set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND libresourceqt5)
+	set_property(GLOBAL APPEND PROPERTY PACKAGES_NOT_FOUND libresourceqt6)
 endif()
 
 add_subdirectory(src)
 
 # Translations
 file(GLOB TS_FILES translations/*.ts)
-qt5_add_translation(QM_FILES ${TS_FILES})
+qt_add_translation(QM_FILES ${TS_FILES})
 add_custom_target(translations DEPENDS ${QM_FILES})
 add_dependencies(glacier-gallery translations)
 

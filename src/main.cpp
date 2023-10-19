@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 Robin Burchell <robin+mer@viroteck.net>
- *
+ * Copyright (C) 2023 Chupligin Sergey <neochapay@gmail.com>
  * You may use this file under the terms of the BSD license as follows:
  *
  * "Redistribution and use in source and binary forms, with or without
@@ -45,14 +45,6 @@ Q_DECL_EXPORT int main(int argc, char** argv)
 {
     QGuiApplication* app = GlacierApp::app(argc, argv);
     app->setOrganizationName("NemoMobile");
-
-    QScreen* sc = app->primaryScreen();
-    if (sc) {
-        sc->setOrientationUpdateMask(Qt::LandscapeOrientation
-            | Qt::PortraitOrientation
-            | Qt::InvertedLandscapeOrientation
-            | Qt::InvertedPortraitOrientation);
-    }
 
     QQmlApplicationEngine* engine = GlacierApp::engine(app);
     QQmlContext* context = engine->rootContext();

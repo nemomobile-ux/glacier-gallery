@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- *
+ * Copyright (C) 2023 Chupligin Sergey <neochapay@gmail.com>
  * You may use this file under the terms of the BSD license as follows:
  *
  * "Redistribution and use in source and binary forms, with or without
@@ -29,11 +29,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 2.6
+import QtQuick
+import QtQuick.Controls
 
-import QtQuick.Controls 1.0
-import QtQuick.Controls.Nemo 1.0
-import QtQuick.Controls.Styles.Nemo 1.0
+import Nemo
+import Nemo.Controls
 
 import QtDocGallery 5.0
 

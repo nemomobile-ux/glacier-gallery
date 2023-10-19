@@ -1,6 +1,6 @@
 ### Sets QT_INSTALL_QML to the directory where QML Plugins should be installed
 function(FindQtInstallQml)
-    find_program(QMAKE NAMES qmake-qt5 qmake)
+    find_program(QMAKE NAMES qmake6 qmake)
     if(NOT QMAKE)
     message(FATAL_ERROR "qmake not found")
     endif()
@@ -17,16 +17,16 @@ set(SRC
 	gallery.cpp
 	gallery.h)
 
-qtquick_compiler_add_resources(RESOURCES qml/glacier-gallery.qrc)
+qt_add_resources(RESOURCES qml/glacier-gallery.qrc)
 
 add_subdirectory(editorplugin)
 
 add_executable(glacier-gallery ${SRC} ${RESOURCES})
 
 target_link_libraries(glacier-gallery
-	Qt5::Gui
-	Qt5::Qml
-	Qt5::Quick
+	Qt6::Gui
+	Qt6::Qml
+	Qt6::Quick
 	Glacier::App
 	PkgConfig::LIBRESOURCEQT)
 

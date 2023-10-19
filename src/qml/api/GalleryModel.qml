@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2022 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2022-2023 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,7 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
-import QtQuick 2.6
+import QtQuick
 import QtQml.Models 2.15
 import QtDocGallery 5.0
 
