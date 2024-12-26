@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2024 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -17,30 +17,18 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <QQmlEngine>
+
+#ifndef PLUGIN_H
+#define PLUGIN_H
+
 #include <QQmlExtensionPlugin>
-#include <QtGlobal>
-#include <QtQml>
 
-#include "editableimage.h"
-
-class Q_DECL_EXPORT GlacierImageEditorPlugin : public QQmlExtensionPlugin {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.glacier.imageeditor")
+class QQuickNemoControlsExtensionPlugin : public QQmlExtensionPlugin {
 public:
-    virtual ~GlacierImageEditorPlugin() { }
-
-    void initializeEngine(QQmlEngine*, const char* uri)
-    {
-        Q_ASSERT(uri == QLatin1String("org.glacier.imageeditor"));
-        qmlRegisterModule(uri, 1, 0);
-    }
-
-    void registerTypes(const char* uri)
-    {
-        Q_ASSERT(uri == QLatin1String("org.glacier.imageeditor"));
-        qmlRegisterType<EditableImage>(uri, 1, 0, "EditableImage");
-    }
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID QQmlEngineExtensionInterface_iid FILE "glacier.gallery.json")
+public:
+    void registerTypes(const char* uri);
 };
 
-#include "plugin.moc"
+#endif // PLUGIN_H

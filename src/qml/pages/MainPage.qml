@@ -37,14 +37,10 @@ import QtQuick.Layouts
 import Nemo
 import Nemo.Controls
 
-import org.nemomobile.gallery 1.0
-import QtDocGallery 5.0
-
+import Glacier.Gallery
 
 Page {
     id: mainPage
-    width: parent.width;
-    height: parent.height;
     headerTools: mainTools
 
     GalleryView {

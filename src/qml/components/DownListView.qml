@@ -35,8 +35,6 @@ import QtQuick.Controls
 import Nemo
 import Nemo.Controls
 
-import QtDocGallery 5.0
-
 Item{
     id: downListView
     property alias model: littleImagesListView.model

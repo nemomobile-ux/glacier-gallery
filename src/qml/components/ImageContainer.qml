@@ -35,8 +35,6 @@ import QtQuick.Controls
 import Nemo
 import Nemo.Controls
 
-import QtDocGallery 5.0
-
 Item {
     id: imgContainer
     property int index: -1
