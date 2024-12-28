@@ -23,22 +23,21 @@
 #include <QAbstractListModel>
 #include <QFileSystemWatcher>
 
-class GalleryModel : public QAbstractListModel
-{
+class GalleryModel : public QAbstractListModel {
     Q_OBJECT
     Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged FINAL)
     Q_PROPERTY(bool error READ error NOTIFY errorChanged FINAL)
     Q_PROPERTY(GalleryModel::FilterMode filter READ filter WRITE setFilter NOTIFY filterChanged FINAL)
 
 public:
-    enum FilterMode{
+    enum FilterMode {
         All,
         Images,
         Video
     };
     Q_ENUMS(Filter)
 
-    explicit GalleryModel(QObject *parent = nullptr);
+    explicit GalleryModel(QObject* parent = nullptr);
     virtual ~GalleryModel();
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const;

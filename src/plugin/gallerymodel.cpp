@@ -22,8 +22,8 @@
 #include <QMimeDatabase>
 #include <QStandardPaths>
 
-GalleryModel::GalleryModel(QObject *parent)
-    : QAbstractListModel{parent}
+GalleryModel::GalleryModel(QObject* parent)
+    : QAbstractListModel { parent }
     , m_loading(false)
     , m_error(false)
     , m_filter(FilterMode::All)
@@ -41,17 +41,17 @@ GalleryModel::GalleryModel(QObject *parent)
 
 GalleryModel::~GalleryModel()
 {
-    if(m_fileSystemWatcher != nullptr) {
+    if (m_fileSystemWatcher != nullptr) {
         delete m_fileSystemWatcher;
     }
 }
 
-int GalleryModel::rowCount(const QModelIndex &parent) const
+int GalleryModel::rowCount(const QModelIndex& parent) const
 {
     return m_files.count();
 }
 
-QVariant GalleryModel::data(const QModelIndex &index, int role) const
+QVariant GalleryModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
@@ -90,12 +90,12 @@ void GalleryModel::setFilter(FilterMode newFilter)
 
 void GalleryModel::addPath(QString url)
 {
-    if(!m_urls.contains(url)) {
+    if (!m_urls.contains(url)) {
         m_urls.append(url);
         emit urlsChanged();
     }
 
-    if(url.isEmpty()) {
+    if (url.isEmpty()) {
         m_urls.append(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation));
         emit urlsChanged();
     }
@@ -103,10 +103,10 @@ void GalleryModel::addPath(QString url)
 
 void GalleryModel::removePatch(QString url)
 {
-    if(url.isEmpty()) {
+    if (url.isEmpty()) {
         m_urls.clear();
         emit urlsChanged();
-    } else if(m_urls.contains(url)) {
+    } else if (m_urls.contains(url)) {
         m_urls.removeAll(url);
         emit urlsChanged();
     }
@@ -122,18 +122,18 @@ void GalleryModel::formatFileList()
 {
     QMimeDatabase db;
 
-    if(m_urls.empty()) {
+    if (m_urls.empty()) {
         addPath();
     }
 
-    foreach (const QString &dirString, m_urls) {
+    foreach (const QString& dirString, m_urls) {
         QDir dir(dirString);
         dir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
         dir.setSorting(QDir::Time | QDir::Reversed);
 
         QFileInfoList filelistinfo = dir.entryInfoList();
-        foreach (const QFileInfo &fileinfo, filelistinfo) {
-            if(m_mimeTypes.contains(db.mimeTypeForFile(fileinfo.absoluteFilePath()).name())) {
+        foreach (const QFileInfo& fileinfo, filelistinfo) {
+            if (m_mimeTypes.contains(db.mimeTypeForFile(fileinfo.absoluteFilePath()).name())) {
                 m_files.append(fileinfo.absoluteFilePath());
             }
         }
@@ -152,8 +152,8 @@ void GalleryModel::formatMimeTypes()
 
     m_mimeTypes << "inode/directory";
 
-    for (const QMimeType &mime : std::as_const(mimeList)) {
-        if(m_filter == FilterMode::All) {
+    for (const QMimeType& mime : std::as_const(mimeList)) {
+        if (m_filter == FilterMode::All) {
             if (mime.name().startsWith(QStringLiteral("image/")) || mime.name().startsWith(QStringLiteral("video/"))) {
                 m_mimeTypes << mime.name();
             }

@@ -17,7 +17,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
