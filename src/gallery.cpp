@@ -68,3 +68,7 @@ void Gallery::acquireVideoResources()
     m_resources->update();
     m_resources->acquire();
 }
+bool Gallery::isVideo(QString url)
+{
+    return false;
+}

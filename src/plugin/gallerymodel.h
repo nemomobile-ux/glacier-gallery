@@ -71,6 +71,9 @@ public:
     Q_INVOKABLE QString sizeTotext(float size);
     Q_INVOKABLE bool isVideo(int index);
 
+public slots:
+    QVariant get(const int idx);
+
 signals:
     void sortPropertiesChanged();
     void loadingChanged();

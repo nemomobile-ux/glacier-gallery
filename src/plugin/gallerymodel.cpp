@@ -268,3 +268,17 @@ bool GalleryModel::isVideo(int index)
     }
     return false;
 }
+
+QVariant GalleryModel::get(const int idx)
+{
+    if (idx >= m_files.size()) {
+        return QVariant();
+    }
+
+    QMap<QString, QVariant> itemData;
+    QString item = m_files.at(idx);
+
+    itemData.insert("url", item);
+
+    return QVariant(itemData);
+}

@@ -43,6 +43,7 @@ class Gallery : public QObject {
 
 public:
     explicit Gallery(QObject* parent = 0);
+    Q_INVOKABLE bool isVideo(QString url);
 
 public slots:
     void acquireVideoResources();

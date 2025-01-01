@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
- * Copyright (C) 2017-2023 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2025 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -42,6 +42,9 @@ Image {
 
     asynchronous: true
     //index is -1 when filters the model is reinitialized (e.g. filters change) so we have to treat that case too
-    source: (index == -1) ? "" : (GridView.view.model.isVideo(index) ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg" : "image://nemoThumbnail/" + url)
+    source: (url == undefined) ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg"
+                                : (index == -1) ? ""
+                                : (GridView.view.model.isVideo(index) ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg"
+                                : "image://nemoThumbnail/" + url)
 }
 
