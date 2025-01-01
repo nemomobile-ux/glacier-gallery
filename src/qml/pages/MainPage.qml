@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2017-2024 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2025 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -81,9 +81,22 @@ Page {
     property int currentSort: -1
     ListModel {
         id: sortModel
-        ListElement { name: qsTr("None"); sortProperty: ""; ascending: false } // dummy
-        ListElement { name: qsTr("Name"); sortProperty: "fileName"; ascending: true }
-        ListElement { name: qsTr("Modified"); sortProperty: "lastModified"; ascending: true }
+        ListElement {
+            name: qsTr("None");
+            sortProperty: "none";
+        }
+        ListElement {
+            name: qsTr("Name");
+            sortProperty: "name";
+        }
+        ListElement {
+            name: qsTr("Modified");
+            sortProperty: "time";
+        }
+        ListElement {
+            name: qsTr("Size");
+            sortProperty: "size";
+        }
     }
 
     HeaderToolsLayout {
@@ -117,18 +130,13 @@ Page {
                     onCurrentIndexChanged: {
                         switch (filterButtons.currentIndex) {
                         case 0:
-                            var videoFilter = gallery.createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
-                            var imageFilter = gallery.createFilter(gallery, "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
-                            var bothFilter = gallery.createFiltersArray(gallery, "arraysFilter", "GalleryFilterUnion", [videoFilter, imageFilter])
-                            gallery.assignNewDestroyCurrent(bothFilter)
+                            gallery.filter = GalleryModel.AllFiles
                             break
                         case 1:
-                            var vidFilter = gallery.createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
-                            gallery.assignNewDestroyCurrent(vidFilter)
+                            gallery.filter = GalleryModel.OnlyVideo
                             break
                         case 2:
-                            var imgFilter = gallery.createFilter(gallery,  "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
-                            gallery.assignNewDestroyCurrent(imgFilter)
+                            gallery.filter = GalleryModel.OnlyImages
                             break
                         }
                     }
@@ -152,7 +160,18 @@ Page {
                     }
 
                     onCurrentIndexChanged: {
-                        gallery.sortProperties = [ sortModel.get(sortButtons.currentIndex).sortProperty ];
+                        if(sortModel.get(sortButtons.currentIndex).sortProperty == "none") {
+                            gallery.sortMode = GalleryModel.Unsorted;
+                        }
+                        if(sortModel.get(sortButtons.currentIndex).sortProperty == "name") {
+                            gallery.sortMode = GalleryModel.SortByName;
+                        }
+                        if(sortModel.get(sortButtons.currentIndex).sortProperty == "size") {
+                            gallery.sortMode = GalleryModel.SortBySize;
+                        }
+                        if(sortModel.get(sortButtons.currentIndex).sortProperty == "time") {
+                            gallery.sortMode = GalleryModel.SortByTime;
+                        }
                     }
                 }
             }

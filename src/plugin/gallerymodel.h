@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2024-2025 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -25,17 +25,28 @@
 
 class GalleryModel : public QAbstractListModel {
     Q_OBJECT
+
     Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged FINAL)
     Q_PROPERTY(bool error READ error NOTIFY errorChanged FINAL)
     Q_PROPERTY(GalleryModel::FilterMode filter READ filter WRITE setFilter NOTIFY filterChanged FINAL)
+    Q_PROPERTY(GalleryModel::SortMode sortMode READ sortMode WRITE setSortMode NOTIFY sortModeChanged FINAL)
 
 public:
     enum FilterMode {
-        All,
-        Images,
-        Video
+        AllFiles,
+        OnlyImages,
+        OnlyVideo
     };
-    Q_ENUMS(Filter)
+
+    enum SortMode {
+        SortByName = 0,
+        SortByTime,
+        SortBySize,
+        SortByType,
+        Unsorted = 255
+    };
+    Q_ENUMS(FilterMode)
+    Q_ENUMS(SortMode)
 
     explicit GalleryModel(QObject* parent = nullptr);
     virtual ~GalleryModel();
@@ -53,13 +64,16 @@ public:
     void addPath(QString url = "");
     void removePatch(QString url = "");
 
+    GalleryModel::SortMode sortMode() const;
+    void setSortMode(const GalleryModel::SortMode& newSort);
+
 signals:
     void sortPropertiesChanged();
     void loadingChanged();
     void errorChanged();
     void filterChanged();
-
     void urlsChanged();
+    void sortModeChanged();
 
 private slots:
     void onUrlsChanged();
@@ -71,6 +85,7 @@ private:
     bool m_loading;
     bool m_error;
     GalleryModel::FilterMode m_filter;
+    GalleryModel::SortMode m_sortMode;
 
     QStringList m_mimeTypes;
     QStringList m_urls;

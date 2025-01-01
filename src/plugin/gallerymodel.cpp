@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2024-2025 Chupligin Sergey <neochapay@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -26,7 +26,8 @@ GalleryModel::GalleryModel(QObject* parent)
     : QAbstractListModel { parent }
     , m_loading(false)
     , m_error(false)
-    , m_filter(FilterMode::All)
+    , m_filter(FilterMode::AllFiles)
+    , m_sortMode(SortMode::SortByTime)
     , m_fileSystemWatcher(new QFileSystemWatcher)
 {
     m_hash.insert(Qt::UserRole, QByteArray("url"));
@@ -84,6 +85,7 @@ void GalleryModel::setFilter(FilterMode newFilter)
     if (m_filter == newFilter)
         return;
     m_filter = newFilter;
+
     formatMimeTypes();
     emit filterChanged();
 }
@@ -120,16 +122,35 @@ void GalleryModel::onUrlsChanged()
 
 void GalleryModel::formatFileList()
 {
+    beginResetModel();
     QMimeDatabase db;
 
     if (m_urls.empty()) {
         addPath();
     }
 
+    m_files.clear();
+
     foreach (const QString& dirString, m_urls) {
         QDir dir(dirString);
         dir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
-        dir.setSorting(QDir::Time | QDir::Reversed);
+        switch (m_sortMode) {
+        case SortByName:
+            dir.setSorting(QDir::Name);
+            break;
+        case SortByTime:
+            dir.setSorting(QDir::Time);
+            break;
+        case SortBySize:
+            dir.setSorting(QDir::Size);
+            break;
+        case SortByType:
+            dir.setSorting(QDir::Type);
+            break;
+        default:
+            dir.setSorting(QDir::Unsorted);
+            break;
+        }
 
         QFileInfoList filelistinfo = dir.entryInfoList();
         foreach (const QFileInfo& fileinfo, filelistinfo) {
@@ -138,6 +159,7 @@ void GalleryModel::formatFileList()
             }
         }
     }
+    endResetModel();
 }
 
 void GalleryModel::onFileSystemChanged(QString path)
@@ -150,17 +172,38 @@ void GalleryModel::formatMimeTypes()
     QMimeDatabase db;
     QList<QMimeType> mimeList = db.allMimeTypes();
 
+    m_mimeTypes.clear();
     m_mimeTypes << "inode/directory";
 
     for (const QMimeType& mime : std::as_const(mimeList)) {
-        if (m_filter == FilterMode::All) {
+        if (m_filter == FilterMode::AllFiles) {
             if (mime.name().startsWith(QStringLiteral("image/")) || mime.name().startsWith(QStringLiteral("video/"))) {
                 m_mimeTypes << mime.name();
             }
-        } else if (m_filter == FilterMode::Images && mime.name().startsWith(QStringLiteral("image/"))) {
-            m_mimeTypes << mime.name();
-        } else if (m_filter == FilterMode::Video && mime.name().startsWith(QStringLiteral("video/"))) {
-            m_mimeTypes << mime.name();
+        } else if (m_filter == FilterMode::OnlyImages) {
+            if (mime.name().startsWith(QStringLiteral("image/"))) {
+                m_mimeTypes << mime.name();
+            }
+        } else if (m_filter == FilterMode::OnlyVideo) {
+            if (mime.name().startsWith(QStringLiteral("video/"))) {
+                m_mimeTypes << mime.name();
+            }
         }
     }
+    formatFileList();
+}
+
+GalleryModel::SortMode GalleryModel::sortMode() const
+{
+    return m_sortMode;
+}
+
+void GalleryModel::setSortMode(const GalleryModel::SortMode& newSort)
+{
+    if (m_sortMode == newSort)
+        return;
+    m_sortMode = newSort;
+    emit sortModeChanged();
+
+    formatFileList();
 }
