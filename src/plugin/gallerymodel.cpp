@@ -18,9 +18,13 @@
  */
 
 #include "gallerymodel.h"
+#include "filesystemworker.h"
+
 #include <QDir>
 #include <QMimeDatabase>
 #include <QStandardPaths>
+#include <QDirIterator>
+#include <QThread>
 
 GalleryModel::GalleryModel(QObject* parent)
     : QAbstractListModel { parent }
@@ -98,7 +102,7 @@ void GalleryModel::addPath(QString url)
     }
 
     if (url.isEmpty()) {
-        m_urls.append(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation));
+        m_urls.append(QStandardPaths::standardLocations(QStandardPaths::HomeLocation));
         emit urlsChanged();
     }
 }
@@ -131,7 +135,22 @@ void GalleryModel::formatFileList()
 
     m_files.clear();
 
-    foreach (const QString& dirString, m_urls) {
+    QStringList suffixes;
+    foreach (const QMimeType mType, m_mimeTypes) {
+        foreach (QString suff, mType.suffixes()) {
+            suffixes << "*." + suff;
+        }
+    };
+
+    FileSystemWorker* work = new FileSystemWorker(m_urls, suffixes);
+    QThread* scanTread = new QThread;
+    connect(scanTread, &QThread::started, work, &FileSystemWorker::start);
+    connect(work, &FileSystemWorker::foundFile, this, &GalleryModel::appendFiles);
+
+    work->moveToThread(scanTread);
+    scanTread->start();
+
+    /*foreach (const QString& dirString, m_urls) {
         QDir dir(dirString);
         dir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
         switch (m_sortMode) {
@@ -152,14 +171,24 @@ void GalleryModel::formatFileList()
             break;
         }
 
-        QFileInfoList filelistinfo = dir.entryInfoList();
-        foreach (const QFileInfo& fileinfo, filelistinfo) {
-            if (m_mimeTypes.contains(db.mimeTypeForFile(fileinfo.absoluteFilePath()).name())) {
-                m_files.append(fileinfo.absoluteFilePath());
-            }
+
+
+        /*QDirIterator it(dirString, suffixes, QDir::Files,  QDirIterator::Subdirectories);
+        while (it.hasNext()) {
+            qDebug() << it.next();
         }
-    }
+
+    }*/
     endResetModel();
+}
+
+void GalleryModel::appendFiles(QString path)
+{
+    beginInsertRows(QModelIndex(), m_files.count(), m_files.count());
+    if(!m_files.contains(path)) {
+        m_files.push_back(path);
+    }
+    endInsertRows();
 }
 
 void GalleryModel::onFileSystemChanged(QString path)
@@ -173,20 +202,19 @@ void GalleryModel::formatMimeTypes()
     QList<QMimeType> mimeList = db.allMimeTypes();
 
     m_mimeTypes.clear();
-    m_mimeTypes << "inode/directory";
 
     for (const QMimeType& mime : std::as_const(mimeList)) {
         if (m_filter == FilterMode::AllFiles) {
             if (mime.name().startsWith(QStringLiteral("image/")) || mime.name().startsWith(QStringLiteral("video/"))) {
-                m_mimeTypes << mime.name();
+                m_mimeTypes << mime;
             }
         } else if (m_filter == FilterMode::OnlyImages) {
             if (mime.name().startsWith(QStringLiteral("image/"))) {
-                m_mimeTypes << mime.name();
+                m_mimeTypes << mime;
             }
         } else if (m_filter == FilterMode::OnlyVideo) {
             if (mime.name().startsWith(QStringLiteral("video/"))) {
-                m_mimeTypes << mime.name();
+                m_mimeTypes << mime;
             }
         }
     }
@@ -208,13 +236,33 @@ void GalleryModel::setSortMode(const GalleryModel::SortMode& newSort)
     formatFileList();
 }
 
+QString GalleryModel::sizeTotext(float size)
+{
+    QStringList list;
+    list << tr("kb") << tr("mb") << tr("gb") << tr("tb");
+
+    QStringListIterator i(list);
+    QString unit("bytes");
+
+    while (size >= 1024.0 && i.hasNext()) {
+        unit = i.next();
+        size /= 1024.0;
+    }
+    return QString().setNum(size, 'f', 2) + " " + unit;
+}
+
 bool GalleryModel::isVideo(int index)
 {
     QMimeDatabase db;
-    if (index < 0 || index > m_files.count()) {
+    if (index < 0 || index >= m_files.count()) {
         return false;
     }
-    QFileInfo fileInfo(m_files.at(index));
+    QString url = m_files.at(index);
+    if(url.isEmpty()) {
+        return false;
+    }
+
+    QFileInfo fileInfo(url);
     if (db.mimeTypeForFile(fileInfo.absoluteFilePath()).name().startsWith("video/")) {
         return true;
     }

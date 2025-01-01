@@ -14,11 +14,13 @@ endfunction()
 
 set(SRC
     plugin.cpp
-    gallerymodel.cpp)
+    gallerymodel.cpp
+    filesystemworker.cpp)
 
 set(HEADERS
     plugin.h
-    gallerymodel.h)
+    gallerymodel.h
+    filesystemworker.h)
 
 set(QML
     qml/GalleryDelegate.qml
@@ -39,7 +41,7 @@ qt6_add_qml_module(glaciergalleryplugin
     OUTPUT_DIRECTORY
         ${CMAKE_BINARY_DIR}/Glacier/Gallery
         RESOURCES qml/qmldir
-        SOURCES gallerymodel.h gallerymodel.cpp
+        SOURCES ${SOURCES}
 )
 
 target_link_libraries(glaciergalleryplugin PUBLIC

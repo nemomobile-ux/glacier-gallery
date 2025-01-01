@@ -22,6 +22,7 @@
 
 #include <QAbstractListModel>
 #include <QFileSystemWatcher>
+#include <QMimeType>
 
 class GalleryModel : public QAbstractListModel {
     Q_OBJECT
@@ -67,6 +68,7 @@ public:
     GalleryModel::SortMode sortMode() const;
     void setSortMode(const GalleryModel::SortMode& newSort);
 
+    Q_INVOKABLE QString sizeTotext(float size);
     Q_INVOKABLE bool isVideo(int index);
 
 signals:
@@ -81,6 +83,7 @@ private slots:
     void onUrlsChanged();
     void onFileSystemChanged(QString path);
     void formatFileList();
+    void appendFiles(QString path);
 
 private:
     QHash<int, QByteArray> m_hash;
@@ -89,7 +92,7 @@ private:
     GalleryModel::FilterMode m_filter;
     GalleryModel::SortMode m_sortMode;
 
-    QStringList m_mimeTypes;
+    QList<QMimeType> m_mimeTypes;
     QStringList m_urls;
     QList<QString> m_files;
 
