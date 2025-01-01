@@ -22,8 +22,8 @@
 #include <QDir>
 #include <QDirIterator>
 
-FileSystemWorker::FileSystemWorker(QStringList dirList, QStringList suffixes, QObject *parent)
-    : QObject{parent}
+FileSystemWorker::FileSystemWorker(QStringList dirList, QStringList suffixes, QObject* parent)
+    : QObject { parent }
     , m_dirs(dirList)
     , m_suffixes(suffixes)
     , m_busy(false)
@@ -34,7 +34,7 @@ void FileSystemWorker::start()
 {
     m_busy = true;
     foreach (const QString& dirString, m_dirs) {
-        QDirIterator it(dirString,  m_suffixes, QDir::Files,  QDirIterator::Subdirectories);
+        QDirIterator it(dirString, m_suffixes, QDir::Files, QDirIterator::Subdirectories);
         while (it.hasNext()) {
             emit foundFile(it.next());
         }

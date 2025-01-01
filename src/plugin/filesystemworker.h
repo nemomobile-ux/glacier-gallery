@@ -22,13 +22,12 @@
 
 #include <QObject>
 
-class FileSystemWorker : public QObject
-{
+class FileSystemWorker : public QObject {
     Q_OBJECT
 public:
-    explicit FileSystemWorker(QStringList dirList, QStringList suffixes, QObject *parent = nullptr);
+    explicit FileSystemWorker(QStringList dirList, QStringList suffixes, QObject* parent = nullptr);
 
-    bool busy() {return m_busy;}
+    bool busy() { return m_busy; }
 
     void start();
     void stop();

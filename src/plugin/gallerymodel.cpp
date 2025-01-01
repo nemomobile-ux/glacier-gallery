@@ -21,9 +21,9 @@
 #include "filesystemworker.h"
 
 #include <QDir>
+#include <QDirIterator>
 #include <QMimeDatabase>
 #include <QStandardPaths>
-#include <QDirIterator>
 #include <QThread>
 
 GalleryModel::GalleryModel(QObject* parent)
@@ -185,7 +185,7 @@ void GalleryModel::formatFileList()
 void GalleryModel::appendFiles(QString path)
 {
     beginInsertRows(QModelIndex(), m_files.count(), m_files.count());
-    if(!m_files.contains(path)) {
+    if (!m_files.contains(path)) {
         m_files.push_back(path);
     }
     endInsertRows();
@@ -258,7 +258,7 @@ bool GalleryModel::isVideo(int index)
         return false;
     }
     QString url = m_files.at(index);
-    if(url.isEmpty()) {
+    if (url.isEmpty()) {
         return false;
     }
 
