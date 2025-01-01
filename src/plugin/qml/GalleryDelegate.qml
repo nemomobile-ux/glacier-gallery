@@ -42,7 +42,6 @@ Image {
 
     asynchronous: true
     //index is -1 when filters the model is reinitialized (e.g. filters change) so we have to treat that case too
-    //source: (index == -1) ? "" : (GridView.view.model.isVideo(index) ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg" : "image://nemoThumbnail/" + url)
-    source: "image://nemoThumbnail/" + url
+    source: (index == -1) ? "" : (GridView.view.model.isVideo(index) ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg" : "image://nemoThumbnail/" + url)
 }
 

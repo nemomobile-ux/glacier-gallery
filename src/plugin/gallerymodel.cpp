@@ -207,3 +207,16 @@ void GalleryModel::setSortMode(const GalleryModel::SortMode& newSort)
 
     formatFileList();
 }
+
+bool GalleryModel::isVideo(int index)
+{
+    QMimeDatabase db;
+    if (index < 0 || index > m_files.count()) {
+        return false;
+    }
+    QFileInfo fileInfo(m_files.at(index));
+    if (db.mimeTypeForFile(fileInfo.absoluteFilePath()).name().startsWith("video/")) {
+        return true;
+    }
+    return false;
+}

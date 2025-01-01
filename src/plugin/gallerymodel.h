@@ -67,6 +67,8 @@ public:
     GalleryModel::SortMode sortMode() const;
     void setSortMode(const GalleryModel::SortMode& newSort);
 
+    Q_INVOKABLE bool isVideo(int index);
+
 signals:
     void sortPropertiesChanged();
     void loadingChanged();
