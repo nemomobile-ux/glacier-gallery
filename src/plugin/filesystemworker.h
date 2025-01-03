@@ -20,6 +20,7 @@
 #ifndef FILESYSTEMWORKER_H
 #define FILESYSTEMWORKER_H
 
+#include <QDirIterator>
 #include <QObject>
 
 class FileSystemWorker : public QObject {
@@ -36,6 +37,7 @@ signals:
     void foundFile(QString path);
 
 private:
+    QDirIterator* m_it;
     QStringList m_dirs;
     QStringList m_suffixes;
     bool m_busy;

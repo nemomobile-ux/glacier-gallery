@@ -32,12 +32,26 @@ FileSystemWorker::FileSystemWorker(QStringList dirList, QStringList suffixes, QO
 
 void FileSystemWorker::start()
 {
+    if(m_busy) {
+        qWarning() << "Stop before run again!";
+        return;
+    }
+
     m_busy = true;
     foreach (const QString& dirString, m_dirs) {
-        QDirIterator it(dirString, m_suffixes, QDir::Files, QDirIterator::Subdirectories);
-        while (it.hasNext()) {
-            emit foundFile(it.next());
+        m_it = new QDirIterator(dirString, m_suffixes, QDir::Files, QDirIterator::Subdirectories);
+        while (m_it->hasNext()) {
+            emit foundFile(m_it->next());
         }
+        delete m_it;
+    }
+    m_busy = false;
+}
+
+void FileSystemWorker::stop()
+{
+    if(m_it != nullptr) {
+        delete m_it;
     }
     m_busy = false;
 }
