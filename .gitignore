@@ -1,4 +1,5 @@
 .directory
+.commit
 *.o
 *.so
 *.qmlc

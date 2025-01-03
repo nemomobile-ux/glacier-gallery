@@ -21,7 +21,20 @@
 #define FILESYSTEMWORKER_H
 
 #include <QDirIterator>
+#include <QMimeType>
+#include <QMutex>
 #include <QObject>
+
+struct MediaFile {
+    QString path = "";
+    bool isValid = false;
+    QMimeType mimeType;
+    uint width = -1;
+    uint height = -1;
+    QDateTime modified;
+    QDateTime created;
+    uint size = -1;
+};
 
 class FileSystemWorker : public QObject {
     Q_OBJECT
@@ -34,10 +47,10 @@ public:
     void stop();
 
 signals:
-    void foundFile(QString path);
+    void foundFile(MediaFile file);
 
 private:
-    QDirIterator* m_it;
+    QMutex m_mutex;
     QStringList m_dirs;
     QStringList m_suffixes;
     bool m_busy;

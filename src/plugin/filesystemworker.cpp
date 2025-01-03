@@ -21,6 +21,8 @@
 
 #include <QDir>
 #include <QDirIterator>
+#include <QImageReader>
+#include <QMimeDatabase>
 
 FileSystemWorker::FileSystemWorker(QStringList dirList, QStringList suffixes, QObject* parent)
     : QObject { parent }
@@ -32,26 +34,54 @@ FileSystemWorker::FileSystemWorker(QStringList dirList, QStringList suffixes, QO
 
 void FileSystemWorker::start()
 {
-    if(m_busy) {
+    if (m_busy) {
         qWarning() << "Stop before run again!";
         return;
     }
+    QMimeDatabase db;
 
     m_busy = true;
+    m_mutex.lock();
     foreach (const QString& dirString, m_dirs) {
-        m_it = new QDirIterator(dirString, m_suffixes, QDir::Files, QDirIterator::Subdirectories);
-        while (m_it->hasNext()) {
-            emit foundFile(m_it->next());
+        if (m_mutex.tryLock()) {
+            break;
         }
-        delete m_it;
+        QDirIterator it(dirString, m_suffixes, QDir::Files, QDirIterator::Subdirectories);
+        while (it.hasNext()) {
+            QString filePath = it.next();
+            QFileInfo fInfo(filePath);
+
+            MediaFile file;
+            file.path = filePath;
+            file.created = fInfo.birthTime();
+            file.modified = fInfo.lastModified();
+            file.mimeType = db.mimeTypeForFile(fInfo.absoluteFilePath());
+            file.size = fInfo.size();
+
+            if (file.mimeType.name().startsWith("image/")) {
+                QImageReader reader(file.path);
+                QSize size = reader.size();
+                if (size.isValid()) {
+                    file.width = size.width();
+                    file.height = size.height();
+                } else {
+                    QImage image = reader.read();
+                    file.width = image.width();
+                    file.height = image.height();
+                }
+            } else {
+                qWarning() << "Unsuported mime " << file.mimeType.name();
+            }
+            file.isValid = file.height > 0 && file.width > 0;
+            emit foundFile(file);
+        }
     }
+    m_mutex.unlock();
     m_busy = false;
 }
 
 void FileSystemWorker::stop()
 {
-    if(m_it != nullptr) {
-        delete m_it;
-    }
+    m_mutex.unlock();
     m_busy = false;
 }

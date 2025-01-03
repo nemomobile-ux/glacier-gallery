@@ -18,7 +18,6 @@
  */
 
 #include "gallerymodel.h"
-#include "filesystemworker.h"
 
 #include <QDir>
 #include <QDirIterator>
@@ -35,6 +34,12 @@ GalleryModel::GalleryModel(QObject* parent)
     , m_fileSystemWatcher(new QFileSystemWatcher)
 {
     m_hash.insert(Qt::UserRole, QByteArray("url"));
+    m_hash.insert(Qt::UserRole + 1, QByteArray("mimeType"));
+    m_hash.insert(Qt::UserRole + 2, QByteArray("width"));
+    m_hash.insert(Qt::UserRole + 3, QByteArray("height"));
+    m_hash.insert(Qt::UserRole + 4, QByteArray("modified"));
+    m_hash.insert(Qt::UserRole + 5, QByteArray("created"));
+    m_hash.insert(Qt::UserRole + 6, QByteArray("fileSize"));
     formatMimeTypes();
 
     connect(this, &GalleryModel::urlsChanged, this, &GalleryModel::onUrlsChanged);
@@ -62,8 +67,9 @@ QVariant GalleryModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    MediaFile file = m_files.at(index.row());
     if (role == Qt::UserRole) {
-        return m_files.at(index.row());
+        return file.path;
     }
 
     return QVariant();
@@ -182,12 +188,14 @@ void GalleryModel::formatFileList()
     endResetModel();
 }
 
-void GalleryModel::appendFiles(QString path)
+void GalleryModel::appendFiles(MediaFile file)
 {
-    beginInsertRows(QModelIndex(), m_files.count(), m_files.count());
-    if (!m_files.contains(path)) {
-        m_files.push_back(path);
+    if (!file.isValid) {
+        return;
     }
+
+    beginInsertRows(QModelIndex(), m_files.count(), m_files.count());
+    m_files.push_back(file);
     endInsertRows();
 }
 
@@ -257,7 +265,7 @@ bool GalleryModel::isVideo(int index)
     if (index < 0 || index >= m_files.count()) {
         return false;
     }
-    QString url = m_files.at(index);
+    QString url = m_files.at(index).path;
     if (url.isEmpty()) {
         return false;
     }
@@ -276,9 +284,15 @@ QVariant GalleryModel::get(const int idx)
     }
 
     QMap<QString, QVariant> itemData;
-    QString item = m_files.at(idx);
+    MediaFile item = m_files.at(idx);
 
-    itemData.insert("url", item);
+    itemData.insert("url", item.path);
+    itemData.insert("mimeType", item.mimeType.name());
+    itemData.insert("width", item.width);
+    itemData.insert("height", item.height);
+    itemData.insert("modified", item.modified);
+    itemData.insert("created", item.created);
+    itemData.insert("fileSize", item.size);
 
     return QVariant(itemData);
 }

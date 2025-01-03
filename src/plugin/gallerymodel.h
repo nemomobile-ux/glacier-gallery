@@ -20,6 +20,7 @@
 #ifndef GALLERYMODEL_H
 #define GALLERYMODEL_H
 
+#include "filesystemworker.h"
 #include <QAbstractListModel>
 #include <QFileSystemWatcher>
 #include <QMimeType>
@@ -86,7 +87,7 @@ private slots:
     void onUrlsChanged();
     void onFileSystemChanged(QString path);
     void formatFileList();
-    void appendFiles(QString path);
+    void appendFiles(MediaFile file);
 
 private:
     QHash<int, QByteArray> m_hash;
@@ -97,7 +98,7 @@ private:
 
     QList<QMimeType> m_mimeTypes;
     QStringList m_urls;
-    QList<QString> m_files;
+    QList<MediaFile> m_files;
 
     QFileSystemWatcher* m_fileSystemWatcher;
 
