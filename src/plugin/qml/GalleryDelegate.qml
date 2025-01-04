@@ -44,7 +44,7 @@ Image {
     //index is -1 when filters the model is reinitialized (e.g. filters change) so we have to treat that case too
     source: (url == undefined) ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg"
                                 : (index == -1) ? ""
-                                : (GridView.view.model.isVideo(index) ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg"
-                                : "image://nemoThumbnail/" + url)
+                                : mimeType.startsWith("video/") ? "file:///usr/share/glacier-gallery/images/GridVideoThumbnail.jpg"
+                                : "image://nemoThumbnail/" + url
 }
 
