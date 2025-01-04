@@ -70,7 +70,6 @@ public:
     void setSortMode(const GalleryModel::SortMode& newSort);
 
     Q_INVOKABLE QString sizeTotext(float size);
-    Q_INVOKABLE bool isVideo(int index);
 
 public slots:
     QVariant get(const int idx);
@@ -101,6 +100,7 @@ private:
     QList<MediaFile> m_files;
 
     QFileSystemWatcher* m_fileSystemWatcher;
+    FileSystemWorker* m_work;
 
     void formatMimeTypes();
 };

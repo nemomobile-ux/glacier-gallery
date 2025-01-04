@@ -24,12 +24,22 @@
 #include <QImageReader>
 #include <QMimeDatabase>
 
-FileSystemWorker::FileSystemWorker(QStringList dirList, QStringList suffixes, QObject* parent)
+FileSystemWorker::FileSystemWorker(QObject* parent)
     : QObject { parent }
-    , m_dirs(dirList)
-    , m_suffixes(suffixes)
     , m_busy(false)
 {
+}
+
+void FileSystemWorker::setDirs(const QStringList dirs)
+{
+    stop();
+    m_dirs = dirs;
+}
+
+void FileSystemWorker::setSuffixes(const QStringList suff)
+{
+    stop();
+    m_suffixes = suff;
 }
 
 void FileSystemWorker::start()
@@ -38,12 +48,13 @@ void FileSystemWorker::start()
         qWarning() << "Stop before run again!";
         return;
     }
+
     QMimeDatabase db;
 
     m_busy = true;
-    m_mutex.lock();
+    emit busyChanged();
     foreach (const QString& dirString, m_dirs) {
-        if (m_mutex.tryLock()) {
+        if (!m_busy) { //STOP
             break;
         }
         QDirIterator it(dirString, m_suffixes, QDir::Files, QDirIterator::Subdirectories);
@@ -76,12 +87,12 @@ void FileSystemWorker::start()
             emit foundFile(file);
         }
     }
-    m_mutex.unlock();
     m_busy = false;
+    emit busyChanged();
 }
 
 void FileSystemWorker::stop()
 {
-    m_mutex.unlock();
     m_busy = false;
+    emit busyChanged();
 }

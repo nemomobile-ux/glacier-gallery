@@ -22,7 +22,6 @@
 
 #include <QDirIterator>
 #include <QMimeType>
-#include <QMutex>
 #include <QObject>
 
 struct MediaFile {
@@ -38,19 +37,21 @@ struct MediaFile {
 
 class FileSystemWorker : public QObject {
     Q_OBJECT
+    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged FINAL)
 public:
-    explicit FileSystemWorker(QStringList dirList, QStringList suffixes, QObject* parent = nullptr);
+    explicit FileSystemWorker(QObject* parent = nullptr);
+    void setDirs(QStringList dirs);
+    void setSuffixes(QStringList suff);
 
     bool busy() { return m_busy; }
-
     void start();
     void stop();
 
 signals:
     void foundFile(MediaFile file);
+    void busyChanged();
 
 private:
-    QMutex m_mutex;
     QStringList m_dirs;
     QStringList m_suffixes;
     bool m_busy;

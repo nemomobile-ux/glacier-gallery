@@ -32,6 +32,7 @@ GalleryModel::GalleryModel(QObject* parent)
     , m_filter(FilterMode::AllFiles)
     , m_sortMode(SortMode::SortByTime)
     , m_fileSystemWatcher(new QFileSystemWatcher)
+    , m_work(new FileSystemWorker())
 {
     m_hash.insert(Qt::UserRole, QByteArray("url"));
     m_hash.insert(Qt::UserRole + 1, QByteArray("mimeType"));
@@ -45,6 +46,18 @@ GalleryModel::GalleryModel(QObject* parent)
     connect(this, &GalleryModel::urlsChanged, this, &GalleryModel::onUrlsChanged);
     connect(m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &GalleryModel::onFileSystemChanged);
     connect(m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &GalleryModel::onFileSystemChanged);
+
+    QThread* scanTread = new QThread;
+    connect(m_work, &FileSystemWorker::foundFile, this, &GalleryModel::appendFiles);
+    connect(m_work ,&FileSystemWorker::busyChanged, [=](){
+        if(m_work->busy() != m_loading) {
+            m_loading = m_work->busy();
+            emit loadingChanged();
+        }
+    });
+
+    m_work->moveToThread(scanTread);
+    scanTread->start();
 
     formatFileList();
 }
@@ -70,7 +83,20 @@ QVariant GalleryModel::data(const QModelIndex& index, int role) const
     MediaFile file = m_files.at(index.row());
     if (role == Qt::UserRole) {
         return file.path;
+    } else if (role == Qt::UserRole+1) {
+        return file.mimeType.name();
+    } else if (role == Qt::UserRole+2) {
+        return file.width;
+    } else if (role == Qt::UserRole+3) {
+        return file.height;
+    } else if (role == Qt::UserRole+4) {
+        return file.modified;
+    } else if (role == Qt::UserRole+5) {
+        return file.created;
+    } else if (role == Qt::UserRole+6) {
+        return file.size;
     }
+
 
     return QVariant();
 }
@@ -108,7 +134,7 @@ void GalleryModel::addPath(QString url)
     }
 
     if (url.isEmpty()) {
-        m_urls.append(QStandardPaths::standardLocations(QStandardPaths::HomeLocation));
+        m_urls.append(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation));
         emit urlsChanged();
     }
 }
@@ -140,6 +166,9 @@ void GalleryModel::formatFileList()
     }
 
     m_files.clear();
+    if(m_work != nullptr) {
+        m_work->stop();
+    }
 
     QStringList suffixes;
     foreach (const QMimeType mType, m_mimeTypes) {
@@ -148,43 +177,10 @@ void GalleryModel::formatFileList()
         }
     };
 
-    FileSystemWorker* work = new FileSystemWorker(m_urls, suffixes);
-    QThread* scanTread = new QThread;
-    connect(scanTread, &QThread::started, work, &FileSystemWorker::start);
-    connect(work, &FileSystemWorker::foundFile, this, &GalleryModel::appendFiles);
+    m_work->setDirs(m_urls);
+    m_work->setSuffixes(suffixes);
+    m_work->start();
 
-    work->moveToThread(scanTread);
-    scanTread->start();
-
-    /*foreach (const QString& dirString, m_urls) {
-        QDir dir(dirString);
-        dir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
-        switch (m_sortMode) {
-        case SortByName:
-            dir.setSorting(QDir::Name);
-            break;
-        case SortByTime:
-            dir.setSorting(QDir::Time);
-            break;
-        case SortBySize:
-            dir.setSorting(QDir::Size);
-            break;
-        case SortByType:
-            dir.setSorting(QDir::Type);
-            break;
-        default:
-            dir.setSorting(QDir::Unsorted);
-            break;
-        }
-
-
-
-        /*QDirIterator it(dirString, suffixes, QDir::Files,  QDirIterator::Subdirectories);
-        while (it.hasNext()) {
-            qDebug() << it.next();
-        }
-
-    }*/
     endResetModel();
 }
 
@@ -257,24 +253,6 @@ QString GalleryModel::sizeTotext(float size)
         size /= 1024.0;
     }
     return QString().setNum(size, 'f', 2) + " " + unit;
-}
-
-bool GalleryModel::isVideo(int index)
-{
-    QMimeDatabase db;
-    if (index < 0 || index >= m_files.count()) {
-        return false;
-    }
-    QString url = m_files.at(index).path;
-    if (url.isEmpty()) {
-        return false;
-    }
-
-    QFileInfo fileInfo(url);
-    if (db.mimeTypeForFile(fileInfo.absoluteFilePath()).name().startsWith("video/")) {
-        return true;
-    }
-    return false;
 }
 
 QVariant GalleryModel::get(const int idx)

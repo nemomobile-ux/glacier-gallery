@@ -39,7 +39,7 @@ Item {
     id: imgContainer
     property int index: -1
     property variant pinchingController
-    property string source: ""
+    property string source
     readonly property bool isVideo: gallery.isVideo(source) === 1
     property alias flickableArea: flickImg
     property int doubleClickInterval: 350
@@ -95,7 +95,7 @@ Item {
             height: imgContainer.height
             fillMode: Image.PreserveAspectFit
 
-            source: isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : "file://"+ imgContainer.source
+            source: imgContainer.source ? isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : "file://"+ imgContainer.source : undefined
 
             MouseArea {
                 anchors.fill: parent

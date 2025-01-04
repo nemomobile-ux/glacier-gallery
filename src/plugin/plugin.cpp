@@ -26,5 +26,6 @@ void QQuickNemoControlsExtensionPlugin::registerTypes(const char* uri)
     Q_ASSERT(uri == QLatin1String("Glacier.Gallery"));
     qmlRegisterModule(uri, 1, 0);
     //@uri Glacier.Gallery
+
     qmlRegisterType<GalleryModel>(uri, 1, 0, "GalleryModel");
 }

@@ -39,15 +39,26 @@ import Nemo.Controls
 
 import Glacier.Gallery
 
+import org.nemomobile.sortfiltermodel 1.0
+
 Page {
     id: mainPage
     headerTools: mainTools
 
-    GalleryView {
-        anchors.fill: parent
-        model: GalleryModel {
+    SortFilterModel{
+        id: gallerySorted
+        sourceModel: GalleryModel {
             id: gallery
         }
+        sortRole: "modified"
+        sortOrder: Qt.DescendingOrder
+        property alias loading: gallery.loading
+    }
+
+
+    GalleryView {
+        anchors.fill: parent
+        model: gallerySorted
 
         delegate: GalleryDelegate {
             MouseArea {
