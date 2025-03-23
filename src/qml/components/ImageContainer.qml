@@ -95,7 +95,7 @@ Item {
             height: imgContainer.height
             fillMode: Image.PreserveAspectFit
 
-            source: imgContainer.source ? isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : "file://"+ imgContainer.source : undefined
+            source: imgContainer.source ? isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : "file://"+ imgContainer.source : ""
 
             MouseArea {
                 anchors.fill: parent

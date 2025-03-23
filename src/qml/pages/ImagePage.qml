@@ -209,13 +209,13 @@ Page {
         if(parameterIndex > 1) {
             previosImage.source = galleryModel.get(parameterIndex-1).url;
         } else {
-            previosImage.source = undefined;
+            previosImage.source = "";
         }
 
         if (parameterIndex+1 < galleryModel.count) {
             nextImage.source = galleryModel.get(parameterIndex+1).url;
         } else {
-            nextImage.source = undefined;
+            nextImage.source = "";
         }
 
         currentImage.x = 0
