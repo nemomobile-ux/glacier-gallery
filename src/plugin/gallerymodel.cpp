@@ -49,8 +49,8 @@ GalleryModel::GalleryModel(QObject* parent)
 
     QThread* scanTread = new QThread;
     connect(m_work, &FileSystemWorker::foundFile, this, &GalleryModel::appendFiles);
-    connect(m_work ,&FileSystemWorker::busyChanged, [=](){
-        if(m_work->busy() != m_loading) {
+    connect(m_work, &FileSystemWorker::busyChanged, [=]() {
+        if (m_work->busy() != m_loading) {
             m_loading = m_work->busy();
             emit loadingChanged();
         }
@@ -83,20 +83,19 @@ QVariant GalleryModel::data(const QModelIndex& index, int role) const
     MediaFile file = m_files.at(index.row());
     if (role == Qt::UserRole) {
         return file.path;
-    } else if (role == Qt::UserRole+1) {
+    } else if (role == Qt::UserRole + 1) {
         return file.mimeType.name();
-    } else if (role == Qt::UserRole+2) {
+    } else if (role == Qt::UserRole + 2) {
         return file.width;
-    } else if (role == Qt::UserRole+3) {
+    } else if (role == Qt::UserRole + 3) {
         return file.height;
-    } else if (role == Qt::UserRole+4) {
+    } else if (role == Qt::UserRole + 4) {
         return file.modified;
-    } else if (role == Qt::UserRole+5) {
+    } else if (role == Qt::UserRole + 5) {
         return file.created;
-    } else if (role == Qt::UserRole+6) {
+    } else if (role == Qt::UserRole + 6) {
         return file.size;
     }
-
 
     return QVariant();
 }
@@ -166,7 +165,7 @@ void GalleryModel::formatFileList()
     }
 
     m_files.clear();
-    if(m_work != nullptr) {
+    if (m_work != nullptr) {
         m_work->stop();
     }
 

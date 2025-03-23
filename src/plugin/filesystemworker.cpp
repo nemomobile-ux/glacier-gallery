@@ -54,7 +54,7 @@ void FileSystemWorker::start()
     m_busy = true;
     emit busyChanged();
     foreach (const QString& dirString, m_dirs) {
-        if (!m_busy) { //STOP
+        if (!m_busy) { // STOP
             break;
         }
         QDirIterator it(dirString, m_suffixes, QDir::Files, QDirIterator::Subdirectories);
