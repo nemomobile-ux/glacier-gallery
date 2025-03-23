@@ -257,7 +257,7 @@ QString GalleryModel::sizeTotext(float size)
 
 QVariant GalleryModel::get(const int idx)
 {
-    if (idx >= m_files.size()) {
+    if (idx >= m_files.size() || idx < 0) {
         return QVariant();
     }
 
