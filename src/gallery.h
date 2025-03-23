@@ -1,8 +1,5 @@
-#ifndef GALLERY_H
-#define GALLERY_H
-
 /* Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
- * Copyright (C) 2022 Chupligin Sergey (NeoChapay) <neochapay@gmail.com>
+ * Copyright (C) 2022-2025 Chupligin Sergey (NeoChapay) <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -32,6 +29,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef GALLERY_H
+#define GALLERY_H
+
 #include <QObject>
 #include <policy/resource-set.h>
 
@@ -43,10 +43,10 @@ class Gallery : public QObject {
 
 public:
     explicit Gallery(QObject* parent = 0);
+    Q_INVOKABLE bool isVideo(QString url);
 
 public slots:
     void acquireVideoResources();
-    int isVideo(QUrl fileName);
     QString fileToOpen() { return m_fileToOpen; }
 
 private:

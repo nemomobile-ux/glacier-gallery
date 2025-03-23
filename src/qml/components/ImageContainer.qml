@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2023 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2023-2025 Chupligin Sergey <neochapay@gmail.com>
  * You may use this file under the terms of the BSD license as follows:
  *
  * "Redistribution and use in source and binary forms, with or without
@@ -35,13 +35,11 @@ import QtQuick.Controls
 import Nemo
 import Nemo.Controls
 
-import QtDocGallery 5.0
-
 Item {
     id: imgContainer
     property int index: -1
     property variant pinchingController
-    property string source: ""
+    property string source
     readonly property bool isVideo: gallery.isVideo(source) === 1
     property alias flickableArea: flickImg
     property int doubleClickInterval: 350
@@ -97,7 +95,7 @@ Item {
             height: imgContainer.height
             fillMode: Image.PreserveAspectFit
 
-            source: isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : imgContainer.source
+            source: imgContainer.source ? isVideo ? "file:///usr/share/glacier-gallery/images/DefaultVideoThumbnail.jpg" : "file://"+ imgContainer.source : ""
 
             MouseArea {
                 anchors.fill: parent

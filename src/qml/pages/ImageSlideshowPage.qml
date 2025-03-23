@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 Antti Seppälä <antseppa@gmail.com>
- * Copyright (C) 2017-2023 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2017-2024 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -35,8 +35,6 @@ import QtQuick.Controls
 
 import Nemo
 import Nemo.Controls
-
-import QtDocGallery 5.0
 
 Page {
     id: imageSlideshow

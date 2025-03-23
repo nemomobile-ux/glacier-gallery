@@ -20,6 +20,7 @@ set(SRC
 qt_add_resources(RESOURCES qml/glacier-gallery.qrc)
 
 add_subdirectory(editorplugin)
+add_subdirectory(plugin)
 
 add_executable(glacier-gallery ${SRC} ${RESOURCES})
 
@@ -34,7 +35,3 @@ install(TARGETS glacier-gallery RUNTIME
 	DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 FindQtInstallQml()
-
-install(DIRECTORY qml/api/
-	DESTINATION
-        ${QT_INSTALL_QML}/org/nemomobile/gallery)

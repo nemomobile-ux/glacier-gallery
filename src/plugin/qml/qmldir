@@ -1,3 +1,5 @@
+module Glacier.Gallery
+plugin glaciergalleryplugin
+
 GalleryDelegate 1.0 GalleryDelegate.qml
-GalleryModel 1.0 GalleryModel.qml
 GalleryView 1.0 GalleryView.qml

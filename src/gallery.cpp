@@ -1,5 +1,5 @@
 /* Copyright (C) 2012 John Brooks <john.brooks@dereferenced.net>
- * Copyright (C) 2022 Chupligin Sergey (NeoChapay) <neochapay@gmail.com>
+ * Copyright (C) 2022-2025 Chupligin Sergey (NeoChapay) <neochapay@gmail.com>
  * You may use this file under the terms of the BSD license as follows:
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,10 +46,11 @@ Gallery::Gallery(QObject* parent)
 {
     if (QCoreApplication::arguments().length() > 1) {
         QString cmd = QCoreApplication::arguments().at(1);
-        if (!cmd.isEmpty()) {
-            if (isVideo(cmd) != -1) {
-                m_fileToOpen = cmd;
-            }
+        QMimeDatabase db;
+        QFileInfo fileInfo(cmd);
+
+        if (fileInfo.exists() && fileInfo.isFile() && (db.mimeTypeForFile(fileInfo.absoluteFilePath()).name().startsWith("video/") || db.mimeTypeForFile(fileInfo.absoluteFilePath()).name().startsWith("image/"))) {
+            m_fileToOpen = cmd;
         }
     }
 }
@@ -67,28 +68,7 @@ void Gallery::acquireVideoResources()
     m_resources->update();
     m_resources->acquire();
 }
-
-int Gallery::isVideo(QUrl fileUrl)
+bool Gallery::isVideo(QString url)
 {
-    if (fileUrl.isEmpty()) {
-        return -1;
-    }
-
-    // RETURN VALUES
-    //-1: ERROR, 0: IMAGE, 1: VIDEO
-    QString filePath = fileUrl.toLocalFile();
-
-    QFileInfo testFile(filePath);
-    if (testFile.exists()) {
-        QImageReader reader(filePath);
-        QByteArray format = reader.format();
-        if (format.isNull() && reader.error() == QImageReader::UnsupportedFormatError) {
-            // we assume it's a video
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-    qDebug() << filePath << " exists" << testFile.exists();
-    return -1;
+    return false;
 }
