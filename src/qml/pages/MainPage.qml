@@ -39,7 +39,7 @@ import Nemo.Controls
 
 import Glacier.Gallery
 
-import org.nemomobile.sortfiltermodel 1.0
+import org.nemomobile.models 1.0
 
 Page {
     id: mainPage
