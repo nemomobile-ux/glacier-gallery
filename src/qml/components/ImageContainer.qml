@@ -126,12 +126,13 @@ Item {
 
                     if (!isVideo) {
                         if (doubleClickTimer.running) {
-                            if (img.scale != 1) {
-                                pinchingController.resetZoom()
-                            }
-                            else {
-                                var point = mapToItem(imgContainer, mouse.x, mouse.y)
-                                pinchingController.quickZoomIn(point.x, point.y, 2.5)
+                            if (pinchingController) {
+                                if (img.scale != 1) {
+                                    pinchingController.resetZoom()
+                                } else {
+                                    var point = mapToItem(imgContainer, mouse.x, mouse.y)
+                                    pinchingController.quickZoomIn(point.x, point.y, 2.5)
+                                }
                             }
                         }
                         else doubleClickTimer.start()

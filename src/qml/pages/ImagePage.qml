@@ -80,6 +80,7 @@ Page {
         id: currentImage;
         source: galleryModel.get(parameterIndex).url
         asynchronous: false
+        pinchingController: pinchImg
     }
 
     ImageContainer {
