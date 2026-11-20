@@ -38,7 +38,6 @@ import Nemo
 import Nemo.Controls
 
 import org.nemomobile.gallery 1.0
-import QtDocGallery 5.0
 
 
 Page {
@@ -121,18 +120,13 @@ Page {
                     onCurrentIndexChanged: {
                         switch (filterButtons.currentIndex) {
                         case 0:
-                            var videoFilter = gallery.createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
-                            var imageFilter = gallery.createFilter(gallery, "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
-                            var bothFilter = gallery.createFiltersArray(gallery, "arraysFilter", "GalleryFilterUnion", [videoFilter, imageFilter])
-                            gallery.assignNewDestroyCurrent(bothFilter)
+                            gallery.filterModeCompat = "all"
                             break
                         case 1:
-                            var vidFilter = gallery.createFilter(gallery, "videosfilter", "GalleryStartsWithFilter", "mimeType", "video/")
-                            gallery.assignNewDestroyCurrent(vidFilter)
+                            gallery.filterModeCompat = "videos"
                             break
                         case 2:
-                            var imgFilter = gallery.createFilter(gallery,  "imagesfilter", "GalleryStartsWithFilter", "mimeType", "image/")
-                            gallery.assignNewDestroyCurrent(imgFilter)
+                            gallery.filterModeCompat = "images"
                             break
                         }
                     }

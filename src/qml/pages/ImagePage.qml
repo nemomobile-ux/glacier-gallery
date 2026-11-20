@@ -36,7 +36,6 @@ import QtQuick.Controls
 import Nemo
 import Nemo.Controls
 
-import QtDocGallery 5.0
 
 import "../components"
 

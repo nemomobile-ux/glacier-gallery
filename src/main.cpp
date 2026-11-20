@@ -39,12 +39,15 @@
 #include <QtQml>
 
 #include "gallery.h"
+#include "trackergallerymodel.h"
 #include <glacierapp.h>
 
 Q_DECL_EXPORT int main(int argc, char** argv)
 {
     QGuiApplication* app = GlacierApp::app(argc, argv);
     app->setOrganizationName("NemoMobile");
+
+    qmlRegisterType<TrackerGalleryModel>("org.nemomobile.gallery", 1, 0, "TrackerGalleryModel");
 
     QQmlApplicationEngine* engine = GlacierApp::engine(app);
     QQmlContext* context = engine->rootContext();

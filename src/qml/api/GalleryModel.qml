@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2012 Andrea Bernabei <and.bernabei@gmail.com>
- * Copyright (C) 2022-2023 Chupligin Sergey <neochapay@gmail.com>
+ * Copyright (C) 2026 Chupligin Sergey <neochapay@gmail.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -29,132 +28,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
+
 import QtQuick
-import QtQml.Models 2.15
-import QtDocGallery 5.0
+import org.nemomobile.gallery 1.0
 
-ListModel {
-    id: mainModel;
+TrackerGalleryModel {
+    id: root
 
-    function sourceModelsChanged() {
-        copyReady = false;
-        var i, item;
-        mainModel.clear()
-        for (i = 0; i < pictureGallery.count; i++) {
-            item = pictureGallery.get(i)
-            item.url = (String)(item.url);
-            mainModel.append(item);
-        }
+    // Compatibility: accept array (as used before) or a single string.
+    property var sortProperties: []
 
-        for (i = 0; i < videoGallery.count; i++) {
-            item = videoGallery.get(i)
-            item.url = (String)(item.url);
-            mainModel.append(item);
-        }
-        copyReady = true;
-    }
-
-    //destroying the old filter before the new one is assigned makes the gallery model misbehave!
-    function assignNewDestroyCurrent(newFilter) {
-        var old = gallery.filter
-        gallery.filter = newFilter
-    }
-
-    //this is to create single filters dynamically
-    function createFilter(parentItem, name, filterType, keyToFilter, value){
-        var myFilter = Qt.createQmlObject('import QtDocGallery 5.0;' + filterType + '{property: "' +keyToFilter + '"; value: "' + value + '" }',
-                                          parentItem, name);
-        return myFilter
-    }
-
-    //this is to create group filters, such as union and intersection ones
-    function createFiltersArray(parentItem, name, filterType, filtersArray){
-        var myFilter = Qt.createQmlObject('import QtDocGallery 5.0;' + filterType + '{ }',
-                                          parentItem, name);
-        myFilter.filters = filtersArray
-        return myFilter
-    }
-
-    //this is to know if the item at index "index" is a video
-    function isVideo(index) {
-        //elements have index == -1 when the gallery model is being rebuilt (e.g. filters are changed)
-        //In that case, we must not access model data
-        //NOTE: this will still return a value, best thing would be to add a check in the other components
-        //every time before using this method!
-        if (index !== -1)
-        {
-            var mimeString = get(index).mimeType.toString()
-            return (mimeString.substring(0,5) === "video")
-        }
-    }
-
-
-    property variant sortProperties: []
-    property variant filter;
-    property bool copyReady: true;
-    property bool loading: pictureGallery.status != DocumentGalleryModel.Finished || videoGallery.status != DocumentGalleryModel.Finished || !copyReady;
-    property bool error: pictureGallery.status == DocumentGalleryModel.Error
-
-    property variant pictures:
-        DocumentGalleryModel {
-        id: pictureGallery;
-        properties: [
-            "fileName",
-            "fileSize",
-            "lastModified",
-            "mimeType",
-            "url",
-            "orientation",
-            "latitude",
-            "longitude",
-            "altitude",
-            "dateTaken",
-            "created",
-            "exposureTime",
-            "fNumber",
-            "flashEnabled",
-            "focalLength",
-            "meteringMode",
-            "whiteBalance",
-            "cameraManufacturer",
-            "cameraModel",
-        ]
-
-        autoUpdate: true
-        rootType: DocumentGallery.Image
-        onCountChanged: {
-            sourceModelsChanged();
-        }
-
-    }
-
-    property variant videos: DocumentGalleryModel {
-        id: videoGallery;
-        properties: [
-            "fileName",
-            "fileSize",
-            "lastModified",
-            "mimeType",
-            "url",
-            "duration",
-            "frameRate",
-            "created",
-        ]
-        autoUpdate: true
-        rootType: DocumentGallery.Video
-        onCountChanged: {
-            sourceModelsChanged();
-        }
-    }
-
+    // "all", "images" or "videos"
+    property string filterModeCompat: "all"
 
     onSortPropertiesChanged: {
-        pictureGallery.sortProperties = sortProperties;
-        videoGallery.sortProperties = sortProperties;
+        if (sortProperties && sortProperties.length !== undefined && sortProperties.length > 0) {
+            root.sortProperty = sortProperties[0]
+        } else if (typeof sortProperties === "string") {
+            root.sortProperty = sortProperties
+        } else {
+            root.sortProperty = ""
+        }
     }
 
-    onFilterChanged: {
-        pictureGallery.filter = filter;
-        videoGallery.filter = filter;
+    onFilterModeCompatChanged: {
+        root.filterMode = filterModeCompat
     }
+
+    // Legacy API compatibility stubs (no-op / best effort)
+    function assignNewDestroyCurrent(newFilter) { }
+    function createFilter(parentItem, name, filterType, keyToFilter, value) { return null }
+    function createFiltersArray(parentItem, name, filterType, filtersArray) { return null }
 }

@@ -12,10 +12,15 @@ function(FindQtInstallQml)
     set(QT_INSTALL_QML ${PROC_RESULT} PARENT_SCOPE)
 endfunction()
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(TRACKER tracker-sparql-3.0 REQUIRED IMPORTED_TARGET)
+
 set(SRC
 	main.cpp
 	gallery.cpp
-	gallery.h)
+	gallery.h
+	trackergallerymodel.cpp
+	trackergallerymodel.h)
 
 qt_add_resources(RESOURCES qml/glacier-gallery.qrc)
 
@@ -28,7 +33,8 @@ target_link_libraries(glacier-gallery
 	Qt6::Qml
 	Qt6::Quick
 	Glacier::App
-	PkgConfig::LIBRESOURCEQT)
+	PkgConfig::LIBRESOURCEQT
+	PkgConfig::TRACKER)
 
 install(TARGETS glacier-gallery RUNTIME
 	DESTINATION ${CMAKE_INSTALL_BINDIR})
