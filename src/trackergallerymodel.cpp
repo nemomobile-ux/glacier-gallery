@@ -423,10 +423,51 @@ void TrackerGalleryModel::refresh()
 
     const QString sparql = buildQuery();
 
+    const QString coreSparql = [this]() {
+        QString typeFilter;
+        if (m_filterMode == QStringLiteral("images")) {
+            typeFilter = QStringLiteral("?r a nfo:Image .");
+        } else if (m_filterMode == QStringLiteral("videos")) {
+            typeFilter = QStringLiteral("?r a nfo:Video .");
+        } else {
+            typeFilter = QStringLiteral("{ ?r a nfo:Image } UNION { ?r a nfo:Video } .");
+        }
+
+        QString orderExpr = QStringLiteral("nfo:fileName(?r)");
+        if (m_sortProperty == QStringLiteral("lastModified")) {
+            orderExpr = QStringLiteral("?lastModified");
+        } else if (m_sortProperty == QStringLiteral("fileName") || m_sortProperty.isEmpty()) {
+            orderExpr = QStringLiteral("nfo:fileName(?r)");
+        }
+
+        return QStringLiteral(
+            "SELECT ?url ?fileName ?fileSize ?lastModified ?mimeType ?created ?duration ?frameRate "
+            "WHERE { "
+            "  %1 "
+            "  OPTIONAL { ?r nie:isStoredAs ?f . ?f nie:url ?fileUrl . } "
+            "  OPTIONAL { ?r nie:url ?resUrl . } "
+            "  BIND(COALESCE(?fileUrl, ?resUrl) AS ?url) "
+            "  OPTIONAL { ?r nfo:fileName ?fileName . } "
+            "  OPTIONAL { ?r nfo:fileSize ?fileSize . } "
+            "  OPTIONAL { ?r nfo:fileLastModified ?lastModified . } "
+            "  OPTIONAL { ?r nie:mimeType ?mimeType . } "
+            "  OPTIONAL { ?r nie:contentCreated ?created . } "
+            "  OPTIONAL { ?r nfo:duration ?duration . } "
+            "  OPTIONAL { ?r nfo:frameRate ?frameRate . } "
+            "  FILTER(BOUND(?url)) "
+            "} "
+            "ORDER BY ASC(%2)")
+            .arg(typeFilter, orderExpr);
+    }();
+
     // Run the blocking Tracker query off the UI thread.
-    std::thread([this, generation, sparql]() {
+    std::thread([this, generation, sparql, coreSparql]() {
         bool ok = false;
         QVector<QVariantMap> results = runQuery(sparql, ok);
+        if (!ok) {
+            qWarning() << "Falling back to core Tracker query";
+            results = runQuery(coreSparql, ok);
+        }
         QMetaObject::invokeMethod(this, [this, generation, ok, results]() {
             if (generation != m_queryGeneration)
                 return; // stale result
