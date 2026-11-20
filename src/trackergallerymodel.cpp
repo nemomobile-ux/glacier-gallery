@@ -90,15 +90,27 @@ QVector<QVariantMap> runQuery(const QString& sparql, bool& ok)
     QVector<QVariantMap> results;
     ok = false;
 
+    static const char* busNames[] = {
+        "org.freedesktop.Tracker3.Miner.Files",
+        "org.freedesktop.LocalSearch3",
+        "org.freedesktop.Tracker3.Miner.Files.Control",
+        nullptr
+    };
+
     GError* error = nullptr;
-    TrackerSparqlConnection* connection = tracker_sparql_connection_bus_new(
-        "org.freedesktop.Tracker3.Miner.Files", nullptr, nullptr, &error);
+    TrackerSparqlConnection* connection = nullptr;
+    for (int i = 0; busNames[i] != nullptr; ++i) {
+        g_clear_error(&error);
+        connection = tracker_sparql_connection_bus_new(busNames[i], nullptr, nullptr, &error);
+        if (connection)
+            break;
+    }
     if (!connection) {
         if (error) {
             qWarning() << "Tracker connection failed:" << error->message;
             g_error_free(error);
         } else {
-            qWarning() << "Tracker connection failed";
+            qWarning() << "Tracker connection failed: no known Tracker miner service found";
         }
         return results;
     }
